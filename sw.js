@@ -1,4 +1,4 @@
-const CACHE = "preventivi-v1";
+const CACHE = "preventivi-v2";
 self.addEventListener("install", (e) => { self.skipWaiting(); });
 self.addEventListener("activate", (e) => { self.clients.claim(); });
 self.addEventListener("fetch", (e) => {

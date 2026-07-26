@@ -5,14 +5,78 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <title>Preventivi ISFA Unlimited</title>
 <link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#1C1B1A" />
+<meta name="theme-color" content="#2F5870" />
 <link rel="apple-touch-icon" href="icon-192.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<style>body{margin:0;background:#1C1B1A;}</style>
+<style>
+:root{
+  --navy:#2F5870;
+  --navy-dark:#203B4C;
+  --coral:#F06449;
+  --coral-soft:#FFF0EB;
+  --paper:#F5F7F8;
+  --card:#FFFFFF;
+  --line:#E3EAEE;
+  --text:#1D2F3A;
+  --muted:#7E8E98;
+  --input:#F1F5F7;
+}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:var(--paper);font-family:'Poppins',Arial,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.font-mono{font-family:'Poppins',Arial,sans-serif!important}
+.app-shell{min-height:100vh;background:
+  radial-gradient(circle at 100% 0%,rgba(47,88,112,.08),transparent 28%),
+  radial-gradient(circle at 0% 42%,rgba(240,100,73,.06),transparent 24%),
+  var(--paper)}
+.app-topbar{position:sticky;top:0;z-index:30;padding:12px 14px 4px;background:linear-gradient(180deg,rgba(245,247,248,.98),rgba(245,247,248,.90),rgba(245,247,248,0));backdrop-filter:blur(12px)}
+.topbar-inner{background:var(--navy);border-radius:24px;padding:16px 18px;color:white;display:flex;align-items:center;gap:12px;box-shadow:0 14px 35px rgba(32,59,76,.18);position:relative;overflow:hidden}
+.topbar-inner:before,.topbar-inner:after{content:'';position:absolute;border:1px solid rgba(255,255,255,.12);border-radius:999px}
+.topbar-inner:before{width:90px;height:90px;right:-24px;top:-45px}
+.topbar-inner:after{width:55px;height:55px;right:44px;bottom:-36px}
+.brand-mark{width:44px;height:44px;border-radius:15px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-weight:800;font-size:18px;flex:0 0 auto}
+.header-kicker{font-size:10px;letter-spacing:.08em;opacity:.72;margin-bottom:2px}
+.header-title{font-size:18px;font-weight:700;line-height:1.1}
+.header-action{margin-left:auto;width:38px;height:38px;border:0;border-radius:13px;background:var(--coral);color:white;font-size:24px;line-height:1;display:grid;place-items:center;box-shadow:0 8px 20px rgba(240,100,73,.28);position:relative;z-index:2}
+.bottom-nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:40;width:min(calc(100% - 24px),640px);background:rgba(255,255,255,.96);backdrop-filter:blur(18px);border:1px solid rgba(227,234,238,.9);border-radius:22px;padding:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;box-shadow:0 18px 50px rgba(32,59,76,.17)}
+.nav-button{border:0;background:transparent;color:var(--muted);border-radius:16px;padding:9px 8px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:600;transition:.2s ease}
+.nav-button svg{width:20px;height:20px;stroke:currentColor}
+.nav-button.active{background:var(--coral-soft);color:var(--coral)}
+.page-content{padding-top:8px;padding-bottom:110px}
+.hero-card{position:relative;overflow:hidden;background:var(--navy);color:white;border-radius:26px;padding:22px;margin-bottom:18px;box-shadow:0 16px 34px rgba(47,88,112,.18)}
+.hero-card:before{content:'';position:absolute;width:140px;height:140px;border-radius:50%;border:26px solid rgba(255,255,255,.06);right:-46px;top:-52px}
+.hero-card:after{content:'';position:absolute;width:76px;height:76px;border-radius:50%;background:rgba(255,255,255,.05);right:78px;bottom:-38px}
+.hero-eyebrow{font-size:11px;font-weight:600;opacity:.72;margin-bottom:7px}
+.hero-title{font-size:25px;font-weight:800;line-height:1.16;max-width:390px;letter-spacing:-.02em}
+.hero-copy{font-size:12px;line-height:1.6;opacity:.78;max-width:470px;margin-top:8px}
+.hero-chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:7px 10px;font-size:10px;font-weight:600;margin-top:14px}
+.ui-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 8px 24px rgba(32,59,76,.055)}
+.ui-card-title{display:flex;align-items:center;gap:9px;color:var(--navy-dark);font-size:13px;font-weight:700;margin-bottom:15px}
+.ui-card-title:before{content:'';width:8px;height:8px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 5px var(--coral-soft)}
+.field-label{color:var(--navy-dark);font-size:11px;font-weight:600;margin-bottom:7px}
+.modern-input{width:100%;border-radius:14px;padding:12px 13px;font-size:13px;outline:none;background:var(--input);border:1px solid transparent;color:var(--text);transition:.2s ease}
+.modern-input::placeholder{color:#A9B4BB}
+.modern-input:focus{background:white;border-color:rgba(240,100,73,.55);box-shadow:0 0 0 4px rgba(240,100,73,.10)}
+.primary-btn{background:var(--coral);color:white;border:0;border-radius:15px;padding:13px 16px;font-size:12px;font-weight:700;box-shadow:0 10px 24px rgba(240,100,73,.22);transition:.2s ease}
+.primary-btn:active{transform:translateY(1px)}
+.secondary-btn{background:white;color:var(--navy-dark);border:1px solid var(--line);border-radius:15px;padding:12px 15px;font-size:11px;font-weight:600}
+.segmented{background:var(--input);padding:4px;border-radius:14px;display:flex;gap:4px}
+.segmented button{border:0;border-radius:11px;padding:9px 10px;font-size:11px;font-weight:600;transition:.2s ease}
+.summary-card{background:linear-gradient(145deg,#FFFFFF,#F8FAFB);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 10px 28px rgba(32,59,76,.07)}
+.total-row{background:var(--navy);color:white;border-radius:16px;padding:14px 15px;margin-top:14px}
+.quote-card{transition:.2s ease}
+.quote-card:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(32,59,76,.09)}
+@media (min-width:700px){.app-topbar{padding-top:20px}.topbar-inner{padding:18px 22px}.page-content{padding-top:12px}.hero-card{padding:28px}.hero-title{font-size:30px}}
+</style>
 </head>
 <body>
 <div id="root"></div>
@@ -40,9 +104,9 @@ window.storage = {
 const { useState, useEffect, useMemo } = React;
 
 const C = {
-  ink: "#1C1B1A", card: "#26241F", cardBorder: "#3A362E", paper: "#FAF6EC",
-  paperLine: "#E4DCC8", red: "#D6402F", amber: "#D98F2B", textLight: "#F2EEE3",
-  muted: "#9C9585", inputBg: "#151412",
+  ink: "#F5F7F8", card: "#FFFFFF", cardBorder: "#E3EAEE", paper: "#FFFFFF",
+  paperLine: "#E3EAEE", red: "#F06449", amber: "#2F5870", textLight: "#1D2F3A",
+  muted: "#7E8E98", inputBg: "#F1F5F7", navy: "#2F5870", navyDark: "#203B4C",
 };
 
 const defaultSettings = {
@@ -131,48 +195,57 @@ function downloadPDF(quote, s) {
 
 function Field({ label, children, hint }) {
   return (
-    <label className="block mb-3">
-      <div style={{ color: C.muted }} className="text-xs uppercase tracking-wider mb-1 font-mono">{label}</div>
+    <label className="block mb-4">
+      <div className="field-label">{label}</div>
       {children}
-      {hint && <div style={{ color: C.muted }} className="text-xs mt-1">{hint}</div>}
+      {hint && <div style={{ color: C.muted }} className="text-[10px] mt-1.5 leading-relaxed">{hint}</div>}
     </label>
   );
 }
-const inputStyle = { background: C.inputBg, border: `1px solid ${C.cardBorder}`, color: C.textLight };
-const inputCls = "w-full rounded px-3 py-2 text-sm outline-none focus:ring-1";
+const inputStyle = {};
+const inputCls = "modern-input";
 function NumInput(props){ return <input type="number" style={inputStyle} className={inputCls} {...props} />; }
 function TxtInput(props){ return <input type="text" style={inputStyle} className={inputCls} {...props} />; }
 function TxtArea(props){ return <textarea style={inputStyle} className={inputCls} rows={3} {...props} />; }
-function Card({ children, title }) {
+function Card({ children, title, className="" }) {
   return (
-    <div style={{ background: C.card, border: `1px solid ${C.cardBorder}` }} className="rounded-lg p-4 mb-4">
-      {title && <div style={{ color: C.amber }} className="font-mono text-xs uppercase tracking-widest mb-3">{title}</div>}
+    <div className={`ui-card ${className}`}>
+      {title && <div className="ui-card-title">{title}</div>}
       {children}
     </div>
   );
 }
 
-function Header({ tab, setTab }) {
+function NavIcon({ name }) {
+  const common = { fill: "none", strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round" };
+  if (name === "new") return <svg viewBox="0 0 24 24" {...common}><path d="M12 5v14M5 12h14"/><rect x="3" y="3" width="18" height="18" rx="6"/></svg>;
+  if (name === "list") return <svg viewBox="0 0 24 24" {...common}><path d="M8 6h10M8 12h10M8 18h10"/><circle cx="4.5" cy="6" r=".8"/><circle cx="4.5" cy="12" r=".8"/><circle cx="4.5" cy="18" r=".8"/></svg>;
+  return <svg viewBox="0 0 24 24" {...common}><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.12 2.12-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1 1.55V20h-3v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.88.34l-.06.06-2.12-2.12.06-.06A1.7 1.7 0 0 0 7.08 15a1.7 1.7 0 0 0-1.55-1H5.4v-3h.13a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.12-2.12.06.06A1.7 1.7 0 0 0 10.74 6a1.7 1.7 0 0 0 1-1.55V4.4h3v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.12 2.12-.06.06A1.7 1.7 0 0 0 19.4 10a1.7 1.7 0 0 0 1.55 1h.09v3h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>;
+}
+
+function Header({ tab, setTab, businessName }) {
   const tabs = [{ id: "new", label: "Nuovo" }, { id: "list", label: "Preventivi" }, { id: "settings", label: "Impostazioni" }];
+  const titles = { new: "Crea preventivo", list: "I tuoi preventivi", settings: "Impostazioni" };
   return (
-    <div style={{ borderBottom: `1px solid ${C.cardBorder}`, background: C.ink }} className="sticky top-0 z-10">
-      <div className="max-w-2xl mx-auto px-4 pt-4 pb-2 flex items-center justify-between">
-        <div>
-          <div style={{ color: C.red }} className="font-mono text-[10px] tracking-[0.3em]">● REC</div>
-          <div style={{ color: C.textLight }} className="text-lg font-black tracking-tight">PREVENTIVI</div>
+    <>
+      <header className="app-topbar">
+        <div className="max-w-2xl mx-auto topbar-inner">
+          <div className="brand-mark">Q</div>
+          <div className="relative z-[2] min-w-0">
+            <div className="header-kicker truncate">{businessName || "La tua attività"}</div>
+            <div className="header-title">{titles[tab] || "Preventivi"}</div>
+          </div>
+          <button className="header-action" onClick={() => setTab("new")} aria-label="Nuovo preventivo">+</button>
         </div>
-        <div style={{ color: C.muted }} className="font-mono text-[10px] text-right">ISFA<br/>UNLIMITED</div>
-      </div>
-      <div className="max-w-2xl mx-auto px-4 flex gap-1 pb-2">
+      </header>
+      <nav className="bottom-nav" aria-label="Navigazione principale">
         {tabs.map((t) => (
-          <button key={t.id} onClick={() => setTab(t.id)}
-            className="flex-1 py-2 rounded font-mono text-xs uppercase tracking-wider transition-colors"
-            style={tab===t.id ? {background:C.red,color:"#fff"} : {background:C.card,color:C.muted,border:`1px solid ${C.cardBorder}`}}>
-            {t.label}
+          <button key={t.id} onClick={() => setTab(t.id)} className={`nav-button ${tab===t.id ? "active" : ""}`}>
+            <NavIcon name={t.id}/><span>{t.label}</span>
           </button>
         ))}
-      </div>
-    </div>
+      </nav>
+    </>
   );
 }
 
@@ -182,6 +255,11 @@ function SettingsForm({ settings, onSave, saveMsg }) {
   const set = (k) => (e) => setS((p) => ({ ...p, [k]: e.target.value }));
   return (
     <div>
+      <div className="hero-card">
+        <div className="hero-eyebrow">CONFIGURAZIONE</div>
+        <div className="hero-title">Imposta una volta, riutilizza sempre.</div>
+        <div className="hero-copy">Dati aziendali, tariffe e condizioni vengono inseriti automaticamente nei prossimi preventivi.</div>
+      </div>
       <Card title="Dati azienda (compaiono sul preventivo)">
         <Field label="Ragione / nome"><TxtInput value={s.businessName} onChange={set("businessName")} /></Field>
         <Field label="Titolare"><TxtInput value={s.ownerName} onChange={set("ownerName")} /></Field>
@@ -210,11 +288,10 @@ function SettingsForm({ settings, onSave, saveMsg }) {
         <Field label="Nota IVA (regime forfettario)"><TxtArea value={s.vatNote} onChange={set("vatNote")} /></Field>
         <Field label="Termini di pagamento"><TxtArea value={s.paymentTerms} onChange={set("paymentTerms")} /></Field>
       </Card>
-      <button onClick={() => onSave(s)} style={{ background: C.red, color: "#fff" }}
-        className="w-full py-3 rounded font-mono text-sm uppercase tracking-wider font-bold">
+      <button onClick={() => onSave(s)} className="w-full primary-btn">
         Salva impostazioni
       </button>
-      {saveMsg && <div style={{ color: C.amber }} className="text-center text-xs mt-2 font-mono">{saveMsg}</div>}
+      {saveMsg && <div style={{ color: C.navy }} className="text-center text-xs mt-3 font-semibold">{saveMsg}</div>}
     </div>
   );
 }
@@ -223,6 +300,12 @@ function NewQuoteForm({ draft, update, addExtra, updateExtra, removeExtra, calc,
   const canGenerate = draft.clientName.trim() && calc.lines.length > 0;
   return (
     <div>
+      <div className="hero-card">
+        <div className="hero-eyebrow">PREVENTIVO SMART</div>
+        <div className="hero-title">Trasforma il lavoro in un prezzo chiaro.</div>
+        <div className="hero-copy">Inserisci cliente, ore, spese e servizi extra. Il totale si aggiorna automaticamente mentre lavori.</div>
+        <div className="hero-chip"><span style={{width:7,height:7,borderRadius:99,background:C.red,display:"inline-block"}}></span> Salvataggio rapido e PDF pronto</div>
+      </div>
       <Card title="Cliente e progetto">
         <Field label="Nome cliente"><TxtInput value={draft.clientName} onChange={(e) => update({ clientName: e.target.value })} /></Field>
         <Field label="Titolo progetto"><TxtInput value={draft.projectTitle} onChange={(e) => update({ projectTitle: e.target.value })} /></Field>
@@ -241,10 +324,10 @@ function NewQuoteForm({ draft, update, addExtra, updateExtra, removeExtra, calc,
         </label>
         {draft.travelEnabled && (
           <>
-            <div className="flex gap-2 mb-3">
+            <div className="segmented mb-3">
               {["car","transit"].map((m) => (
-                <button key={m} onClick={() => update({ travelMode: m })} className="flex-1 py-2 rounded font-mono text-xs uppercase"
-                  style={draft.travelMode===m ? {background:C.amber,color:C.ink} : {background:C.inputBg,color:C.muted,border:`1px solid ${C.cardBorder}`}}>
+                <button key={m} onClick={() => update({ travelMode: m })} className="flex-1"
+                  style={draft.travelMode===m ? {background:C.red,color:"#fff",boxShadow:"0 5px 14px rgba(240,100,73,.18)"} : {background:"transparent",color:C.muted}}>
                   {m === "car" ? "Auto" : "Mezzi"}
                 </button>
               ))}
@@ -281,7 +364,7 @@ function NewQuoteForm({ draft, update, addExtra, updateExtra, removeExtra, calc,
         </div>
         <Field label="Note per il cliente"><TxtArea value={draft.notes} onChange={(e) => update({ notes: e.target.value })} /></Field>
       </Card>
-      <Card title="Riepilogo">
+      <div className="summary-card"><div className="ui-card-title">Riepilogo</div>
         {calc.lines.length === 0 && <div style={{ color: C.muted }} className="text-sm">Compila ore o trasferta per vedere il totale.</div>}
         {calc.lines.map((l, i) => (
           <div key={i} className="flex justify-between text-sm mb-1">
@@ -295,14 +378,14 @@ function NewQuoteForm({ draft, update, addExtra, updateExtra, removeExtra, calc,
         <div className="flex justify-between text-sm">
           <span style={{ color: C.muted }}>Margine ({draft.marginPerc || 0}%)</span><span style={{ color: C.muted }} className="font-mono">{eur(calc.marginAmount)}</span>
         </div>
-        <div className="flex justify-between text-lg font-black mt-2">
-          <span style={{ color: C.amber }}>TOTALE</span><span style={{ color: C.amber }} className="font-mono">{eur(calc.total)}</span>
+        <div className="total-row flex justify-between items-center">
+          <span className="text-xs font-semibold opacity-75">TOTALE PREVENTIVO</span><span className="text-xl font-extrabold">{eur(calc.total)}</span>
         </div>
-      </Card>
+      </div>
       <div className="flex gap-2">
-        <button onClick={onReset} style={{ color: C.muted, border: `1px solid ${C.cardBorder}` }} className="flex-1 py-3 rounded font-mono text-xs uppercase">Svuota</button>
-        <button disabled={!canGenerate} onClick={onGenerate} style={{ background: canGenerate ? C.red : C.cardBorder, color: "#fff" }}
-          className="flex-[2] py-3 rounded font-mono text-sm uppercase tracking-wider font-bold">
+        <button onClick={onReset} className="flex-1 secondary-btn">Svuota</button>
+        <button disabled={!canGenerate} onClick={onGenerate} style={{ opacity: canGenerate ? 1 : .48 }}
+          className="flex-[2] primary-btn">
           Genera preventivo
         </button>
       </div>
@@ -311,11 +394,17 @@ function NewQuoteForm({ draft, update, addExtra, updateExtra, removeExtra, calc,
 }
 
 function QuoteList({ quotes, onView, onDelete }) {
-  if (quotes.length === 0) return <div style={{ color: C.muted }} className="text-center py-10 text-sm font-mono">Nessun preventivo salvato ancora.</div>;
   return (
     <div>
+      <div className="hero-card">
+        <div className="hero-eyebrow">ARCHIVIO</div>
+        <div className="hero-title">Tutto sotto controllo.</div>
+        <div className="hero-copy">Riapri, scarica o elimina i preventivi già creati senza perderti tra mille file.</div>
+        <div className="hero-chip">{quotes.length} {quotes.length === 1 ? "preventivo salvato" : "preventivi salvati"}</div>
+      </div>
+      {quotes.length === 0 && <div className="ui-card text-center py-10"><div className="text-3xl mb-3">📄</div><div style={{color:C.textLight}} className="font-semibold mb-1">Nessun preventivo ancora</div><div style={{color:C.muted}} className="text-xs">Il primo comparirà qui appena lo generi.</div></div>}
       {quotes.map((q) => (
-        <Card key={q.id}>
+        <Card key={q.id} className="quote-card">
           <div className="flex justify-between items-start">
             <div>
               <div style={{ color: C.textLight }} className="font-bold">{q.clientName}</div>
@@ -324,8 +413,8 @@ function QuoteList({ quotes, onView, onDelete }) {
             <div style={{ color: C.amber }} className="font-mono font-bold">{eur(q.total)}</div>
           </div>
           <div className="flex gap-2 mt-3">
-            <button onClick={() => onView(q)} style={{ background: C.inputBg, color: C.textLight, border: `1px solid ${C.cardBorder}` }} className="flex-1 py-2 rounded font-mono text-xs uppercase">Apri</button>
-            <button onClick={() => onDelete(q.id)} style={{ color: C.red }} className="px-3 font-mono text-xs">Elimina</button>
+            <button onClick={() => onView(q)} className="flex-1 secondary-btn">Apri preventivo</button>
+            <button onClick={() => onDelete(q.id)} style={{ color: C.red }} className="px-3 text-xs font-semibold">Elimina</button>
           </div>
         </Card>
       ))}
@@ -336,14 +425,14 @@ function QuoteList({ quotes, onView, onDelete }) {
 function QuoteView({ quote, onBack, onDelete }) {
   const s = quote.businessSnapshot || defaultSettings;
   return (
-    <div style={{ background: C.ink, minHeight: "100vh" }}>
+    <div className="app-shell min-h-screen pb-8">
       <div className="max-w-2xl mx-auto px-4 pt-4 flex gap-2">
-        <button onClick={onBack} style={{ color: C.muted, border: `1px solid ${C.cardBorder}` }} className="px-4 py-2 rounded font-mono text-xs uppercase">← Indietro</button>
-        <button onClick={() => downloadPDF(quote, s)} style={{ background: C.red, color: "#fff" }} className="flex-1 py-2 rounded font-mono text-xs uppercase font-bold">Scarica PDF</button>
-        <button onClick={onDelete} style={{ color: C.red, border: `1px solid ${C.cardBorder}` }} className="px-4 py-2 rounded font-mono text-xs uppercase">Elimina</button>
+        <button onClick={onBack} className="secondary-btn">← Indietro</button>
+        <button onClick={() => downloadPDF(quote, s)} className="flex-1 primary-btn">Scarica PDF</button>
+        <button onClick={onDelete} className="secondary-btn" style={{color:C.red}}>Elimina</button>
       </div>
-      <div style={{ background: C.paper, color: "#211F1D" }} className="max-w-2xl mx-auto my-6 rounded overflow-hidden">
-        <div style={{ height: 14, backgroundImage: `repeating-linear-gradient(45deg, #1C1B1A, #1C1B1A 14px, ${C.paper} 14px, ${C.paper} 28px)` }} />
+      <div style={{ background: C.paper, color: "#211F1D" }} className="max-w-2xl mx-auto my-5 rounded-[24px] overflow-hidden shadow-xl border border-slate-200">
+        <div style={{ height: 14, background: C.navy }} />
         <div className="p-6">
           <div className="flex justify-between items-start mb-6">
             <div>
@@ -451,13 +540,13 @@ function App() {
     setTab("view");
   }
 
-  if (loading) return <div style={{ background: C.ink, minHeight: "100vh" }} className="flex items-center justify-center"><div style={{ color: C.textLight }} className="font-mono text-sm tracking-widest">CARICAMENTO…</div></div>;
+  if (loading) return <div className="app-shell flex items-center justify-center"><div style={{ color: C.navy }} className="text-sm font-semibold">Caricamento…</div></div>;
   if (tab === "view" && viewingQuote) return <QuoteView quote={viewingQuote} onBack={() => { setTab("list"); setViewingQuote(null); }} onDelete={() => deleteQuote(viewingQuote.id)} />;
 
   return (
-    <div style={{ background: C.ink, minHeight: "100vh" }} className="text-sm">
-      <Header tab={tab} setTab={setTab} />
-      <div className="max-w-2xl mx-auto px-4 pb-24 pt-4">
+    <div className="app-shell text-sm">
+      <Header tab={tab} setTab={setTab} businessName={settings.businessName} />
+      <div className="max-w-2xl mx-auto px-4 page-content">
         {tab === "settings" && <SettingsForm settings={settings} onSave={saveSettings} saveMsg={saveMsg} />}
         {tab === "new" && <NewQuoteForm draft={draft} update={updateDraft} addExtra={addExtra} updateExtra={updateExtra} removeExtra={removeExtra} calc={calc} onGenerate={generate} onReset={() => setDraft(emptyQuote())} />}
         {tab === "list" && <QuoteList quotes={quotes} onView={(q) => { setViewingQuote(q); setTab("view"); }} onDelete={deleteQuote} />}
