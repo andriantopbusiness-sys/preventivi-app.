@@ -92,7 +92,7 @@ button:active,.menu-row:active,.list-card.interactive:active,.client-picker-row:
 .swipe-preview-shell{height:100%;overflow:hidden;background:radial-gradient(circle at 100% 0%,rgba(47,88,112,.08),transparent 28%),radial-gradient(circle at 0% 42%,rgba(240,100,73,.06),transparent 24%),var(--paper);backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .swipe-preview-shade{position:absolute;inset:0;z-index:40;background:rgba(18,38,49,.12);opacity:var(--preview-shade,.12);transition:none;pointer-events:none;will-change:opacity}
 .swipe-preview.is-settling .swipe-preview-shade{transition:opacity var(--settle-ms,300ms) cubic-bezier(.32,.72,0,1)}
-.gesture-handoff-clone{z-index:999!important;visibility:visible!important;transform:translate3d(0,0,0)!important;opacity:1;pointer-events:none!important;transition:opacity 110ms cubic-bezier(.22,.8,.32,1)!important;will-change:opacity;contain:paint}
+.gesture-handoff-clone{z-index:999!important;visibility:visible!important;transform:translate3d(0,0,0)!important;opacity:1;pointer-events:none!important;transition:none!important;will-change:auto;contain:paint}
 @keyframes screenEnter{from{opacity:.15;transform:translate3d(14px,0,0) scale(.996)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
 .service-panel.enabled{animation:serviceActivate .24s cubic-bezier(.22,.8,.32,1)}
 .service-body,.addon-controls,.travel-block,.subservice-hours{transform-origin:top;animation:revealDown .24s cubic-bezier(.22,.8,.32,1) both}
@@ -183,7 +183,7 @@ window.storage = {
 };
 </script>
 <script type="text/babel" data-presets="react">
-const { useEffect, useMemo, useRef, useState } = React;
+const { useEffect, useLayoutEffect, useMemo, useRef, useState } = React;
 const C={navy:'#2F5870',navyDark:'#203B4C',coral:'#F06449',muted:'#7E8E98',line:'#E3EAEE',text:'#1D2F3A'};
 
 const defaultSettings={
@@ -544,23 +544,23 @@ function App(){
     let loadedClients=[];try{const stored=await window.storage.get('clients-v3');loadedClients=JSON.parse(stored.value).map(normalizeClient)}catch(error){}
     if(loadedClients.length===0&&loadedQuotes.length){const names=new Map();loadedQuotes.forEach(quote=>{const snapshot=quote.clientSnapshot||quote.client;if(snapshot){const client=normalizeClient(snapshot);const key=client.id||clientDisplayName(client).toLowerCase();if(!names.has(key))names.set(key,client)}else if(quote.clientName){const key=quote.clientName.trim().toLowerCase();if(!names.has(key))names.set(key,normalizeClient({firstName:quote.clientName}))}});loadedClients=Array.from(names.values());try{await window.storage.set('clients-v3',JSON.stringify(loadedClients))}catch(error){}}
     loadedClients.sort((a,b)=>clientDisplayName(a).localeCompare(clientDisplayName(b),'it'));setClients(loadedClients);setLoading(false)})()},[]);
-  useEffect(()=>{const shell=document.querySelector('.app-shell');if(shell)shell.scrollTo({top:0,left:0,behavior:'auto'})},[screen]);
+  useLayoutEffect(()=>{const shell=document.querySelector('.app-shell');if(shell){shell.scrollTop=0;shell.scrollLeft=0}},[screen]);
   const persistClients=async next=>{const sorted=[...next].sort((a,b)=>clientDisplayName(a).localeCompare(clientDisplayName(b),'it'));setClients(sorted);await window.storage.set('clients-v3',JSON.stringify(sorted))};
   const saveSettings=async next=>{setSettings(next);await window.storage.set('settings',JSON.stringify(next));setSaveMsg('Impostazioni salvate ✓');setTimeout(()=>setSaveMsg(''),1800)};
   const saveQuoteStorage=async quote=>{await window.storage.set('quote:'+quote.id,JSON.stringify(quote));const ids=Array.from(new Set([quote.id,...quotes.map(item=>item.id)]));await window.storage.set('quotes-index',JSON.stringify(ids));setQuotes(previous=>[quote,...previous.filter(item=>item.id!==quote.id)].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)))};
-  const deleteQuote=async quote=>{if(!confirm('Vuoi eliminare questo preventivo?'))return;await window.storage.delete('quote:'+quote.id);const next=quotes.filter(item=>item.id!==quote.id);await window.storage.set('quotes-index',JSON.stringify(next.map(item=>item.id)));setQuotes(next);setViewingQuote(null);setActionSheet(null);setScreen('quotes')};
-  const deleteClient=async client=>{if(!confirm(`Vuoi eliminare ${clientDisplayName(client)}? I preventivi già creati resteranno nell'archivio.`))return;await persistClients(clients.filter(item=>item.id!==client.id));setActionSheet(null);if(screen==='clientEdit')setScreen('clients')};
-  const startNew=()=>{setDraft(emptyQuote());setDraftMode('new');setScreen('quoteForm')};
-  const startExisting=client=>{setDraft(emptyQuote(client));setDraftMode('existing');setScreen('quoteForm')};
-  const editQuote=quote=>{setDraft(normalizeDraftFromQuote(quote,settings));setDraftMode('edit');setActionSheet(null);setScreen('quoteForm')};
-  const editClient=client=>{setEditingClient(clone(client));setActionSheet(null);setScreen('clientEdit')};
+  const deleteQuote=async quote=>{if(!confirm('Vuoi eliminare questo preventivo?'))return;await window.storage.delete('quote:'+quote.id);const next=quotes.filter(item=>item.id!==quote.id);await window.storage.set('quotes-index',JSON.stringify(next.map(item=>item.id)));setQuotes(next);setViewingQuote(null);setActionSheet(null);setSkipEntry(false);setScreen('quotes')};
+  const deleteClient=async client=>{if(!confirm(`Vuoi eliminare ${clientDisplayName(client)}? I preventivi già creati resteranno nell'archivio.`))return;await persistClients(clients.filter(item=>item.id!==client.id));setActionSheet(null);if(screen==='clientEdit'){setSkipEntry(false);setScreen('clients')}};
+  const startNew=()=>{setDraft(emptyQuote());setDraftMode('new');setSkipEntry(false);setScreen('quoteForm')};
+  const startExisting=client=>{setDraft(emptyQuote(client));setDraftMode('existing');setSkipEntry(false);setScreen('quoteForm')};
+  const editQuote=quote=>{setDraft(normalizeDraftFromQuote(quote,settings));setDraftMode('edit');setActionSheet(null);setSkipEntry(false);setScreen('quoteForm')};
+  const editClient=client=>{setEditingClient(clone(client));setActionSheet(null);setSkipEntry(false);setScreen('clientEdit')};
   const saveQuote=async calc=>{setCompletion({message:draftMode==='edit'?'Preventivo aggiornato':'Preventivo generato'});await nextPaint();const minimum=sleep(720);try{let working=clone(draft);let client=normalizeClient(working.client);if(draftMode==='new'){client.id=working.clientId||client.id;client.createdAt=client.createdAt||new Date().toISOString();client.updatedAt=new Date().toISOString();working.clientId=client.id;working.client=client;await persistClients([...clients.filter(item=>item.id!==client.id),client])}
-    const quote={...working,appVersion:6,pricingVersion:5,updatedAt:new Date().toISOString(),clientSnapshot:clone(client),clientName:clientDisplayName(client),lines:calc.lines,subtotal:calc.subtotal,discount:calc.discount,total:calc.total,businessSnapshot:clone(settings)};await saveQuoteStorage(quote);await minimum;setViewingQuote(quote);setDraft(null);setScreen('quoteView')}finally{setTimeout(()=>setCompletion(null),80)}};
-  const saveClient=async()=>{setCompletion({message:'Cliente salvato'});await nextPaint();const minimum=sleep(650);try{const client={...editingClient,updatedAt:new Date().toISOString()};await persistClients([...clients.filter(item=>item.id!==client.id),client]);await minimum;setScreen('clients')}finally{setTimeout(()=>setCompletion(null),80)}};
-  const navigate=target=>{setScreen(target);setDraft(null);setViewingQuote(null);setEditingClient(null);setActionSheet(null)};
+    const quote={...working,appVersion:6,pricingVersion:5,updatedAt:new Date().toISOString(),clientSnapshot:clone(client),clientName:clientDisplayName(client),lines:calc.lines,subtotal:calc.subtotal,discount:calc.discount,total:calc.total,businessSnapshot:clone(settings)};await saveQuoteStorage(quote);await minimum;setViewingQuote(quote);setDraft(null);setSkipEntry(false);setScreen('quoteView')}finally{setTimeout(()=>setCompletion(null),80)}};
+  const saveClient=async()=>{setCompletion({message:'Cliente salvato'});await nextPaint();const minimum=sleep(650);try{const client={...editingClient,updatedAt:new Date().toISOString()};await persistClients([...clients.filter(item=>item.id!==client.id),client]);await minimum;setSkipEntry(false);setScreen('clients')}finally{setTimeout(()=>setCompletion(null),80)}};
+  const navigate=target=>{setSkipEntry(false);setScreen(target);setDraft(null);setViewingQuote(null);setEditingClient(null);setActionSheet(null)};
   const getBackScreen=current=>current==='quoteView'?'quotes':current==='clientEdit'?'clients':'home';
   const back=()=>navigate(getBackScreen(screen));
-  useEffect(()=>{if(!skipEntry)return;const id=requestAnimationFrame(()=>requestAnimationFrame(()=>setSkipEntry(false)));return()=>cancelAnimationFrame(id)},[screen,skipEntry]);
+  const swipeBack=()=>{const target=getBackScreen(screen);setSkipEntry(true);setScreen(target);setDraft(null);setViewingQuote(null);setEditingClient(null);setActionSheet(null)};
   useEffect(()=>{if(screen==='home'||completion||actionSheet)return;const shell=document.querySelector('.app-shell');if(!shell)return;
     let tracking=false,axis=null,startX=0,startY=0,currentX=0,lastSampleX=0,lastSampleTime=0,velocityX=0,frame=0,settleFallback=0,settleStage=null,settleListener=null;
     const viewportWidth=()=>Math.max(shell.clientWidth||window.visualViewport?.width||window.innerWidth||1,1);
@@ -569,14 +569,14 @@ function App(){
     const clearInline=(stage,preview)=>{removeSettleListener();if(stage){stage.classList.remove('is-swiping','is-settling');stage.style.removeProperty('--swipe-x');stage.style.removeProperty('--settle-ms')}if(preview){preview.classList.remove('is-visible','is-swiping','is-settling');preview.style.removeProperty('--preview-x');preview.style.removeProperty('--preview-shade');preview.style.removeProperty('--settle-ms')}};
     const paint=()=>{frame=0;const {stage,preview}=getParts();if(!tracking||axis!=='x'||!stage||!preview)return;const width=viewportWidth();const x=Math.round(Math.min(Math.max(currentX,0),width)*4)/4;const progress=Math.min(x/width,1);const previewX=-(width*.24)*(1-progress);stage.classList.add('is-swiping');preview.classList.add('is-visible','is-swiping');stage.style.setProperty('--swipe-x',`${x}px`);preview.style.setProperty('--preview-x',`${previewX}px`);preview.style.setProperty('--preview-shade',`${.12*(1-progress)}`)};
     const schedulePaint=()=>{if(!frame)frame=requestAnimationFrame(paint)};
-    const settleTo=({complete})=>{if(frame){cancelAnimationFrame(frame);frame=0}const {stage,preview}=getParts();tracking=false;axis=null;if(!stage||!preview){if(complete){shell.scrollTop=0;setSkipEntry(true);back()}return}removeSettleListener();const width=viewportWidth();const progress=Math.min(Math.max(currentX/width,0),1);const remaining=complete?1-progress:progress;const velocityBoost=Math.min(Math.max(velocityX,0),1.8);const duration=complete?Math.round(Math.max(250,Math.min(390,285+remaining*105-velocityBoost*32))):Math.round(Math.max(235,Math.min(350,245+remaining*95)));
+    const settleTo=({complete})=>{if(frame){cancelAnimationFrame(frame);frame=0}const {stage,preview}=getParts();tracking=false;axis=null;if(!stage||!preview){if(complete){shell.scrollTop=0;swipeBack()}return}removeSettleListener();const width=viewportWidth();const progress=Math.min(Math.max(currentX/width,0),1);const remaining=complete?1-progress:progress;const velocityBoost=Math.min(Math.max(velocityX,0),1.8);const duration=complete?Math.round(Math.max(250,Math.min(390,285+remaining*105-velocityBoost*32))):Math.round(Math.max(235,Math.min(350,245+remaining*95)));
       stage.classList.remove('is-swiping');preview.classList.remove('is-swiping');stage.classList.add('is-settling');preview.classList.add('is-settling','is-visible');stage.style.setProperty('--settle-ms',`${duration}ms`);preview.style.setProperty('--settle-ms',`${duration}ms`);
       stage.style.setProperty('--swipe-x',complete?`${width}px`:'0px');preview.style.setProperty('--preview-x',complete?'0px':`${-(width*.24)}px`);preview.style.setProperty('--preview-shade',complete?'0':'.12');
       let finished=false;const done=()=>{if(finished)return;finished=true;removeSettleListener();if(complete){
         document.querySelectorAll('.gesture-handoff-clone').forEach(node=>node.remove());
         const handoff=preview.cloneNode(true);handoff.classList.remove('is-swiping','is-settling');handoff.classList.add('is-visible','gesture-handoff-clone');handoff.style.setProperty('--preview-x','0px');handoff.style.setProperty('--preview-shade','0');handoff.style.removeProperty('--settle-ms');handoff.setAttribute('aria-hidden','true');document.body.appendChild(handoff);
-        shell.scrollTop=0;if(typeof ReactDOM.flushSync==='function'){ReactDOM.flushSync(()=>{setSkipEntry(true);back()})}else{setSkipEntry(true);back()}
-        requestAnimationFrame(()=>requestAnimationFrame(()=>{handoff.style.opacity='0';setTimeout(()=>handoff.remove(),140)}));
+        shell.scrollTop=0;if(typeof ReactDOM.flushSync==='function'){ReactDOM.flushSync(()=>swipeBack())}else{swipeBack()}
+        requestAnimationFrame(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>handoff.remove())));
       }else{clearInline(stage,preview)}};
       settleStage=stage;settleListener=event=>{if(event.target===stage&&event.propertyName==='transform')done()};stage.addEventListener('transitionend',settleListener);settleFallback=setTimeout(done,duration+90)
     };
@@ -593,10 +593,10 @@ function App(){
   const actionDelete=()=>{if(!actionSheet)return;if(actionSheet.type==='quote')deleteQuote(actionSheet.item);else deleteClient(actionSheet.item)};
   const renderScreenContent=(target,preview=false)=>{
     const noop=()=>{};
-    if(target==='home')return <Home quotes={quotes} clients={clients} onNew={preview?noop:startNew} onExisting={preview?noop:()=>setScreen('clientPicker')} onNavigate={preview?noop:navigate} onOpenQuote={preview?noop:quote=>{setViewingQuote(quote);setScreen('quoteView')}}/>;
+    if(target==='home')return <Home quotes={quotes} clients={clients} onNew={preview?noop:startNew} onExisting={preview?noop:()=>{setSkipEntry(false);setScreen('clientPicker')}} onNavigate={preview?noop:navigate} onOpenQuote={preview?noop:quote=>{setViewingQuote(quote);setSkipEntry(false);setScreen('quoteView')}}/>;
     if(target==='clientPicker')return <ClientPicker clients={clients} onSelect={preview?noop:startExisting}/>;
     if(target==='quoteForm')return draft?<QuoteForm draft={draft} settings={settings} mode={draftMode} onDraft={preview?noop:setDraft} onSave={preview?noop:saveQuote} onCancel={preview?noop:back}/>:null;
-    if(target==='quotes')return <QuoteList quotes={quotes} onView={preview?noop:quote=>{setViewingQuote(quote);setScreen('quoteView')}} onNew={preview?noop:startNew} onLongPress={preview?noop:quote=>setActionSheet({type:'quote',item:quote})}/>;
+    if(target==='quotes')return <QuoteList quotes={quotes} onView={preview?noop:quote=>{setViewingQuote(quote);setSkipEntry(false);setScreen('quoteView')}} onNew={preview?noop:startNew} onLongPress={preview?noop:quote=>setActionSheet({type:'quote',item:quote})}/>;
     if(target==='quoteView')return viewingQuote?<QuoteView quote={viewingQuote} onBack={preview?noop:()=>navigate('quotes')} onEdit={preview?noop:()=>editQuote(viewingQuote)} onDelete={preview?noop:()=>deleteQuote(viewingQuote)}/>:null;
     if(target==='clients')return <ClientsList clients={clients} onEdit={preview?noop:editClient} onLongPress={preview?noop:client=>setActionSheet({type:'client',item:client})}/>;
     if(target==='clientEdit')return editingClient?<ClientEdit client={editingClient} onChange={preview?noop:setEditingClient} onSave={preview?noop:saveClient} onCancel={preview?noop:()=>navigate('clients')} saveMsg={saveMsg}/>:null;
