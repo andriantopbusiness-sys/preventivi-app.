@@ -5,8 +5,8 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>Preventivi ISFA Unlimited</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+<title>Preventivi Smart</title>
 <link rel="manifest" href="manifest.json" />
 <meta name="theme-color" content="#2F5870" />
 <link rel="apple-touch-icon" href="icon-192.png" />
@@ -30,731 +30,387 @@
   --text:#1D2F3A;
   --muted:#7E8E98;
   --input:#F1F5F7;
+  --success:#3E8E72;
 }
 *{box-sizing:border-box}
-html,body,#root{width:100%;height:100%;max-height:100%;overflow:hidden!important;overscroll-behavior-x:none!important;overscroll-behavior-y:none!important}
+html,body,#root{width:100%;height:100%;max-height:100%;overflow:hidden!important;overscroll-behavior:none!important}
 html{position:fixed;inset:0;background:var(--paper)}
 body{position:fixed;inset:0;margin:0;background:var(--paper);font-family:'Poppins',Arial,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
-button,input,textarea{font:inherit}
+button,input,textarea,select{font:inherit}
 button{cursor:pointer}
-.font-mono{font-family:'Poppins',Arial,sans-serif!important}
-.app-shell{position:fixed!important;inset:0!important;width:100%!important;height:auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior-x:none!important;overscroll-behavior-y:none!important;-webkit-overflow-scrolling:touch;touch-action:pan-y;background:
+button:disabled{cursor:not-allowed}
+.app-shell{position:fixed!important;inset:0!important;width:100%!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:none!important;-webkit-overflow-scrolling:touch;touch-action:pan-y;background:
   radial-gradient(circle at 100% 0%,rgba(47,88,112,.08),transparent 28%),
   radial-gradient(circle at 0% 42%,rgba(240,100,73,.06),transparent 24%),
-  var(--paper)}
-.app-topbar{position:sticky;top:0;z-index:30;padding:12px 14px 4px;background:linear-gradient(180deg,rgba(245,247,248,.98),rgba(245,247,248,.90),rgba(245,247,248,0));backdrop-filter:blur(12px)}
-.topbar-inner{background:var(--navy);border-radius:24px;padding:16px 18px;color:white;display:flex;align-items:center;gap:12px;box-shadow:0 14px 35px rgba(32,59,76,.18);position:relative;overflow:hidden}
-.topbar-inner:before,.topbar-inner:after{content:'';position:absolute;border:1px solid rgba(255,255,255,.12);border-radius:999px}
-.topbar-inner:before{width:90px;height:90px;right:-24px;top:-45px}
-.topbar-inner:after{width:55px;height:55px;right:44px;bottom:-36px}
-.brand-mark{width:44px;height:44px;border-radius:15px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-weight:800;font-size:18px;flex:0 0 auto}
-.header-kicker{font-size:10px;letter-spacing:.08em;opacity:.72;margin-bottom:2px}
-.header-title{font-size:18px;font-weight:700;line-height:1.1}
-.header-action{margin-left:auto;width:38px;height:38px;border:0;border-radius:13px;background:var(--coral);color:white;font-size:24px;line-height:1;display:grid;place-items:center;box-shadow:0 8px 20px rgba(240,100,73,.28);position:relative;z-index:2}
-.bottom-nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:40;width:min(calc(100% - 24px),640px);background:rgba(255,255,255,.96);backdrop-filter:blur(18px);border:1px solid rgba(227,234,238,.9);border-radius:22px;padding:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;box-shadow:0 18px 50px rgba(32,59,76,.17)}
-.nav-button{border:0;background:transparent;color:var(--muted);border-radius:16px;padding:9px 8px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:600;transition:.2s ease}
-.nav-button svg{width:20px;height:20px;stroke:currentColor}
-.nav-button.active{background:var(--coral-soft);color:var(--coral)}
-.page-content{padding-top:8px;padding-bottom:110px}
-.hero-card{position:relative;overflow:hidden;background:var(--navy);color:white;border-radius:26px;padding:22px;margin-bottom:18px;box-shadow:0 16px 34px rgba(47,88,112,.18)}
-.hero-card:before{content:'';position:absolute;width:140px;height:140px;border-radius:50%;border:26px solid rgba(255,255,255,.06);right:-46px;top:-52px}
-.hero-card:after{content:'';position:absolute;width:76px;height:76px;border-radius:50%;background:rgba(255,255,255,.05);right:78px;bottom:-38px}
-.hero-eyebrow{font-size:11px;font-weight:600;opacity:.72;margin-bottom:7px}
-.hero-title{font-size:25px;font-weight:800;line-height:1.16;max-width:390px;letter-spacing:-.02em}
-.hero-copy{font-size:12px;line-height:1.6;opacity:.78;max-width:470px;margin-top:8px}
-.hero-chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:7px 10px;font-size:10px;font-weight:600;margin-top:14px}
-.ui-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 8px 24px rgba(32,59,76,.055)}
-.ui-card-title{display:flex;align-items:center;gap:9px;color:var(--navy-dark);font-size:13px;font-weight:700;margin-bottom:15px}
-.ui-card-title:before{content:'';width:8px;height:8px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 5px var(--coral-soft)}
-.field-label{color:var(--navy-dark);font-size:11px;font-weight:600;margin-bottom:7px}
-.modern-input{width:100%;border-radius:14px;padding:12px 13px;font-size:13px;outline:none;background:var(--input);border:1px solid transparent;color:var(--text);transition:.2s ease}
-.modern-input::placeholder{color:#A9B4BB}
-.modern-input:focus{background:white;border-color:rgba(240,100,73,.55);box-shadow:0 0 0 4px rgba(240,100,73,.10)}
-.primary-btn{background:var(--coral);color:white;border:0;border-radius:15px;padding:13px 16px;font-size:12px;font-weight:700;box-shadow:0 10px 24px rgba(240,100,73,.22);transition:.2s ease}
-.primary-btn:active{transform:translateY(1px)}
-.secondary-btn{background:white;color:var(--navy-dark);border:1px solid var(--line);border-radius:15px;padding:12px 15px;font-size:11px;font-weight:600}
-.segmented{background:var(--input);padding:4px;border-radius:14px;display:flex;gap:4px}
-.segmented button{border:0;border-radius:11px;padding:9px 10px;font-size:11px;font-weight:600;transition:.2s ease}
-.summary-card{background:linear-gradient(145deg,#FFFFFF,#F8FAFB);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 10px 28px rgba(32,59,76,.07)}
-.total-row{background:var(--navy);color:white;border-radius:16px;padding:14px 15px;margin-top:14px}
-.quote-card{transition:.2s ease}
-.quote-card:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(32,59,76,.09)}
-/* Quando il contenuto è già in cima, consenti solo il gesto che scorre verso il basso nella pagina.
-   Il gesto opposto (dito verso il basso), usato da Chrome per il pull-to-refresh, viene bloccato. */
+  var(--paper);padding-bottom:calc(98px + env(safe-area-inset-bottom))}
 .app-shell.is-at-scroll-top{touch-action:pan-x pan-down!important}
-
-.service-panel{border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px;background:linear-gradient(145deg,#fff,#fbfcfd);transition:.2s ease}
-.service-panel.enabled{border-color:rgba(240,100,73,.35);box-shadow:0 8px 20px rgba(32,59,76,.06)}
-.service-toggle-row{display:flex;align-items:center;gap:11px;cursor:pointer}
-.service-toggle-row input,.included-option input,.addon-toggle input{accent-color:var(--coral);width:17px;height:17px;flex:0 0 auto}
-.service-name{font-size:13px;font-weight:700;color:var(--navy-dark)}
-.service-description{font-size:10px;color:var(--muted);line-height:1.45;margin-top:2px}
-.service-body{padding-top:14px;margin-top:13px;border-top:1px solid var(--line)}
-.included-title{font-size:10px;font-weight:700;color:var(--navy-dark);margin-bottom:9px;text-transform:uppercase;letter-spacing:.05em}
-.included-grid{display:grid;grid-template-columns:1fr;gap:7px}
-.included-option{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;padding:9px 10px;background:#fff;font-size:11px;color:var(--text);cursor:pointer}
-.money-input{position:relative}
-.money-input:before{content:'€';position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:var(--navy);z-index:1}
-.money-input .modern-input{padding-left:30px}
-.addon-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
-.addon-row:last-child{border-bottom:0;padding-bottom:0}
-.addon-toggle{display:flex;align-items:center;gap:9px;min-width:0;flex:1;cursor:pointer}
-.addon-label{font-size:12px;font-weight:600;color:var(--navy-dark)}
-.addon-price{width:112px;flex:0 0 112px}
-.summary-item{padding:9px 0;border-bottom:1px solid var(--line)}
-.summary-item:last-of-type{border-bottom:0}
-.summary-subitems{font-size:10px;color:var(--muted);line-height:1.6;margin-top:4px;padding-left:12px}
-.quote-subitems{font-size:10px;line-height:1.55;color:#6B6558;margin-top:3px}
-@media (min-width:520px){.included-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-
-@media (min-width:700px){.app-topbar{padding-top:20px}.topbar-inner{padding:18px 22px}.page-content{padding-top:12px}.hero-card{padding:28px}.hero-title{font-size:30px}}
+.app-header{position:sticky;top:0;z-index:30;padding:calc(12px + env(safe-area-inset-top)) 14px 5px;background:linear-gradient(180deg,rgba(245,247,248,.99),rgba(245,247,248,.92),rgba(245,247,248,0));backdrop-filter:blur(12px)}
+.header-card{max-width:760px;margin:0 auto;background:var(--navy);color:white;border-radius:24px;padding:15px 17px;display:flex;align-items:center;gap:12px;box-shadow:0 14px 35px rgba(32,59,76,.18);position:relative;overflow:hidden}
+.header-card:before,.header-card:after{content:'';position:absolute;border:1px solid rgba(255,255,255,.12);border-radius:999px}
+.header-card:before{width:90px;height:90px;right:-24px;top:-45px}.header-card:after{width:55px;height:55px;right:44px;bottom:-36px}
+.brand-mark{width:42px;height:42px;border-radius:14px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-weight:800;font-size:17px;flex:0 0 auto;position:relative;z-index:2}
+.header-kicker{font-size:9px;letter-spacing:.08em;opacity:.7;margin-bottom:2px;text-transform:uppercase}
+.header-title{font-size:17px;font-weight:700;line-height:1.15;position:relative;z-index:2}
+.header-back{width:42px;height:42px;border:0;border-radius:14px;background:rgba(255,255,255,.13);color:#fff;font-size:20px;display:grid;place-items:center;position:relative;z-index:2;flex:0 0 auto}
+.page{max-width:760px;margin:0 auto;padding:10px 14px 20px}
+.bottom-nav{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;width:min(calc(100% - 24px),720px);background:rgba(255,255,255,.97);backdrop-filter:blur(18px);border:1px solid rgba(227,234,238,.9);border-radius:22px;padding:7px;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;box-shadow:0 18px 50px rgba(32,59,76,.17)}
+.nav-button{border:0;background:transparent;color:var(--muted);border-radius:15px;padding:8px 4px 7px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;font-weight:600;transition:.2s ease}.nav-button svg{width:19px;height:19px;stroke:currentColor}.nav-button.active{background:var(--coral-soft);color:var(--coral)}
+.hero-card{position:relative;overflow:hidden;background:var(--navy);color:white;border-radius:26px;padding:23px;margin-bottom:17px;box-shadow:0 16px 34px rgba(47,88,112,.18)}
+.hero-card:before{content:'';position:absolute;width:150px;height:150px;border-radius:50%;border:27px solid rgba(255,255,255,.06);right:-50px;top:-55px}.hero-card:after{content:'';position:absolute;width:78px;height:78px;border-radius:50%;background:rgba(255,255,255,.05);right:85px;bottom:-40px}
+.hero-eyebrow{font-size:10px;font-weight:600;opacity:.7;margin-bottom:7px;letter-spacing:.08em}.hero-title{font-size:26px;font-weight:800;line-height:1.16;max-width:450px;letter-spacing:-.025em;position:relative;z-index:2}.hero-copy{font-size:11px;line-height:1.6;opacity:.78;max-width:500px;margin-top:8px;position:relative;z-index:2}
+.simple-page-title{font-size:25px;font-weight:800;letter-spacing:-.03em;color:var(--navy-dark);margin:9px 2px 18px}
+.ui-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 8px 24px rgba(32,59,76,.055)}
+.ui-card-title{display:flex;align-items:center;gap:9px;color:var(--navy-dark);font-size:13px;font-weight:700;margin-bottom:15px}.ui-card-title:before{content:'';width:8px;height:8px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 5px var(--coral-soft);flex:0 0 auto}
+.field-label{color:var(--navy-dark);font-size:10.5px;font-weight:600;margin-bottom:7px}.field-hint{color:var(--muted);font-size:9.5px;line-height:1.5;margin-top:6px}.modern-input{width:100%;border-radius:14px;padding:12px 13px;font-size:12.5px;outline:none;background:var(--input);border:1px solid transparent;color:var(--text);transition:.2s ease;min-height:44px}.modern-input::placeholder{color:#A9B4BB}.modern-input:focus{background:#fff;border-color:rgba(240,100,73,.55);box-shadow:0 0 0 4px rgba(240,100,73,.10)}
+.primary-btn{background:var(--coral);color:white;border:0;border-radius:15px;padding:13px 16px;font-size:12px;font-weight:700;box-shadow:0 10px 24px rgba(240,100,73,.22);transition:.2s ease}.primary-btn:active{transform:translateY(1px)}.secondary-btn{background:white;color:var(--navy-dark);border:1px solid var(--line);border-radius:15px;padding:12px 15px;font-size:11px;font-weight:600}.danger-btn{background:#fff;color:var(--coral);border:1px solid #F7C8BE;border-radius:15px;padding:12px 15px;font-size:11px;font-weight:700}
+.dashboard-actions{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:15px}.action-card{border:0;border-radius:23px;padding:19px;text-align:left;position:relative;overflow:hidden;min-height:126px;box-shadow:0 12px 28px rgba(32,59,76,.11)}.action-card.primary{background:var(--coral);color:#fff}.action-card.secondary{background:#fff;color:var(--navy-dark);border:1px solid var(--line)}.action-icon{width:43px;height:43px;border-radius:15px;display:grid;place-items:center;font-size:22px;margin-bottom:14px}.action-card.primary .action-icon{background:rgba(255,255,255,.17)}.action-card.secondary .action-icon{background:var(--coral-soft);color:var(--coral)}.action-title{font-size:16px;font-weight:800;line-height:1.2}.action-copy{font-size:10px;opacity:.72;margin-top:4px;max-width:240px}.action-arrow{position:absolute;right:18px;bottom:16px;font-size:20px;font-weight:500}
+.menu-list{background:#fff;border:1px solid var(--line);border-radius:22px;padding:5px 15px;box-shadow:0 8px 24px rgba(32,59,76,.055)}.menu-row{width:100%;border:0;background:transparent;display:flex;align-items:center;gap:13px;padding:15px 2px;border-bottom:1px solid var(--line);text-align:left}.menu-row:last-child{border-bottom:0}.menu-icon{width:37px;height:37px;border-radius:13px;background:var(--input);display:grid;place-items:center;color:var(--navy);font-size:17px}.menu-title{font-size:12.5px;font-weight:700;color:var(--navy-dark)}.menu-sub{font-size:9.5px;color:var(--muted);margin-top:2px}.menu-arrow{margin-left:auto;color:var(--muted);font-size:18px}
+.service-panel{border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px;background:linear-gradient(145deg,#fff,#fbfcfd);transition:.2s ease}.service-panel.enabled{border-color:rgba(240,100,73,.38);box-shadow:0 8px 20px rgba(32,59,76,.06)}.service-toggle-row{display:flex;align-items:center;gap:11px;cursor:pointer}.service-toggle-row input,.included-option input,.addon-toggle input,.meal-toggle input{accent-color:var(--coral);width:17px;height:17px;flex:0 0 auto}.service-name{font-size:13px;font-weight:700;color:var(--navy-dark)}.service-description{font-size:9.5px;color:var(--muted);line-height:1.45;margin-top:2px}.service-body{padding-top:14px;margin-top:13px;border-top:1px solid var(--line)}.included-title{font-size:9.5px;font-weight:700;color:var(--navy-dark);margin-bottom:9px;text-transform:uppercase;letter-spacing:.05em}.included-grid{display:grid;grid-template-columns:1fr;gap:7px}.included-option{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;padding:9px 10px;background:#fff;font-size:10.5px;color:var(--text);cursor:pointer}.rate-preview{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--coral-soft);border-radius:12px;padding:10px 11px;margin-top:9px;font-size:10px;color:var(--navy-dark)}.rate-preview strong{font-size:12px}
+.money-input{position:relative}.money-input:before{content:'€';position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:var(--navy);z-index:1}.money-input .modern-input{padding-left:30px}.hours-input{position:relative}.hours-input:after{content:'ore';position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:600;color:var(--muted);pointer-events:none}.hours-input .modern-input{padding-right:48px}
+.addon-row{padding:12px 0;border-bottom:1px solid var(--line)}.addon-row:last-child{border-bottom:0}.addon-main{display:flex;align-items:center;gap:10px}.addon-toggle{display:flex;align-items:center;gap:9px;min-width:0;flex:1;cursor:pointer}.addon-label{font-size:12px;font-weight:600;color:var(--navy-dark)}.addon-controls{padding:12px 0 2px 27px}.segmented{background:var(--input);padding:4px;border-radius:14px;display:grid;grid-template-columns:repeat(2,1fr);gap:4px}.segmented button{border:0;border-radius:11px;padding:9px 7px;font-size:9.5px;font-weight:600;color:var(--muted);background:transparent}.segmented button.active{background:#fff;color:var(--coral);box-shadow:0 4px 12px rgba(32,59,76,.08)}
+.travel-block{background:#F9FBFC;border:1px solid var(--line);border-radius:16px;padding:13px;margin-top:10px}.travel-section-title{font-size:10px;font-weight:700;color:var(--navy-dark);text-transform:uppercase;letter-spacing:.05em;margin:12px 0 8px}.travel-section-title:first-child{margin-top:0}.meal-grid{display:grid;grid-template-columns:1fr;gap:8px}.meal-row{display:flex;align-items:center;gap:8px}.meal-toggle{display:flex;align-items:center;gap:8px;flex:1;font-size:10.5px;font-weight:600}.meal-cost{width:116px}
+.summary-card{background:linear-gradient(145deg,#FFFFFF,#F8FAFB);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 10px 28px rgba(32,59,76,.07)}.summary-item{padding:9px 0;border-bottom:1px solid var(--line)}.summary-item:last-of-type{border-bottom:0}.summary-subitems{font-size:9.5px;color:var(--muted);line-height:1.65;margin-top:4px;padding-left:12px}.summary-total-line{display:flex;justify-content:flex-end;gap:7px;font-size:12px;margin-top:10px;color:var(--muted)}.total-row{background:var(--navy);color:white;border-radius:16px;padding:14px 15px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:12px}.total-row span:first-child{font-size:10px;font-weight:700;opacity:.78}.total-row span:last-child{font-size:19px;font-weight:800;white-space:nowrap}
+.list-card{background:#fff;border:1px solid var(--line);border-radius:19px;padding:15px;margin-bottom:11px;box-shadow:0 7px 20px rgba(32,59,76,.045)}.list-title{font-size:13px;font-weight:700;color:var(--navy-dark)}.list-meta{font-size:9.5px;color:var(--muted);margin-top:3px}.list-amount{font-size:13px;font-weight:800;color:var(--navy);white-space:nowrap}.pill{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;background:var(--coral-soft);color:var(--coral);font-size:9px;font-weight:700}.empty-state{text-align:center;padding:38px 20px;background:#fff;border:1px solid var(--line);border-radius:22px}.empty-icon{font-size:34px;margin-bottom:10px}.empty-title{font-size:13px;font-weight:700;color:var(--navy-dark)}.empty-copy{font-size:10px;color:var(--muted);margin-top:4px}
+.client-picker-row{width:100%;border:0;background:#fff;border-bottom:1px solid var(--line);padding:16px 2px;display:flex;align-items:center;gap:12px;text-align:left}.client-picker-row:last-child{border-bottom:0}.avatar{width:40px;height:40px;border-radius:14px;background:var(--coral-soft);color:var(--coral);display:grid;place-items:center;font-weight:800;font-size:13px;flex:0 0 auto}.client-name{font-size:12.5px;font-weight:700;color:var(--navy-dark)}
+.notice{border-radius:15px;padding:11px 12px;font-size:9.5px;line-height:1.55;background:#EFF6F8;color:var(--navy-dark);border:1px solid #DCE9EE;margin-bottom:14px}.warning{background:#FFF8E8;border-color:#F3E1B2;color:#695526}
+.logo-box{border:1px dashed #C9D5DB;border-radius:17px;padding:14px;text-align:center;background:#FBFCFD}.logo-preview{max-width:170px;max-height:80px;display:block;margin:0 auto 12px;object-fit:contain}.upload-label{display:inline-flex;align-items:center;justify-content:center;background:var(--navy);color:#fff;border-radius:13px;padding:10px 13px;font-size:10.5px;font-weight:700;cursor:pointer}.upload-label input{display:none}
+.quote-paper{background:#fff;color:#211F1D;border:1px solid #E2E6E8;border-radius:23px;overflow:hidden;box-shadow:0 18px 45px rgba(32,59,76,.12)}.quote-paper-top{height:13px;background:var(--navy)}.quote-paper-body{padding:22px}.quote-logo{max-width:125px;max-height:55px;object-fit:contain;margin-bottom:8px}.quote-subitems{font-size:9.5px;line-height:1.6;color:#6B6558;margin-top:4px}
+.two-col{display:grid;grid-template-columns:1fr;gap:0 12px}.three-col{display:grid;grid-template-columns:1fr;gap:0 12px}.action-footer{display:flex;gap:9px;position:sticky;bottom:0;padding:10px 0 calc(4px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(245,247,248,0),rgba(245,247,248,.96) 24%,rgba(245,247,248,1));z-index:12}.save-toast{text-align:center;color:var(--success);font-size:10.5px;font-weight:700;margin-top:10px}
+@media (min-width:520px){.dashboard-actions{grid-template-columns:repeat(2,1fr)}.included-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:repeat(2,1fr)}.three-col{grid-template-columns:repeat(3,1fr)}.meal-grid{grid-template-columns:repeat(2,1fr)}.segmented{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:700px){.hero-card{padding:29px}.hero-title{font-size:31px}.page{padding-top:14px}.header-card{padding:17px 21px}.bottom-nav{padding:8px}.nav-button{font-size:10px}}
 </style>
 </head>
 <body>
 <div id="root"></div>
-
 <script>
-// storage shim: same interface as Claude artifacts, backed by real localStorage
 window.storage = {
-  async get(key) {
-    const v = localStorage.getItem(key);
-    if (v === null) throw new Error("not found");
-    return { key, value: v };
-  },
-  async set(key, value) {
-    localStorage.setItem(key, value);
-    return { key, value };
-  },
-  async delete(key) {
-    localStorage.removeItem(key);
-    return { key, deleted: true };
-  },
+  async get(key){ const value=localStorage.getItem(key); if(value===null) throw new Error('not found'); return {key,value}; },
+  async set(key,value){ localStorage.setItem(key,value); return {key,value}; },
+  async delete(key){ localStorage.removeItem(key); return {key,deleted:true}; }
 };
 </script>
-
 <script type="text/babel" data-presets="react">
-const { useState, useEffect, useMemo } = React;
+const { useEffect, useMemo, useState } = React;
+const C={navy:'#2F5870',navyDark:'#203B4C',coral:'#F06449',muted:'#7E8E98',line:'#E3EAEE',text:'#1D2F3A'};
 
-const C = {
-  ink: "#F5F7F8", card: "#FFFFFF", cardBorder: "#E3EAEE", paper: "#FFFFFF",
-  paperLine: "#E3EAEE", red: "#F06449", amber: "#2F5870", textLight: "#1D2F3A",
-  muted: "#7E8E98", inputBg: "#F1F5F7", navy: "#2F5870", navyDark: "#203B4C",
+const defaultSettings={
+  businessName:'ISFA Unlimited', ownerName:'', piva:'', fiscalCode:'', address:'', city:'', postalCode:'', province:'', email:'', pec:'', phone:'', website:'', iban:'', logoDataUrl:'',
+  rateVideoShooting:35, rateVideoEditing:30, ratePhotography:30,
+  fuelConsumption:8, fuelPrice:1.75,
+  quoteValidityDays:30,
+  vatNote:'Operazione effettuata da soggetto in regime forfettario, IVA non addebitata (art.1 c.54-89 L.190/2014).',
+  paymentTerms:"Acconto 30% all'accettazione del preventivo, saldo alla consegna del lavoro."
 };
 
-const defaultSettings = {
-  businessName: "ISFA Unlimited", ownerName: "", piva: "", address: "", email: "", phone: "",
-  vatNote: "Operazione effettuata da soggetto in regime forfettario, IVA non addebitata (art.1 c.54-89 L.190/2014).",
-  paymentTerms: "Acconto 30% all'accettazione del preventivo, saldo alla consegna del lavoro.",
-};
-
-const SERVICE_GROUP_DEFINITIONS = [
-  {
-    id: "shooting",
-    title: "Riprese video",
-    description: "Il prezzo finale delle riprese, senza mostrare ore o tariffa oraria.",
-    items: [
-      { id: "standard-shooting", label: "Riprese in location / sul set", enabled: true },
-      { id: "drone-shooting", label: "Riprese con il drone", enabled: false },
-    ],
-  },
-  {
-    id: "video-editing",
-    title: "Montaggio video",
-    description: "Una voce principale con sotto tutte le lavorazioni comprese.",
-    items: [
-      { id: "editing", label: "Montaggio e assemblaggio", enabled: true },
-      { id: "color-correction", label: "Color correction", enabled: false },
-      { id: "color-grading", label: "Color grading", enabled: false },
-      { id: "sound-design", label: "Sound design", enabled: false },
-      { id: "audio-cleanup", label: "Pulizia audio", enabled: false },
-      { id: "motion-graphics", label: "Motion graphics", enabled: false },
-      { id: "voice-over", label: "Voice over", enabled: false },
-    ],
-  },
-  {
-    id: "photography",
-    title: "Fotografie",
-    description: "Servizio fotografico con le lavorazioni incluse indicate sotto.",
-    items: [
-      { id: "photo-shooting", label: "Shooting fotografico", enabled: true },
-      { id: "photo-selection", label: "Selezione e cernita degli scatti", enabled: false },
-      { id: "photo-color", label: "Color correction fotografica", enabled: false },
-      { id: "photo-retouch", label: "Ritocco fotografico", enabled: false },
-      { id: "photo-export", label: "Esportazione e consegna", enabled: false },
-    ],
-  },
-];
-
-const ADDITIONAL_SERVICE_DEFINITIONS = [
-  { id: "travel", label: "Trasferta" },
-  { id: "equipment-rental", label: "Noleggio attrezzature" },
-  { id: "music-license", label: "Licenza musica" },
-  { id: "sound-license", label: "Licenza suoni" },
-  { id: "express-delivery", label: "Consegna express" },
-];
-
-function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
-function eur(n){ return (isFinite(n)?n:0).toLocaleString('it-IT',{style:'currency',currency:'EUR'}); }
-
-function buildServiceGroups() {
-  return SERVICE_GROUP_DEFINITIONS.map((group) => ({
-    id: group.id,
-    title: group.title,
-    description: group.description,
-    enabled: false,
-    amount: 0,
-    items: group.items.map((item) => ({ ...item })),
-  }));
-}
-
-function buildAdditionalServices() {
-  return ADDITIONAL_SERVICE_DEFINITIONS.map((service) => ({ ...service, enabled: false, amount: 0 }));
-}
-
-const emptyQuote = () => ({
-  id: uid(), createdAt: new Date().toISOString(),
-  clientName: "", projectTitle: "", projectDesc: "",
-  serviceGroups: buildServiceGroups(),
-  additionalServices: buildAdditionalServices(),
-  extras: [], discount: 0, notes: "",
+const blankClient=()=>({
+  id:uid(), createdAt:new Date().toISOString(), updatedAt:new Date().toISOString(),
+  firstName:'', lastName:'', businessName:'', piva:'', fiscalCode:'', phone:'', email:'', pec:'', sdi:'', address:'', city:'', postalCode:'', province:'', notes:''
 });
 
-function computeQuote(d) {
-  const lines = [];
-  (d.serviceGroups || []).forEach((group) => {
-    const amount = Number(group.amount) || 0;
-    if (!group.enabled || amount <= 0) return;
-    lines.push({
-      type: "group",
-      label: group.title,
-      amount,
-      items: (group.items || []).filter((item) => item.enabled).map((item) => item.label),
-    });
+const serviceDefinitions=[
+  {id:'shooting',title:'Riprese video',description:'Inserisci le ore previste. Il prezzo viene calcolato con la tariffa salvata nelle impostazioni.',rateKey:'rateVideoShooting',items:[
+    {id:'location',label:'Riprese in location / sul set',enabled:true},{id:'drone',label:'Riprese con il drone',enabled:false},{id:'multi-camera',label:'Riprese multicamera',enabled:false},{id:'direction',label:'Direzione sul set',enabled:false}
+  ]},
+  {id:'editing',title:'Montaggio video',description:'Le sottovoci spiegano cosa è incluso, ma non modificano il prezzo.',rateKey:'rateVideoEditing',items:[
+    {id:'assembly',label:'Montaggio e assemblaggio',enabled:true},{id:'color-correction',label:'Color correction',enabled:false},{id:'color-grading',label:'Color grading',enabled:false},{id:'sound-design',label:'Sound design',enabled:false},{id:'audio-cleanup',label:'Pulizia audio',enabled:false},{id:'motion-graphics',label:'Motion graphics',enabled:false},{id:'voice-over',label:'Voice over',enabled:false}
+  ]},
+  {id:'photography',title:'Fotografie',description:'Inserisci le ore dedicate allo shooting e alla lavorazione delle fotografie.',rateKey:'ratePhotography',items:[
+    {id:'photo-shooting',label:'Shooting fotografico',enabled:true},{id:'photo-selection',label:'Selezione e cernita degli scatti',enabled:false},{id:'photo-color',label:'Color correction fotografica',enabled:false},{id:'photo-retouch',label:'Ritocco fotografico',enabled:false},{id:'photo-export',label:'Esportazione e consegna',enabled:false}
+  ]}
+];
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function eur(value){return (Number.isFinite(Number(value))?Number(value):0).toLocaleString('it-IT',{style:'currency',currency:'EUR'})}
+function n(value){const parsed=Number(value);return Number.isFinite(parsed)?parsed:0}
+function clone(value){return JSON.parse(JSON.stringify(value))}
+function clientDisplayName(client){
+  const person=[client?.firstName,client?.lastName].filter(Boolean).join(' ').trim();
+  return person || (client?.businessName||'').trim() || 'Cliente senza nome';
+}
+function initials(client){return clientDisplayName(client).split(/\s+/).slice(0,2).map(part=>part[0]||'').join('').toUpperCase()||'CL'}
+function addressLine(data){return [data.address,[data.postalCode,data.city].filter(Boolean).join(' '),data.province].filter(Boolean).join(', ')}
+function buildServices(){return serviceDefinitions.map(service=>({...clone(service),enabled:false,hours:0,items:service.items.map(item=>({...item}))}))}
+function blankTravel(){return {enabled:false,transport:'car',km:0,tolls:0,otherTransportCost:0,taxiEnabled:false,taxiCost:0,overnightEnabled:false,overnightCost:0,meals:{breakfast:{enabled:false,cost:0},lunch:{enabled:false,cost:0},dinner:{enabled:false,cost:0}}}}
+function blankAddons(){return {equipmentRental:{enabled:false,amount:0},musicLicense:{enabled:false,amount:0},soundLicense:{enabled:false,amount:0},expressDelivery:{enabled:false,option:'72 ore',amount:0}}}
+function emptyQuote(client=null){return {
+  id:uid(),createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),clientId:client?.id||null,client:client?clone(client):blankClient(),
+  projectTitle:'',projectDesc:'',services:buildServices(),videoDeliverables:0,photoDeliverables:0,travel:blankTravel(),addons:blankAddons(),extras:[],discount:0,notes:''
+}}
+function normalizeSettings(settings){const raw=settings||{};return {...defaultSettings,...raw,rateVideoShooting:raw.rateVideoShooting??raw.rateShoot??defaultSettings.rateVideoShooting,rateVideoEditing:raw.rateVideoEditing??raw.rateEdit??defaultSettings.rateVideoEditing,ratePhotography:raw.ratePhotography??raw.ratePhoto??defaultSettings.ratePhotography}}
+function normalizeClient(client){return {...blankClient(),...(client||{}),id:client?.id||uid()}}
+
+function normalizeDraftFromQuote(quote,settings){
+  if(quote?.appVersion>=3 && quote.services){
+    return {...clone(quote),client:normalizeClient(quote.clientSnapshot||quote.client),travel:{...blankTravel(),...(quote.travel||{}),meals:{...blankTravel().meals,...(quote.travel?.meals||{})}},addons:{...blankAddons(),...(quote.addons||{})},extras:quote.extras||[]};
+  }
+  const draft=emptyQuote(normalizeClient({id:quote?.clientId||uid(),firstName:quote?.clientName||''}));
+  draft.id=quote.id||uid(); draft.createdAt=quote.createdAt||new Date().toISOString(); draft.projectTitle=quote.projectTitle||''; draft.projectDesc=quote.projectDesc||''; draft.discount=quote.discount||0; draft.notes=quote.notes||'';
+  const oldGroups=quote.serviceGroups||[];
+  draft.services=draft.services.map(service=>{
+    const old=oldGroups.find(group=>group.id===service.id || (service.id==='editing'&&group.id==='video-editing') || (service.id==='shooting'&&group.id==='shooting') || (service.id==='photography'&&group.id==='photography'));
+    if(!old)return service;
+    const rate=n(settings[service.rateKey]);
+    return {...service,enabled:!!old.enabled,hours:rate>0?n(old.amount)/rate:0,items:service.items.map(item=>({...item,enabled:old.items?.some(oldItem=>oldItem.id===item.id?oldItem.enabled:oldItem.label===item.label)??item.enabled}))};
   });
-  (d.additionalServices || []).forEach((service) => {
-    const amount = Number(service.amount) || 0;
-    if (service.enabled && amount > 0) lines.push({ type: "single", label: service.label, amount, items: [] });
-  });
-  (d.extras || []).forEach((extra) => {
-    const amount = Number(extra.amount) || 0;
-    if (amount > 0) lines.push({ type: "single", label: extra.label || "Voce personalizzata", amount, items: [] });
-  });
-  const subtotal = lines.reduce((sum, line) => sum + line.amount, 0);
-  const discount = Math.max(0, Number(d.discount) || 0);
-  const total = Math.max(0, subtotal - discount);
-  return { lines, subtotal, discount, total };
+  const oldAdditional=quote.additionalServices||[];
+  const findAmount=(id)=>n(oldAdditional.find(item=>item.id===id)?.amount);
+  draft.addons.equipmentRental={enabled:findAmount('equipment-rental')>0,amount:findAmount('equipment-rental')};
+  draft.addons.musicLicense={enabled:findAmount('music-license')>0,amount:findAmount('music-license')};
+  draft.addons.soundLicense={enabled:findAmount('sound-license')>0,amount:findAmount('sound-license')};
+  draft.addons.expressDelivery={enabled:findAmount('express-delivery')>0,option:'72 ore',amount:findAmount('express-delivery')};
+  draft.extras=quote.extras||[];
+  return draft;
 }
 
-function downloadPDF(quote, s) {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  const isNewPricing = quote.pricingVersion === 2;
-  let y = 20;
-  const ensureSpace = (needed = 18) => {
-    if (y + needed <= 278) return;
-    doc.addPage();
-    y = 20;
-  };
+function calculateQuote(draft,settings){
+  const lines=[];
+  const enabledServices=(draft.services||[]).filter(service=>service.enabled);
+  const shooting=enabledServices.find(service=>service.id==='shooting');
+  const editing=enabledServices.find(service=>service.id==='editing');
+  const photography=enabledServices.find(service=>service.id==='photography');
+  enabledServices.forEach(service=>{
+    const amount=n(service.hours)*n(settings[service.rateKey]);
+    const items=(service.items||[]).filter(item=>item.enabled).map(item=>item.label);
+    if(service.id==='editing' && n(draft.videoDeliverables)>0) items.push(`Consegna: ${n(draft.videoDeliverables)} ${n(draft.videoDeliverables)===1?'video finale':'video finali'}`);
+    if(service.id==='shooting' && !editing && n(draft.videoDeliverables)>0) items.push(`Consegna: ${n(draft.videoDeliverables)} ${n(draft.videoDeliverables)===1?'video grezzo':'video grezzi'}`);
+    if(service.id==='photography' && n(draft.photoDeliverables)>0) items.push(`Consegna: ${n(draft.photoDeliverables)} ${n(draft.photoDeliverables)===1?'fotografia finale':'fotografie finali'}`);
+    if(amount>0) lines.push({id:service.id,label:service.title,amount,items,type:'service'});
+  });
 
-  doc.setFont("helvetica","bold"); doc.setFontSize(18);
-  doc.text(s.businessName || "Preventivo", 15, y); y+=7;
-  doc.setFont("helvetica","normal"); doc.setFontSize(10);
-  [s.ownerName, s.piva ? "P.IVA " + s.piva : "", s.address, [s.email,s.phone].filter(Boolean).join(" - ")]
-    .filter(Boolean).forEach(line => { doc.text(line, 15, y); y += 5; });
-  doc.setFontSize(9);
-  doc.text("Data: " + new Date(quote.createdAt).toLocaleDateString("it-IT"), 150, 20);
-  doc.text("N. " + quote.id.slice(-6).toUpperCase(), 150, 25);
-  y += 4; doc.setDrawColor(200); doc.line(15,y,195,y); y += 8;
-  doc.setFont("helvetica","bold"); doc.setFontSize(11);
-  doc.text("Cliente: " + quote.clientName, 15, y); y += 6;
-  doc.text("Progetto: " + (quote.projectTitle || "-"), 15, y); y += 8;
-  doc.setFont("helvetica","normal"); doc.setFontSize(10);
-  if (quote.projectDesc) { const description = doc.splitTextToSize(quote.projectDesc, 180); doc.text(description,15,y); y += description.length*5+3; }
-  y += 2;
-
-  (quote.lines || []).forEach((line, index) => {
-    const items = Array.isArray(line.items) ? line.items : [];
-    ensureSpace(12 + items.length * 5);
-    doc.setFont("helvetica","normal"); doc.setFontSize(8);
-    doc.setTextColor(110);
-    doc.text(`VOCE ${String(index+1).padStart(2,"0")}`, 15, y);
-    doc.setTextColor(0);
-    doc.setFont("helvetica","bold"); doc.setFontSize(10);
-    const label = doc.splitTextToSize(line.label, 118);
-    doc.text(label, 45, y);
-    doc.text(eur(line.amount), 195, y, { align: "right" });
-    y += Math.max(6, label.length*5);
-    if (items.length) {
-      doc.setFont("helvetica","normal"); doc.setFontSize(8.5); doc.setTextColor(90);
-      items.forEach((item) => {
-        const itemLines = doc.splitTextToSize("- " + item, 118);
-        doc.text(itemLines, 48, y);
-        y += Math.max(4.5, itemLines.length * 4.2);
-      });
-      doc.setTextColor(0);
-      y += 1;
+  const travel=draft.travel||blankTravel();
+  if(travel.enabled){
+    let travelAmount=0; const items=[];
+    if(travel.transport==='car'){
+      const fuel=(n(travel.km)/100)*n(settings.fuelConsumption)*n(settings.fuelPrice); travelAmount+=fuel+n(travel.tolls);
+      if(n(travel.km)>0)items.push(`Spostamento in auto: ${n(travel.km)} km`);
+      if(fuel>0)items.push(`Carburante: ${eur(fuel)}`);
+      if(n(travel.tolls)>0)items.push(`Pedaggi: ${eur(n(travel.tolls))}`);
+    }else{
+      travelAmount+=n(travel.otherTransportCost);
+      if(n(travel.otherTransportCost)>0)items.push(`Altro mezzo di trasporto: ${eur(n(travel.otherTransportCost))}`);
     }
+    if(travel.taxiEnabled&&n(travel.taxiCost)>0){travelAmount+=n(travel.taxiCost);items.push(`Taxi / spostamenti sul posto: ${eur(n(travel.taxiCost))}`)}
+    if(travel.overnightEnabled&&n(travel.overnightCost)>0){travelAmount+=n(travel.overnightCost);items.push(`Pernottamento: ${eur(n(travel.overnightCost))}`)}
+    const mealLabels={breakfast:'Colazione',lunch:'Pranzo',dinner:'Cena'};
+    Object.entries(travel.meals||{}).forEach(([key,meal])=>{if(meal.enabled&&n(meal.cost)>0){travelAmount+=n(meal.cost);items.push(`${mealLabels[key]}: ${eur(n(meal.cost))}`)}});
+    if(travelAmount>0)lines.push({id:'travel',label:'Trasferta',amount:travelAmount,items,type:'additional'});
+  }
+
+  const addons=draft.addons||blankAddons();
+  const simpleAddons=[['equipmentRental','Noleggio attrezzature'],['musicLicense','Licenza musica'],['soundLicense','Licenza suoni']];
+  simpleAddons.forEach(([key,label])=>{const item=addons[key];if(item?.enabled&&n(item.amount)>0)lines.push({id:key,label,amount:n(item.amount),items:[],type:'additional'})});
+  if(addons.expressDelivery?.enabled&&n(addons.expressDelivery.amount)>0)lines.push({id:'expressDelivery',label:'Consegna express',amount:n(addons.expressDelivery.amount),items:[`Tempistica: ${addons.expressDelivery.option}`],type:'additional'});
+  (draft.extras||[]).forEach(extra=>{if(n(extra.amount)>0)lines.push({id:extra.id,label:extra.label||'Voce personalizzata',amount:n(extra.amount),items:[],type:'additional'})});
+  const subtotal=lines.reduce((sum,line)=>sum+n(line.amount),0); const discount=Math.max(0,n(draft.discount)); const total=Math.max(0,subtotal-discount);
+  return {lines,subtotal,discount,total,hasVideo:!!(shooting||editing),videoIsFinal:!!editing,hasPhotography:!!photography};
+}
+
+async function resizeLogo(file){
+  return new Promise((resolve,reject)=>{
+    if(!file){reject(new Error('file mancante'));return}
+    const reader=new FileReader();
+    reader.onload=()=>{const image=new Image();image.onload=()=>{const maxW=1000,maxH=450,scale=Math.min(1,maxW/image.width,maxH/image.height);const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(image.width*scale));canvas.height=Math.max(1,Math.round(image.height*scale));const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0,canvas.width,canvas.height);resolve(canvas.toDataURL('image/png',.9))};image.onerror=reject;image.src=reader.result};
+    reader.onerror=reject;reader.readAsDataURL(file);
   });
-
-  ensureSpace(38);
-  y += 4; doc.setDrawColor(200); doc.line(15,y,195,y); y += 6;
-  doc.setFont("helvetica","normal"); doc.setFontSize(10);
-  doc.text("Subtotale",150,y); doc.text(eur(quote.subtotal),195,y,{align:"right"}); y+=6;
-  if (!isNewPricing && Number(quote.marginAmount) > 0) {
-    doc.text(`Margine (${quote.marginPerc || 0}%)`,150,y); doc.text(eur(quote.marginAmount),195,y,{align:"right"}); y+=6;
-  }
-  if (Number(quote.discount) > 0) { doc.text("Sconto",150,y); doc.text("-"+eur(quote.discount),195,y,{align:"right"}); y+=6; }
-  doc.setFont("helvetica","bold"); doc.setFontSize(13);
-  doc.text("TOTALE",150,y); doc.text(eur(quote.total),195,y,{align:"right"}); y += 10;
-  doc.setFont("helvetica","normal"); doc.setFontSize(9);
-  if (quote.notes) { const notes = doc.splitTextToSize("Note: " + quote.notes, 180); doc.text(notes,15,y); y += notes.length*5+3; }
-  const terms = doc.splitTextToSize(s.paymentTerms || "", 180); doc.text(terms,15,y); y += terms.length*5+3;
-  doc.setFontSize(8); doc.setTextColor(120);
-  const vat = doc.splitTextToSize(s.vatNote || "", 180); doc.text(vat,15,y);
-  doc.save(`Preventivo_${(quote.clientName||"cliente").replace(/\s+/g,"_")}_${quote.id.slice(-6)}.pdf`);
 }
 
-function Field({ label, children, hint }) {
-  return (
-    <label className="block mb-4">
-      <div className="field-label">{label}</div>
-      {children}
-      {hint && <div style={{ color: C.muted }} className="text-[10px] mt-1.5 leading-relaxed">{hint}</div>}
-    </label>
-  );
-}
-const inputStyle = {};
-const inputCls = "modern-input";
-function NumInput(props){ return <input type="number" style={inputStyle} className={inputCls} {...props} />; }
-function TxtInput(props){ return <input type="text" style={inputStyle} className={inputCls} {...props} />; }
-function TxtArea(props){ return <textarea style={inputStyle} className={inputCls} rows={3} {...props} />; }
-function Card({ children, title, className="" }) {
-  return (
-    <div className={`ui-card ${className}`}>
-      {title && <div className="ui-card-title">{title}</div>}
-      {children}
-    </div>
-  );
+function downloadPDF(quote){
+  const {jsPDF}=window.jspdf; const doc=new jsPDF(); const settings=normalizeSettings(quote.businessSnapshot); let y=18;
+  const ensure=(height=18)=>{if(y+height>278){doc.addPage();y=20}};
+  let logoRight=15;
+  if(settings.logoDataUrl){try{const props=doc.getImageProperties(settings.logoDataUrl);const maxW=32,maxH=20;const ratio=Math.min(maxW/props.width,maxH/props.height);const w=props.width*ratio,h=props.height*ratio;doc.addImage(settings.logoDataUrl,'PNG',15,12,w,h);logoRight=15+w+7}catch(error){}}
+  doc.setFont('helvetica','bold');doc.setFontSize(17);doc.setTextColor(32,59,76);doc.text(settings.businessName||'Preventivo',logoRight,18);
+  doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(80);
+  const companyLines=[settings.ownerName,settings.piva?`P.IVA ${settings.piva}`:'',addressLine(settings),[settings.email,settings.phone].filter(Boolean).join(' · ')].filter(Boolean);
+  companyLines.forEach((line,index)=>doc.text(String(line),logoRight,24+index*4.2));
+  doc.setTextColor(80);doc.setFontSize(8.5);doc.text(`Data: ${new Date(quote.createdAt).toLocaleDateString('it-IT')}`,195,17,{align:'right'});doc.text(`N. ${String(quote.id).slice(-6).toUpperCase()}`,195,22,{align:'right'});
+  y=Math.max(43,25+companyLines.length*4.2);doc.setDrawColor(210);doc.line(15,y,195,y);y+=8;
+  doc.setFont('helvetica','bold');doc.setFontSize(10.5);doc.setTextColor(25);doc.text(`Cliente: ${clientDisplayName(quote.clientSnapshot||quote.client||{firstName:quote.clientName})}`,15,y);y+=6;doc.text(`Progetto: ${quote.projectTitle||'-'}`,15,y);y+=8;
+  if(quote.projectDesc){doc.setFont('helvetica','normal');doc.setFontSize(9.5);const desc=doc.splitTextToSize(quote.projectDesc,180);doc.text(desc,15,y);y+=desc.length*4.8+3}
+  (quote.lines||[]).forEach((line,index)=>{const items=line.items||[];ensure(13+items.length*5);doc.setFont('helvetica','normal');doc.setFontSize(7.8);doc.setTextColor(105);doc.text(`VOCE ${String(index+1).padStart(2,'0')}`,15,y);doc.setTextColor(20);doc.setFont('helvetica','bold');doc.setFontSize(9.8);const label=doc.splitTextToSize(line.label,116);doc.text(label,45,y);doc.text(eur(line.amount),195,y,{align:'right'});y+=Math.max(6,label.length*5);if(items.length){doc.setFont('helvetica','normal');doc.setFontSize(8.2);doc.setTextColor(90);items.forEach(item=>{const itemLines=doc.splitTextToSize(`- ${item}`,118);doc.text(itemLines,48,y);y+=Math.max(4.4,itemLines.length*4.1)});doc.setTextColor(20);y+=1}});
+  ensure(35);y+=3;doc.setDrawColor(210);doc.line(15,y,195,y);y+=7;doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(75);doc.text(`Subtotale ${eur(quote.subtotal)}`,195,y,{align:'right'});y+=6;if(n(quote.marginAmount)>0){doc.text(`Margine ${eur(quote.marginAmount)}`,195,y,{align:'right'});y+=6}if(n(quote.discount)>0){doc.text(`Sconto -${eur(quote.discount)}`,195,y,{align:'right'});y+=6}doc.setFont('helvetica','bold');doc.setFontSize(12.5);doc.setTextColor(32,59,76);doc.text(`TOTALE PREVENTIVO ${eur(quote.total)}`,195,y,{align:'right'});y+=11;
+  doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(70);if(quote.notes){const notes=doc.splitTextToSize(`Note: ${quote.notes}`,180);doc.text(notes,15,y);y+=notes.length*4.3+3}if(settings.paymentTerms){const terms=doc.splitTextToSize(settings.paymentTerms,180);doc.text(terms,15,y);y+=terms.length*4.3+3}if(settings.quoteValidityDays){doc.text(`Validità del preventivo: ${settings.quoteValidityDays} giorni.`,15,y);y+=5}doc.setFontSize(7.5);doc.setTextColor(125);if(settings.vatNote){const vat=doc.splitTextToSize(settings.vatNote,180);doc.text(vat,15,y)}
+  doc.save(`Preventivo_${clientDisplayName(quote.clientSnapshot||quote.client).replace(/\s+/g,'_')}_${String(quote.id).slice(-6)}.pdf`);
 }
 
-function NavIcon({ name }) {
-  const common = { fill: "none", strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round" };
-  if (name === "new") return <svg viewBox="0 0 24 24" {...common}><path d="M12 5v14M5 12h14"/><rect x="3" y="3" width="18" height="18" rx="6"/></svg>;
-  if (name === "list") return <svg viewBox="0 0 24 24" {...common}><path d="M8 6h10M8 12h10M8 18h10"/><circle cx="4.5" cy="6" r=".8"/><circle cx="4.5" cy="12" r=".8"/><circle cx="4.5" cy="18" r=".8"/></svg>;
-  return <svg viewBox="0 0 24 24" {...common}><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.12 2.12-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1 1.55V20h-3v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.88.34l-.06.06-2.12-2.12.06-.06A1.7 1.7 0 0 0 7.08 15a1.7 1.7 0 0 0-1.55-1H5.4v-3h.13a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.12-2.12.06.06A1.7 1.7 0 0 0 10.74 6a1.7 1.7 0 0 0 1-1.55V4.4h3v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.12 2.12-.06.06A1.7 1.7 0 0 0 19.4 10a1.7 1.7 0 0 0 1.55 1h.09v3h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>;
+function Field({label,hint,children}){return <label className="block mb-4"><div className="field-label">{label}</div>{children}{hint&&<div className="field-hint">{hint}</div>}</label>}
+const TxtInput=props=><input type="text" className="modern-input" {...props}/>;
+const NumInput=props=><input type="number" inputMode="decimal" className="modern-input" {...props}/>;
+const TxtArea=props=><textarea rows="3" className="modern-input" {...props}/>;
+function Card({title,children,className=''}){return <section className={`ui-card ${className}`}>{title&&<div className="ui-card-title">{title}</div>}{children}</section>}
+
+function Icon({name}){
+  const common={fill:'none',strokeWidth:1.8,strokeLinecap:'round',strokeLinejoin:'round',viewBox:'0 0 24 24'};
+  if(name==='home')return <svg {...common}><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg>;
+  if(name==='quotes')return <svg {...common}><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v5h5M10 12h6M10 16h6"/></svg>;
+  if(name==='clients')return <svg {...common}><circle cx="9" cy="8" r="3"/><path d="M3.5 20v-2.5A4.5 4.5 0 0 1 8 13h2a4.5 4.5 0 0 1 4.5 4.5V20M16 4.5a3 3 0 0 1 0 5.8M16 13a4.5 4.5 0 0 1 4.5 4.5V20"/></svg>;
+  if(name==='settings')return <svg {...common}><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.12 2.12-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1 1.55V20h-3v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.88.34l-.06.06-2.12-2.12.06-.06A1.7 1.7 0 0 0 7.08 15a1.7 1.7 0 0 0-1.55-1H5.4v-3h.13a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.12-2.12.06.06A1.7 1.7 0 0 0 10.74 6a1.7 1.7 0 0 0 1-1.55V4.4h3v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.12 2.12-.06.06A1.7 1.7 0 0 0 19.4 10a1.7 1.7 0 0 0 1.55 1h.09v3h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>;
+  return null;
 }
 
-function Header({ tab, setTab, businessName }) {
-  const tabs = [{ id: "new", label: "Nuovo" }, { id: "list", label: "Preventivi" }, { id: "settings", label: "Impostazioni" }];
-  const titles = { new: "Crea preventivo", list: "I tuoi preventivi", settings: "Impostazioni" };
-  return (
-    <>
-      <header className="app-topbar">
-        <div className="max-w-2xl mx-auto topbar-inner">
-          <div className="brand-mark">Q</div>
-          <div className="relative z-[2] min-w-0">
-            <div className="header-kicker truncate">{businessName || "La tua attività"}</div>
-            <div className="header-title">{titles[tab] || "Preventivi"}</div>
-          </div>
-          <button className="header-action" onClick={() => setTab("new")} aria-label="Nuovo preventivo">+</button>
-        </div>
-      </header>
-      <nav className="bottom-nav" aria-label="Navigazione principale">
-        {tabs.map((t) => (
-          <button key={t.id} onClick={() => setTab(t.id)} className={`nav-button ${tab===t.id ? "active" : ""}`}>
-            <NavIcon name={t.id}/><span>{t.label}</span>
-          </button>
-        ))}
-      </nav>
-    </>
-  );
+const mainScreens=['home','quotes','clients','settings'];
+function AppHeader({screen,businessName,onBack}){
+  const titles={home:'La tua dashboard',quotes:'Preventivi',clients:'Clienti',settings:'Impostazioni',clientPicker:'Seleziona cliente',clientEdit:'Modifica cliente',quoteForm:'Crea un preventivo Smart',quoteView:'Dettaglio preventivo'};
+  const isSub=!mainScreens.includes(screen);
+  return <header className="app-header"><div className="header-card">{isSub?<button className="header-back" onClick={onBack} aria-label="Indietro">←</button>:<div className="brand-mark">Q</div>}<div className="min-w-0 relative z-[2]">{screen!=='quoteForm'&&<div className="header-kicker">{isSub?'Preventivi Smart':businessName||'La tua attività'}</div>}<div className="header-title">{titles[screen]||'Preventivi'}</div></div></div></header>
+}
+function BottomNav({screen,onNavigate}){return <nav className="bottom-nav">{[['home','Home'],['quotes','Preventivi'],['clients','Clienti'],['settings','Impostazioni']].map(([id,label])=><button key={id} className={`nav-button ${screen===id?'active':''}`} onClick={()=>onNavigate(id)}><Icon name={id}/><span>{label}</span></button>)}</nav>}
+
+function Home({quotes,clients,onNew,onExisting,onNavigate}){return <div>
+  <div className="hero-card"><div className="hero-eyebrow">PREVENTIVI SMART</div><div className="hero-title">Crea, salva e ritrova tutto senza impazzire.</div><div className="hero-copy">Parti da un nuovo cliente oppure riutilizza una scheda già salvata. Tariffe, calcoli e PDF li gestisce l'app.</div></div>
+  <div className="dashboard-actions">
+    <button className="action-card primary" onClick={onNew}><div className="action-icon">＋</div><div className="action-title">Nuovo cliente</div><div className="action-copy">Crea un preventivo inserendo anche i dati del cliente.</div><div className="action-arrow">→</div></button>
+    <button className="action-card secondary" onClick={onExisting}><div className="action-icon">◎</div><div className="action-title">Seleziona cliente</div><div className="action-copy">Scegli un cliente salvato e ritrova i dati già compilati.</div><div className="action-arrow">→</div></button>
+  </div>
+  <div className="menu-list">
+    <button className="menu-row" onClick={()=>onNavigate('quotes')}><div className="menu-icon">▤</div><div><div className="menu-title">Preventivi</div><div className="menu-sub">{quotes.length} salvati</div></div><div className="menu-arrow">›</div></button>
+    <button className="menu-row" onClick={()=>onNavigate('clients')}><div className="menu-icon">◉</div><div><div className="menu-title">Clienti</div><div className="menu-sub">{clients.length} schede cliente</div></div><div className="menu-arrow">›</div></button>
+    <button className="menu-row" onClick={()=>onNavigate('settings')}><div className="menu-icon">⚙</div><div><div className="menu-title">Impostazioni</div><div className="menu-sub">Dati aziendali, tariffe e auto</div></div><div className="menu-arrow">›</div></button>
+  </div>
+</div>}
+
+function ClientPicker({clients,onSelect}){return <div><div className="simple-page-title">Chi è il cliente?</div>{clients.length===0?<div className="empty-state"><div className="empty-icon">👤</div><div className="empty-title">Non hai ancora clienti salvati</div><div className="empty-copy">I clienti compariranno qui dopo aver creato il loro primo preventivo.</div></div>:<div className="ui-card py-1">{clients.map(client=><button key={client.id} className="client-picker-row" onClick={()=>onSelect(client)}><div className="avatar">{initials(client)}</div><div className="client-name">{clientDisplayName(client)}</div><div className="menu-arrow">›</div></button>)}</div>}</div>}
+
+function ClientFields({client,onChange,existingMode=false}){
+  const set=key=>event=>onChange({...client,[key]:event.target.value});
+  return <>
+    {existingMode&&<div className="notice">I dati sono precompilati dalla scheda cliente. Le modifiche fatte qui valgono solo per questo preventivo; per aggiornare la scheda usa la sezione <b>Clienti</b>.</div>}
+    <div className="two-col"><Field label="Nome"><TxtInput value={client.firstName} onChange={set('firstName')} placeholder="Nome"/></Field><Field label="Cognome"><TxtInput value={client.lastName} onChange={set('lastName')} placeholder="Cognome"/></Field></div>
+    <Field label="Nome attività / azienda"><TxtInput value={client.businessName} onChange={set('businessName')} placeholder="Facoltativo"/></Field>
+    <div className="two-col"><Field label="Telefono"><TxtInput value={client.phone} onChange={set('phone')} placeholder="Facoltativo"/></Field><Field label="Email"><TxtInput type="email" value={client.email} onChange={set('email')} placeholder="Facoltativa"/></Field></div>
+    <div className="two-col"><Field label="Partita IVA"><TxtInput value={client.piva} onChange={set('piva')} placeholder="Puoi inserirla anche dopo"/></Field><Field label="Codice fiscale"><TxtInput value={client.fiscalCode} onChange={set('fiscalCode')} placeholder="Facoltativo"/></Field></div>
+    <div className="two-col"><Field label="PEC"><TxtInput value={client.pec} onChange={set('pec')} placeholder="Facoltativa"/></Field><Field label="Codice SDI"><TxtInput value={client.sdi} onChange={set('sdi')} placeholder="Facoltativo"/></Field></div>
+    <Field label="Indirizzo"><TxtInput value={client.address} onChange={set('address')} placeholder="Via e numero civico"/></Field>
+    <div className="three-col"><Field label="CAP"><TxtInput value={client.postalCode} onChange={set('postalCode')}/></Field><Field label="Città"><TxtInput value={client.city} onChange={set('city')}/></Field><Field label="Provincia"><TxtInput value={client.province} onChange={set('province')} placeholder="RM"/></Field></div>
+  </>
 }
 
-function SettingsForm({ settings, onSave, saveMsg }) {
-  const [s, setS] = useState(settings);
-  useEffect(() => setS(settings), [settings]);
-  const set = (k) => (e) => setS((previous) => ({ ...previous, [k]: e.target.value }));
-  return (
-    <div>
-      <div className="hero-card">
-        <div className="hero-eyebrow">CONFIGURAZIONE</div>
-        <div className="hero-title">Imposta una volta, riutilizza sempre.</div>
-        <div className="hero-copy">I dati aziendali e le condizioni vengono inseriti automaticamente nei prossimi preventivi.</div>
-      </div>
-      <Card title="Dati azienda (compaiono sul preventivo)">
-        <Field label="Ragione / nome"><TxtInput value={s.businessName} onChange={set("businessName")} /></Field>
-        <Field label="Titolare"><TxtInput value={s.ownerName} onChange={set("ownerName")} /></Field>
-        <Field label="Partita IVA"><TxtInput value={s.piva} onChange={set("piva")} /></Field>
-        <Field label="Indirizzo"><TxtInput value={s.address} onChange={set("address")} /></Field>
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="Email"><TxtInput value={s.email} onChange={set("email")} /></Field>
-          <Field label="Telefono"><TxtInput value={s.phone} onChange={set("phone")} /></Field>
-        </div>
-      </Card>
-      <Card title="Condizioni del preventivo">
-        <Field label="Termini di pagamento"><TxtArea value={s.paymentTerms} onChange={set("paymentTerms")} /></Field>
-        <Field label="Nota IVA"><TxtArea value={s.vatNote} onChange={set("vatNote")} /></Field>
-      </Card>
-      <button onClick={() => onSave(s)} className="w-full primary-btn">Salva impostazioni</button>
-      {saveMsg && <div style={{ color: C.navy }} className="text-center text-xs mt-3 font-semibold">{saveMsg}</div>}
-    </div>
-  );
+function ServicePanel({service,settings,onUpdate,onToggleItem}){
+  const amount=n(service.hours)*n(settings[service.rateKey]);
+  return <div className={`service-panel ${service.enabled?'enabled':''}`}><label className="service-toggle-row"><input type="checkbox" checked={service.enabled} onChange={event=>onUpdate({enabled:event.target.checked})}/><div><div className="service-name">{service.title}</div><div className="service-description">{service.description}</div></div></label>{service.enabled&&<div className="service-body"><Field label="Ore di lavoro previste"><div className="hours-input"><NumInput min="0" step="0.5" value={service.hours} onChange={event=>onUpdate({hours:event.target.value})}/></div></Field><div className="rate-preview"><span>Calcolo interno: {n(service.hours)} h × {eur(settings[service.rateKey])}/h</span><strong>{eur(amount)}</strong></div><div className="included-title mt-4">Cosa è incluso</div><div className="included-grid">{service.items.map(item=><label key={item.id} className="included-option"><input type="checkbox" checked={item.enabled} onChange={()=>onToggleItem(item.id)}/><span>{item.label}</span></label>)}</div></div>}</div>
 }
 
-function NewQuoteForm({
-  draft, update, updateServiceGroup, toggleIncludedItem, updateAdditionalService,
-  addExtra, updateExtra, removeExtra, calc, onGenerate, onReset,
-}) {
-  const canGenerate = draft.clientName.trim() && calc.lines.length > 0;
-  return (
-    <div>
-      <div className="hero-card">
-        <div className="hero-eyebrow">PREVENTIVO SMART</div>
-        <div className="hero-title">Mostra il valore, non la tua tariffa oraria.</div>
-        <div className="hero-copy">Attiva i servizi, indica il prezzo finale e scegli cosa è compreso. Nel preventivo il cliente vedrà solo lavorazioni e importi finali.</div>
-        <div className="hero-chip"><span style={{width:7,height:7,borderRadius:99,background:C.red,display:"inline-block"}}></span> Nessuna ora o tariffa visibile</div>
-      </div>
-
-      <Card title="Cliente e progetto">
-        <Field label="Nome cliente"><TxtInput value={draft.clientName} onChange={(e) => update({ clientName: e.target.value })} /></Field>
-        <Field label="Titolo progetto"><TxtInput value={draft.projectTitle} onChange={(e) => update({ projectTitle: e.target.value })} /></Field>
-        <Field label="Descrizione breve"><TxtArea value={draft.projectDesc} onChange={(e) => update({ projectDesc: e.target.value })} /></Field>
-      </Card>
-
-      <Card title="Servizi principali">
-        {(draft.serviceGroups || []).map((group) => (
-          <div key={group.id} className={`service-panel ${group.enabled ? "enabled" : ""}`}>
-            <label className="service-toggle-row">
-              <input type="checkbox" checked={group.enabled} onChange={(e) => updateServiceGroup(group.id, { enabled: e.target.checked })} />
-              <div className="min-w-0">
-                <div className="service-name">{group.title}</div>
-                <div className="service-description">{group.description}</div>
-              </div>
-            </label>
-            {group.enabled && (
-              <div className="service-body">
-                <Field label="Prezzo finale del servizio">
-                  <div className="money-input"><NumInput min="0" step="0.01" value={group.amount} onChange={(e) => updateServiceGroup(group.id, { amount: e.target.value })} /></div>
-                </Field>
-                <div className="included-title">Cosa è incluso</div>
-                <div className="included-grid">
-                  {(group.items || []).map((item) => (
-                    <label key={item.id} className="included-option">
-                      <input type="checkbox" checked={item.enabled} onChange={() => toggleIncludedItem(group.id, item.id)} />
-                      <span>{item.label}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
-      </Card>
-
-      <Card title="Costi e servizi aggiuntivi">
-        {(draft.additionalServices || []).map((service) => (
-          <div key={service.id} className="addon-row">
-            <label className="addon-toggle">
-              <input type="checkbox" checked={service.enabled} onChange={(e) => updateAdditionalService(service.id, { enabled: e.target.checked })} />
-              <span className="addon-label">{service.label}</span>
-            </label>
-            {service.enabled && (
-              <div className="money-input addon-price">
-                <NumInput min="0" step="0.01" aria-label={`Prezzo ${service.label}`} value={service.amount} onChange={(e) => updateAdditionalService(service.id, { amount: e.target.value })} />
-              </div>
-            )}
-          </div>
-        ))}
-      </Card>
-
-      <Card title="Altre voci personalizzate">
-        {draft.extras.map((extra) => (
-          <div key={extra.id} className="flex gap-2 mb-2 items-center">
-            <TxtInput placeholder="Nome della voce" value={extra.label} onChange={(e) => updateExtra(extra.id, { label: e.target.value })} />
-            <div className="money-input w-28"><NumInput min="0" step="0.01" value={extra.amount} onChange={(e) => updateExtra(extra.id, { amount: e.target.value })} /></div>
-            <button onClick={() => removeExtra(extra.id)} style={{ color: C.red }} className="font-mono text-xs px-2">✕</button>
-          </div>
-        ))}
-        <button onClick={addExtra} style={{ color: C.amber }} className="font-mono text-xs mt-1">+ aggiungi voce</button>
-      </Card>
-
-      <Card title="Sconto e note">
-        <Field label="Sconto (€)"><div className="money-input"><NumInput min="0" step="0.01" value={draft.discount} onChange={(e) => update({ discount: e.target.value })} /></div></Field>
-        <Field label="Note per il cliente"><TxtArea value={draft.notes} onChange={(e) => update({ notes: e.target.value })} /></Field>
-      </Card>
-
-      <div className="summary-card">
-        <div className="ui-card-title">Riepilogo</div>
-        {calc.lines.length === 0 && <div style={{ color: C.muted }} className="text-sm">Attiva almeno un servizio e inserisci il relativo prezzo finale.</div>}
-        {calc.lines.map((line, index) => (
-          <div key={index} className="summary-item">
-            <div className="flex justify-between gap-4 text-sm">
-              <span style={{ color: C.textLight }} className="font-semibold">{line.label}</span>
-              <span style={{ color: C.textLight }} className="font-mono font-semibold whitespace-nowrap">{eur(line.amount)}</span>
-            </div>
-            {line.items?.length > 0 && <div className="summary-subitems">{line.items.map((item) => <div key={item}>• {item}</div>)}</div>}
-          </div>
-        ))}
-        <div style={{ borderTop: `1px solid ${C.cardBorder}` }} className="mt-2 pt-2 flex justify-between text-sm">
-          <span style={{ color: C.muted }}>Subtotale</span><span style={{ color: C.muted }} className="font-mono">{eur(calc.subtotal)}</span>
-        </div>
-        {Number(draft.discount) > 0 && (
-          <div className="flex justify-between text-sm">
-            <span style={{ color: C.muted }}>Sconto</span><span style={{ color: C.red }} className="font-mono">-{eur(Number(draft.discount))}</span>
-          </div>
-        )}
-        <div className="total-row flex justify-between items-center">
-          <span className="text-xs font-semibold opacity-75">TOTALE PREVENTIVO</span><span className="text-xl font-extrabold">{eur(calc.total)}</span>
-        </div>
-      </div>
-      <div className="flex gap-2">
-        <button onClick={onReset} className="flex-1 secondary-btn">Svuota</button>
-        <button disabled={!canGenerate} onClick={onGenerate} style={{ opacity: canGenerate ? 1 : .48 }} className="flex-[2] primary-btn">Genera preventivo</button>
-      </div>
-    </div>
-  );
+function TravelForm({travel,settings,onChange}){
+  const update=patch=>onChange({...travel,...patch});
+  const updateMeal=(key,patch)=>onChange({...travel,meals:{...travel.meals,[key]:{...travel.meals[key],...patch}}});
+  const fuelCost=(n(travel.km)/100)*n(settings.fuelConsumption)*n(settings.fuelPrice);
+  const labels={breakfast:'Colazione',lunch:'Pranzo',dinner:'Cena'};
+  return <div className="travel-block">
+    <div className="travel-section-title">Mezzo di trasporto</div>
+    <div className="segmented"><button className={travel.transport==='car'?'active':''} onClick={()=>update({transport:'car'})}>Auto</button><button className={travel.transport==='other'?'active':''} onClick={()=>update({transport:'other'})}>Altro mezzo</button></div>
+    {travel.transport==='car'?<div className="mt-3"><div className="two-col"><Field label="Km totali da percorrere"><NumInput min="0" step="1" value={travel.km} onChange={event=>update({km:event.target.value})}/></Field><Field label="Pedaggi / caselli (€)"><div className="money-input"><NumInput min="0" step="0.01" value={travel.tolls} onChange={event=>update({tolls:event.target.value})}/></div></Field></div><div className="rate-preview"><span>Carburante calcolato con {settings.fuelConsumption} L/100 km e {eur(settings.fuelPrice)}/L</span><strong>{eur(fuelCost)}</strong></div></div>:<Field label="Costo biglietti / spostamento"><div className="money-input"><NumInput min="0" step="0.01" value={travel.otherTransportCost} onChange={event=>update({otherTransportCost:event.target.value})}/></div></Field>}
+    <div className="travel-section-title">Altre spese</div>
+    <div className="addon-row"><div className="addon-main"><label className="addon-toggle"><input type="checkbox" checked={travel.taxiEnabled} onChange={event=>update({taxiEnabled:event.target.checked})}/><span className="addon-label">Taxi / spostamenti sul posto</span></label></div>{travel.taxiEnabled&&<div className="addon-controls"><Field label="Costo totale taxi"><div className="money-input"><NumInput min="0" step="0.01" value={travel.taxiCost} onChange={event=>update({taxiCost:event.target.value})}/></div></Field></div>}</div>
+    <div className="addon-row"><div className="addon-main"><label className="addon-toggle"><input type="checkbox" checked={travel.overnightEnabled} onChange={event=>update({overnightEnabled:event.target.checked})}/><span className="addon-label">Pernottamento</span></label></div>{travel.overnightEnabled&&<div className="addon-controls"><Field label="Costo pernottamento"><div className="money-input"><NumInput min="0" step="0.01" value={travel.overnightCost} onChange={event=>update({overnightCost:event.target.value})}/></div></Field></div>}</div>
+    <div className="travel-section-title">Pasti</div><div className="meal-grid">{Object.entries(labels).map(([key,label])=>{const meal=travel.meals[key];return <div key={key} className="meal-row"><label className="meal-toggle"><input type="checkbox" checked={meal.enabled} onChange={event=>updateMeal(key,{enabled:event.target.checked})}/><span>{label}</span></label>{meal.enabled&&<div className="money-input meal-cost"><NumInput min="0" step="0.01" value={meal.cost} onChange={event=>updateMeal(key,{cost:event.target.value})}/></div>}</div>})}</div>
+  </div>
 }
 
-function QuoteList({ quotes, onView, onDelete }) {
-  return (
-    <div>
-      <div className="hero-card">
-        <div className="hero-eyebrow">ARCHIVIO</div>
-        <div className="hero-title">Tutto sotto controllo.</div>
-        <div className="hero-copy">Riapri, scarica o elimina i preventivi già creati senza perderti tra mille file.</div>
-        <div className="hero-chip">{quotes.length} {quotes.length === 1 ? "preventivo salvato" : "preventivi salvati"}</div>
-      </div>
-      {quotes.length === 0 && <div className="ui-card text-center py-10"><div className="text-3xl mb-3">📄</div><div style={{color:C.textLight}} className="font-semibold mb-1">Nessun preventivo ancora</div><div style={{color:C.muted}} className="text-xs">Il primo comparirà qui appena lo generi.</div></div>}
-      {quotes.map((q) => (
-        <Card key={q.id} className="quote-card">
-          <div className="flex justify-between items-start">
-            <div>
-              <div style={{ color: C.textLight }} className="font-bold">{q.clientName}</div>
-              <div style={{ color: C.muted }} className="text-xs">{q.projectTitle || "—"} · {new Date(q.createdAt).toLocaleDateString("it-IT")}</div>
-            </div>
-            <div style={{ color: C.amber }} className="font-mono font-bold">{eur(q.total)}</div>
-          </div>
-          <div className="flex gap-2 mt-3">
-            <button onClick={() => onView(q)} className="flex-1 secondary-btn">Apri preventivo</button>
-            <button onClick={() => onDelete(q.id)} style={{ color: C.red }} className="px-3 text-xs font-semibold">Elimina</button>
-          </div>
-        </Card>
-      ))}
-    </div>
-  );
+function AddonRow({label,item,onChange,children}){return <div className="addon-row"><div className="addon-main"><label className="addon-toggle"><input type="checkbox" checked={item.enabled} onChange={event=>onChange({...item,enabled:event.target.checked})}/><span className="addon-label">{label}</span></label></div>{item.enabled&&<div className="addon-controls">{children||<Field label="Costo"><div className="money-input"><NumInput min="0" step="0.01" value={item.amount} onChange={event=>onChange({...item,amount:event.target.value})}/></div></Field>}</div>}</div>}
+
+function QuoteForm({draft,settings,mode,onDraft,onSave,onCancel}){
+  const calc=useMemo(()=>calculateQuote(draft,settings),[draft,settings]);
+  const update=patch=>onDraft({...draft,...patch});
+  const updateClient=client=>update({client});
+  const updateService=(id,patch)=>update({services:draft.services.map(service=>service.id===id?{...service,...patch}:service)});
+  const toggleItem=(serviceId,itemId)=>update({services:draft.services.map(service=>service.id!==serviceId?service:{...service,items:service.items.map(item=>item.id===itemId?{...item,enabled:!item.enabled}:item)})});
+  const updateAddon=(key,value)=>update({addons:{...draft.addons,[key]:value}});
+  const addExtra=()=>update({extras:[...draft.extras,{id:uid(),label:'',amount:0}]});
+  const updateExtra=(id,patch)=>update({extras:draft.extras.map(extra=>extra.id===id?{...extra,...patch}:extra)});
+  const canSave=clientDisplayName(draft.client)!=='Cliente senza nome'&&calc.lines.length>0;
+  const activeRates=draft.services.filter(service=>service.enabled&&n(settings[service.rateKey])<=0);
+  return <div className="pt-2">
+    <Card title="Dati cliente"><ClientFields client={draft.client} onChange={updateClient} existingMode={mode==='existing'||mode==='edit'}/></Card>
+    <Card title="Progetto"><Field label="Titolo progetto"><TxtInput value={draft.projectTitle} onChange={event=>update({projectTitle:event.target.value})} placeholder="Es. Produzione video campagna estate"/></Field><Field label="Descrizione breve"><TxtArea value={draft.projectDesc} onChange={event=>update({projectDesc:event.target.value})} placeholder="Descrivi in poche righe il lavoro concordato"/></Field></Card>
+    <Card title="Servizi principali">
+      {activeRates.length>0&&<div className="notice warning">Una delle tariffe attive è impostata a 0 €. Controlla la sezione Impostazioni prima di generare il preventivo.</div>}
+      {draft.services.map(service=><ServicePanel key={service.id} service={service} settings={settings} onUpdate={patch=>updateService(service.id,patch)} onToggleItem={itemId=>toggleItem(service.id,itemId)}/>)}
+      {calc.hasVideo&&<Field label={calc.videoIsFinal?'Quanti video finali verranno consegnati?':'Quanti video grezzi verranno consegnati?'}><NumInput min="0" step="1" value={draft.videoDeliverables} onChange={event=>update({videoDeliverables:event.target.value})}/></Field>}
+      {calc.hasPhotography&&<Field label="Quante fotografie finali verranno consegnate?"><NumInput min="0" step="1" value={draft.photoDeliverables} onChange={event=>update({photoDeliverables:event.target.value})}/></Field>}
+    </Card>
+    <Card title="Costi e servizi aggiuntivi">
+      <AddonRow label="Trasferta" item={draft.travel} onChange={travel=>update({travel})}><TravelForm travel={draft.travel} settings={settings} onChange={travel=>update({travel})}/></AddonRow>
+      <AddonRow label="Noleggio attrezzature" item={draft.addons.equipmentRental} onChange={value=>updateAddon('equipmentRental',value)}/>
+      <AddonRow label="Licenza musica" item={draft.addons.musicLicense} onChange={value=>updateAddon('musicLicense',value)}/>
+      <AddonRow label="Licenza suoni" item={draft.addons.soundLicense} onChange={value=>updateAddon('soundLicense',value)}/>
+      <AddonRow label="Consegna express" item={draft.addons.expressDelivery} onChange={value=>updateAddon('expressDelivery',value)}><div><div className="field-label">Tempistica</div><div className="segmented mb-3">{['24 ore','72 ore','1 settimana','15 giorni'].map(option=><button key={option} className={draft.addons.expressDelivery.option===option?'active':''} onClick={()=>updateAddon('expressDelivery',{...draft.addons.expressDelivery,option})}>{option}</button>)}</div><Field label="Costo consegna express"><div className="money-input"><NumInput min="0" step="0.01" value={draft.addons.expressDelivery.amount} onChange={event=>updateAddon('expressDelivery',{...draft.addons.expressDelivery,amount:event.target.value})}/></div></Field></div></AddonRow>
+    </Card>
+    <Card title="Altre voci personalizzate">{draft.extras.map(extra=><div key={extra.id} className="flex gap-2 mb-2 items-center"><TxtInput placeholder="Nome della voce" value={extra.label} onChange={event=>updateExtra(extra.id,{label:event.target.value})}/><div className="money-input w-32"><NumInput min="0" step="0.01" value={extra.amount} onChange={event=>updateExtra(extra.id,{amount:event.target.value})}/></div><button className="danger-btn px-3" onClick={()=>update({extras:draft.extras.filter(item=>item.id!==extra.id)})}>✕</button></div>)}<button className="secondary-btn" onClick={addExtra}>+ Aggiungi voce</button></Card>
+    <Card title="Sconto e note"><Field label="Sconto (€)"><div className="money-input"><NumInput min="0" step="0.01" value={draft.discount} onChange={event=>update({discount:event.target.value})}/></div></Field><Field label="Note per il cliente"><TxtArea value={draft.notes} onChange={event=>update({notes:event.target.value})}/></Field></Card>
+    <div className="summary-card"><div className="ui-card-title">Riepilogo</div>{calc.lines.length===0?<div className="text-xs" style={{color:C.muted}}>Attiva almeno un servizio e inserisci ore o costi.</div>:calc.lines.map(line=><div key={line.id} className="summary-item"><div className="flex justify-between gap-4 text-xs"><span className="font-semibold">{line.label}</span><span className="font-bold whitespace-nowrap">{eur(line.amount)}</span></div>{line.items.length>0&&<div className="summary-subitems">{line.items.map(item=><div key={item}>• {item}</div>)}</div>}</div>)}<div className="summary-total-line"><span>Subtotale</span><strong>{eur(calc.subtotal)}</strong></div>{calc.discount>0&&<div className="summary-total-line"><span>Sconto</span><strong style={{color:C.coral}}>-{eur(calc.discount)}</strong></div>}<div className="total-row"><span>TOTALE PREVENTIVO</span><span>{eur(calc.total)}</span></div></div>
+    <div className="action-footer"><button className="secondary-btn flex-1" onClick={onCancel}>Annulla</button><button className="primary-btn flex-[2]" disabled={!canSave} style={{opacity:canSave?1:.45}} onClick={()=>onSave(calc)}>{mode==='edit'?'Salva modifiche':'Genera preventivo'}</button></div>
+  </div>
 }
 
-function QuoteView({ quote, onBack, onDelete }) {
-  const s = quote.businessSnapshot || defaultSettings;
-  const isNewPricing = quote.pricingVersion === 2;
-  return (
-    <div className="app-shell min-h-screen pb-8">
-      <div className="max-w-2xl mx-auto px-4 pt-4 flex gap-2">
-        <button onClick={onBack} className="secondary-btn">← Indietro</button>
-        <button onClick={() => downloadPDF(quote, s)} className="flex-1 primary-btn">Scarica PDF</button>
-        <button onClick={onDelete} className="secondary-btn" style={{color:C.red}}>Elimina</button>
-      </div>
-      <div style={{ background: C.paper, color: "#211F1D" }} className="max-w-2xl mx-auto my-5 rounded-[24px] overflow-hidden shadow-xl border border-slate-200">
-        <div style={{ height: 14, background: C.navy }} />
-        <div className="p-6">
-          <div className="flex justify-between items-start mb-6">
-            <div>
-              <div style={{ color: C.red }} className="font-mono text-[10px] tracking-[0.3em]">PREVENTIVO</div>
-              <div className="text-2xl font-black tracking-tight">{s.businessName}</div>
-              {s.ownerName && <div className="text-xs" style={{ color: "#6B6558" }}>{s.ownerName}</div>}
-              {s.piva && <div className="text-xs" style={{ color: "#6B6558" }}>P.IVA {s.piva}</div>}
-              {s.address && <div className="text-xs" style={{ color: "#6B6558" }}>{s.address}</div>}
-              <div className="text-xs" style={{ color: "#6B6558" }}>{[s.email, s.phone].filter(Boolean).join(" · ")}</div>
-            </div>
-            <div className="text-right font-mono text-xs" style={{ color: "#6B6558" }}>
-              <div>DATA: {new Date(quote.createdAt).toLocaleDateString("it-IT")}</div>
-              <div>N°: {quote.id.slice(-6).toUpperCase()}</div>
-            </div>
-          </div>
-          <div style={{ borderTop: `1px solid ${C.paperLine}`, borderBottom: `1px solid ${C.paperLine}` }} className="py-3 mb-4 grid grid-cols-2 gap-3 text-xs">
-            <div><span style={{ color: "#6B6558" }}>CLIENTE </span><div className="font-bold text-sm">{quote.clientName}</div></div>
-            <div><span style={{ color: "#6B6558" }}>PROGETTO </span><div className="font-bold text-sm">{quote.projectTitle || "—"}</div></div>
-          </div>
-          {quote.projectDesc && <div className="text-sm mb-4" style={{ color: "#3A362E" }}>{quote.projectDesc}</div>}
-          <table className="w-full text-sm mb-4">
-            <tbody>
-              {(quote.lines || []).map((line, index) => (
-                <tr key={index} style={{ borderBottom: `1px solid ${C.paperLine}` }}>
-                  <td className="py-3 font-mono text-[10px] align-top" style={{ color: "#6B6558", width: 64 }}>VOCE {String(index+1).padStart(2,"0")}</td>
-                  <td className="py-3 align-top">
-                    <div className="font-semibold">{line.label}</div>
-                    {line.items?.length > 0 && <div className="quote-subitems">{line.items.map((item) => <div key={item}>• {item}</div>)}</div>}
-                  </td>
-                  <td className="py-3 text-right font-mono font-semibold align-top whitespace-nowrap">{eur(line.amount)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="flex flex-col items-end gap-1 mb-4">
-            <div className="flex justify-between w-48 text-xs" style={{ color: "#6B6558" }}><span>Subtotale</span><span className="font-mono">{eur(quote.subtotal)}</span></div>
-            {!isNewPricing && Number(quote.marginAmount) > 0 && <div className="flex justify-between w-48 text-xs" style={{ color: "#6B6558" }}><span>Margine ({quote.marginPerc || 0}%)</span><span className="font-mono">{eur(quote.marginAmount)}</span></div>}
-            {Number(quote.discount) > 0 && <div className="flex justify-between w-48 text-xs" style={{ color: "#6B6558" }}><span>Sconto</span><span className="font-mono">-{eur(quote.discount)}</span></div>}
-            <div className="flex justify-between w-48 text-lg font-black pt-1" style={{ borderTop: "1px solid #1C1B1A" }}><span>TOTALE</span><span className="font-mono">{eur(quote.total)}</span></div>
-          </div>
-          {quote.notes && <div className="text-xs mb-3" style={{ color: "#3A362E" }}><b>Note:</b> {quote.notes}</div>}
-          <div className="text-xs mb-1" style={{ color: "#6B6558" }}>{s.paymentTerms}</div>
-          <div className="text-xs italic" style={{ color: "#9C9585" }}>{s.vatNote}</div>
-        </div>
-      </div>
-    </div>
-  );
+function QuoteList({quotes,onView,onNew}){return <div><div className="hero-card"><div className="hero-eyebrow">ARCHIVIO</div><div className="hero-title">Tutti i preventivi, sempre a portata di mano.</div><div className="hero-copy">Aprili, modificali oppure scarica di nuovo il PDF quando ti serve.</div></div>{quotes.length===0?<div className="empty-state"><div className="empty-icon">📄</div><div className="empty-title">Nessun preventivo ancora</div><div className="empty-copy">Il primo comparirà qui appena lo generi.</div><button className="primary-btn mt-4" onClick={onNew}>Crea il primo</button></div>:quotes.map(quote=><div key={quote.id} className="list-card"><div className="flex justify-between gap-4 items-start"><div><div className="list-title">{clientDisplayName(quote.clientSnapshot||quote.client||{firstName:quote.clientName})}</div><div className="list-meta">{quote.projectTitle||'Senza titolo'} · {new Date(quote.createdAt).toLocaleDateString('it-IT')}</div></div><div className="list-amount">{eur(quote.total)}</div></div><div className="flex gap-2 mt-3"><button className="secondary-btn flex-1" onClick={()=>onView(quote)}>Apri preventivo</button><button className="secondary-btn" onClick={()=>downloadPDF(quote)}>PDF</button></div></div>)}</div>}
+
+function QuoteView({quote,onBack,onEdit,onDelete}){
+  const settings=normalizeSettings(quote.businessSnapshot);const client=quote.clientSnapshot||quote.client||{firstName:quote.clientName};
+  return <div><div className="flex gap-2 mb-4"><button className="secondary-btn flex-1" onClick={onEdit}>Modifica</button><button className="primary-btn flex-1" onClick={()=>downloadPDF(quote)}>Scarica PDF</button><button className="danger-btn" onClick={onDelete}>Elimina</button></div><div className="quote-paper"><div className="quote-paper-top"/><div className="quote-paper-body"><div className="flex justify-between gap-5 items-start mb-5"><div>{settings.logoDataUrl&&<img className="quote-logo" src={settings.logoDataUrl} alt="Logo"/>}<div className="text-xl font-black">{settings.businessName}</div>{settings.ownerName&&<div className="text-[10px] text-slate-500">{settings.ownerName}</div>}{settings.piva&&<div className="text-[10px] text-slate-500">P.IVA {settings.piva}</div>}<div className="text-[10px] text-slate-500">{addressLine(settings)}</div></div><div className="text-right text-[9px] text-slate-500"><div>{new Date(quote.createdAt).toLocaleDateString('it-IT')}</div><div>N. {String(quote.id).slice(-6).toUpperCase()}</div></div></div><div className="border-y border-slate-200 py-3 mb-4"><div className="text-[9px] text-slate-500">CLIENTE</div><div className="font-bold">{clientDisplayName(client)}</div><div className="text-[9px] text-slate-500 mt-2">PROGETTO</div><div className="font-bold">{quote.projectTitle||'-'}</div></div>{quote.projectDesc&&<div className="text-xs mb-4">{quote.projectDesc}</div>}<div>{(quote.lines||[]).map((line,index)=><div key={`${line.id}-${index}`} className="grid grid-cols-[55px_1fr_auto] gap-2 py-3 border-b border-slate-200"><div className="text-[8px] text-slate-500">VOCE {String(index+1).padStart(2,'0')}</div><div><div className="text-xs font-semibold">{line.label}</div>{line.items?.length>0&&<div className="quote-subitems">{line.items.map(item=><div key={item}>• {item}</div>)}</div>}</div><div className="text-xs font-semibold whitespace-nowrap">{eur(line.amount)}</div></div>)}</div><div className="mt-5 text-right"><div className="text-xs text-slate-500">Subtotale <b>{eur(quote.subtotal)}</b></div>{n(quote.marginAmount)>0&&<div className="text-xs text-slate-500 mt-1">Margine <b>{eur(quote.marginAmount)}</b></div>}{n(quote.discount)>0&&<div className="text-xs text-slate-500 mt-1">Sconto <b>-{eur(quote.discount)}</b></div>}<div className="text-lg font-black mt-2 text-[#203B4C]">TOTALE PREVENTIVO {eur(quote.total)}</div></div>{quote.notes&&<div className="text-[10px] mt-5"><b>Note:</b> {quote.notes}</div>}<div className="text-[9px] text-slate-500 mt-4">{settings.paymentTerms}</div><div className="text-[8px] text-slate-400 italic mt-1">{settings.vatNote}</div></div></div><button className="secondary-btn w-full mt-4" onClick={onBack}>Torna ai preventivi</button></div>
 }
 
-function App() {
-  const [settings, setSettings] = useState(defaultSettings);
-  const [quotes, setQuotes] = useState([]);
-  const [tab, setTab] = useState("new");
-  const [draft, setDraft] = useState(emptyQuote());
-  const [viewingQuote, setViewingQuote] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [saveMsg, setSaveMsg] = useState("");
+function ClientsList({clients,onEdit}){return <div><div className="hero-card"><div className="hero-eyebrow">RUBRICA CLIENTI</div><div className="hero-title">I dati utili, senza inserirli ogni volta.</div><div className="hero-copy">Le modifiche alla scheda cliente valgono per i prossimi preventivi. Quelli già creati restano invariati.</div></div>{clients.length===0?<div className="empty-state"><div className="empty-icon">👥</div><div className="empty-title">Nessun cliente salvato</div><div className="empty-copy">La scheda viene creata quando generi il primo preventivo per un nuovo cliente.</div></div>:clients.map(client=><button key={client.id} className="list-card w-full text-left flex items-center gap-3" onClick={()=>onEdit(client)}><div className="avatar">{initials(client)}</div><div><div className="list-title">{clientDisplayName(client)}</div><div className="list-meta">{client.businessName&&clientDisplayName(client)!==client.businessName?client.businessName:(client.email||client.phone||'Apri per modificare i dati')}</div></div><div className="menu-arrow ml-auto">›</div></button>)}</div>}
 
-  useEffect(() => {
-    (async () => {
-      try { const s = await window.storage.get("settings"); if (s && s.value) setSettings({ ...defaultSettings, ...JSON.parse(s.value) }); } catch (e) {}
-      try {
-        const idx = await window.storage.get("quotes-index");
-        if (idx && idx.value) {
-          const ids = JSON.parse(idx.value); const loaded = [];
-          for (const id of ids) { try { const q = await window.storage.get("quote:"+id); if (q && q.value) loaded.push(JSON.parse(q.value)); } catch (e) {} }
-          loaded.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
-          setQuotes(loaded);
-        }
-      } catch (e) {}
-      setLoading(false);
-    })();
-  }, []);
+function ClientEdit({client,onChange,onSave,onCancel,saveMsg}){return <div><div className="simple-page-title">Modifica cliente</div><div className="notice">Le modifiche verranno usate nei nuovi preventivi. I preventivi già salvati non cambieranno.</div><Card title="Dati personali e fiscali"><ClientFields client={client} onChange={onChange}/><Field label="Note private"><TxtArea value={client.notes} onChange={event=>onChange({...client,notes:event.target.value})} placeholder="Informazioni utili solo per te"/></Field></Card><div className="action-footer"><button className="secondary-btn flex-1" onClick={onCancel}>Annulla</button><button className="primary-btn flex-[2]" onClick={onSave}>Salva cliente</button></div>{saveMsg&&<div className="save-toast">{saveMsg}</div>}</div>}
 
-  async function saveSettings(next) {
-    setSettings(next);
-    try { await window.storage.set("settings", JSON.stringify(next)); setSaveMsg("Impostazioni salvate ✓"); setTimeout(() => setSaveMsg(""), 2000); } catch (e) {}
-  }
-  async function saveQuote(q) {
-    try {
-      await window.storage.set("quote:"+q.id, JSON.stringify(q));
-      const ids = Array.from(new Set([q.id, ...quotes.map((x) => x.id)]));
-      await window.storage.set("quotes-index", JSON.stringify(ids));
-      setQuotes((prev) => { const others = prev.filter((x) => x.id !== q.id); return [q, ...others].sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)); });
-    } catch (e) {}
-  }
-  async function deleteQuote(id) {
-    try {
-      await window.storage.delete("quote:"+id);
-      const ids = quotes.filter((x) => x.id !== id).map((x) => x.id);
-      await window.storage.set("quotes-index", JSON.stringify(ids));
-      setQuotes((prev) => prev.filter((x) => x.id !== id));
-      if (viewingQuote && viewingQuote.id === id) { setViewingQuote(null); setTab("list"); }
-    } catch (e) {}
-  }
-
-  const calc = useMemo(() => computeQuote(draft), [draft]);
-  function updateDraft(patch) { setDraft((previous) => ({ ...previous, ...patch })); }
-  function updateServiceGroup(id, patch) {
-    setDraft((previous) => ({
-      ...previous,
-      serviceGroups: previous.serviceGroups.map((group) => group.id === id ? { ...group, ...patch } : group),
-    }));
-  }
-  function toggleIncludedItem(groupId, itemId) {
-    setDraft((previous) => ({
-      ...previous,
-      serviceGroups: previous.serviceGroups.map((group) => group.id !== groupId ? group : {
-        ...group,
-        items: group.items.map((item) => item.id === itemId ? { ...item, enabled: !item.enabled } : item),
-      }),
-    }));
-  }
-  function updateAdditionalService(id, patch) {
-    setDraft((previous) => ({
-      ...previous,
-      additionalServices: previous.additionalServices.map((service) => service.id === id ? { ...service, ...patch } : service),
-    }));
-  }
-  function addExtra() { setDraft((previous) => ({ ...previous, extras: [...previous.extras, { id: uid(), label: "", amount: 0 }] })); }
-  function updateExtra(id, patch) { setDraft((previous) => ({ ...previous, extras: previous.extras.map((extra) => extra.id === id ? { ...extra, ...patch } : extra) })); }
-  function removeExtra(id) { setDraft((previous) => ({ ...previous, extras: previous.extras.filter((extra) => extra.id !== id) })); }
-
-  async function generate() {
-    const snapshot = { ...draft, pricingVersion: 2, lines: calc.lines, total: calc.total, subtotal: calc.subtotal, discount: calc.discount, businessSnapshot: settings };
-    await saveQuote(snapshot);
-    setViewingQuote(snapshot);
-    setDraft(emptyQuote());
-    setTab("view");
-  }
-
-  if (loading) return <div className="app-shell flex items-center justify-center"><div style={{ color: C.navy }} className="text-sm font-semibold">Caricamento…</div></div>;
-  if (tab === "view" && viewingQuote) return <QuoteView quote={viewingQuote} onBack={() => { setTab("list"); setViewingQuote(null); }} onDelete={() => deleteQuote(viewingQuote.id)} />;
-
-  return (
-    <div className="app-shell text-sm">
-      <Header tab={tab} setTab={setTab} businessName={settings.businessName} />
-      <div className="max-w-2xl mx-auto px-4 page-content">
-        {tab === "settings" && <SettingsForm settings={settings} onSave={saveSettings} saveMsg={saveMsg} />}
-        {tab === "new" && <NewQuoteForm draft={draft} update={updateDraft} updateServiceGroup={updateServiceGroup} toggleIncludedItem={toggleIncludedItem} updateAdditionalService={updateAdditionalService} addExtra={addExtra} updateExtra={updateExtra} removeExtra={removeExtra} calc={calc} onGenerate={generate} onReset={() => setDraft(emptyQuote())} />}
-        {tab === "list" && <QuoteList quotes={quotes} onView={(q) => { setViewingQuote(q); setTab("view"); }} onDelete={deleteQuote} />}
-      </div>
-    </div>
-  );
+function SettingsForm({settings,onSave,saveMsg}){
+  const [form,setForm]=useState(settings);useEffect(()=>setForm(settings),[settings]);const set=key=>event=>setForm(previous=>({...previous,[key]:event.target.value}));
+  const handleLogo=async event=>{const file=event.target.files?.[0];if(!file)return;try{const data=await resizeLogo(file);setForm(previous=>({...previous,logoDataUrl:data}))}catch(error){alert('Non sono riuscita a leggere il logo. Prova con PNG o JPG.')}};
+  return <div><div className="hero-card"><div className="hero-eyebrow">CONFIGURAZIONE</div><div className="hero-title">Imposta una volta, calcola tutto più velocemente.</div><div className="hero-copy">Dati aziendali, logo, tariffe orarie e consumi dell'auto vengono riutilizzati nei nuovi preventivi.</div></div>
+    <Card title="Logo del preventivo"><div className="logo-box">{form.logoDataUrl?<img className="logo-preview" src={form.logoDataUrl} alt="Logo attività"/>:<div className="text-xs text-slate-400 mb-3">Nessun logo caricato</div>}<label className="upload-label">Carica logo<input type="file" accept="image/png,image/jpeg,image/webp" onChange={handleLogo}/></label>{form.logoDataUrl&&<button className="danger-btn ml-2" onClick={()=>setForm(previous=>({...previous,logoDataUrl:''}))}>Rimuovi</button>}</div></Card>
+    <Card title="Dati della tua attività"><Field label="Nome / ragione sociale"><TxtInput value={form.businessName} onChange={set('businessName')}/></Field><Field label="Titolare"><TxtInput value={form.ownerName} onChange={set('ownerName')}/></Field><div className="two-col"><Field label="Partita IVA"><TxtInput value={form.piva} onChange={set('piva')}/></Field><Field label="Codice fiscale"><TxtInput value={form.fiscalCode} onChange={set('fiscalCode')}/></Field></div><Field label="Indirizzo"><TxtInput value={form.address} onChange={set('address')}/></Field><div className="three-col"><Field label="CAP"><TxtInput value={form.postalCode} onChange={set('postalCode')}/></Field><Field label="Città"><TxtInput value={form.city} onChange={set('city')}/></Field><Field label="Provincia"><TxtInput value={form.province} onChange={set('province')}/></Field></div><div className="two-col"><Field label="Email"><TxtInput type="email" value={form.email} onChange={set('email')}/></Field><Field label="PEC"><TxtInput value={form.pec} onChange={set('pec')}/></Field></div><div className="two-col"><Field label="Telefono"><TxtInput value={form.phone} onChange={set('phone')}/></Field><Field label="Sito web"><TxtInput value={form.website} onChange={set('website')}/></Field></div><Field label="IBAN"><TxtInput value={form.iban} onChange={set('iban')} placeholder="Facoltativo"/></Field></Card>
+    <Card title="Tariffe orarie"><div className="notice">Queste tariffe servono solo per i calcoli interni. Nel PDF il cliente vedrà esclusivamente il prezzo finale di ogni servizio.</div><div className="three-col"><Field label="Riprese video (€ / ora)"><div className="money-input"><NumInput min="0" step="1" value={form.rateVideoShooting} onChange={set('rateVideoShooting')}/></div></Field><Field label="Montaggio video (€ / ora)"><div className="money-input"><NumInput min="0" step="1" value={form.rateVideoEditing} onChange={set('rateVideoEditing')}/></div></Field><Field label="Fotografie (€ / ora)"><div className="money-input"><NumInput min="0" step="1" value={form.ratePhotography} onChange={set('ratePhotography')}/></div></Field></div></Card>
+    <Card title="Costi dell'auto"><div className="two-col"><Field label="Consumo medio (L / 100 km)"><NumInput min="0" step="0.1" value={form.fuelConsumption} onChange={set('fuelConsumption')}/></Field><Field label="Prezzo carburante (€ / L)"><div className="money-input"><NumInput min="0" step="0.01" value={form.fuelPrice} onChange={set('fuelPrice')}/></div></Field></div><div className="field-hint">Quando selezioni una trasferta in auto, l'app calcola automaticamente il carburante usando chilometri, consumo e prezzo al litro.</div></Card>
+    <Card title="Condizioni del preventivo"><Field label="Termini di pagamento"><TxtArea value={form.paymentTerms} onChange={set('paymentTerms')}/></Field><Field label="Validità del preventivo (giorni)"><NumInput min="0" step="1" value={form.quoteValidityDays} onChange={set('quoteValidityDays')}/></Field><Field label="Nota fiscale / IVA"><TxtArea value={form.vatNote} onChange={set('vatNote')}/></Field></Card>
+    <button className="primary-btn w-full" onClick={()=>onSave(normalizeSettings(form))}>Salva impostazioni</button>{saveMsg&&<div className="save-toast">{saveMsg}</div>}
+  </div>
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+function App(){
+  const [settings,setSettings]=useState(defaultSettings);const [quotes,setQuotes]=useState([]);const [clients,setClients]=useState([]);const [screen,setScreen]=useState('home');const [draft,setDraft]=useState(null);const [draftMode,setDraftMode]=useState('new');const [viewingQuote,setViewingQuote]=useState(null);const [editingClient,setEditingClient]=useState(null);const [loading,setLoading]=useState(true);const [saveMsg,setSaveMsg]=useState('');
+  useEffect(()=>{(async()=>{let loadedSettings=defaultSettings;try{const saved=await window.storage.get('settings');loadedSettings=normalizeSettings(JSON.parse(saved.value));setSettings(loadedSettings)}catch(error){}
+    let loadedQuotes=[];try{const index=await window.storage.get('quotes-index');const ids=JSON.parse(index.value);for(const id of ids){try{const item=await window.storage.get('quote:'+id);loadedQuotes.push(JSON.parse(item.value))}catch(error){}}}catch(error){}loadedQuotes.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));setQuotes(loadedQuotes);
+    let loadedClients=[];try{const stored=await window.storage.get('clients-v3');loadedClients=JSON.parse(stored.value).map(normalizeClient)}catch(error){}
+    if(loadedClients.length===0&&loadedQuotes.length){const names=new Map();loadedQuotes.forEach(quote=>{const snapshot=quote.clientSnapshot||quote.client;if(snapshot){const client=normalizeClient(snapshot);const key=client.id||clientDisplayName(client).toLowerCase();if(!names.has(key))names.set(key,client)}else if(quote.clientName){const key=quote.clientName.trim().toLowerCase();if(!names.has(key))names.set(key,normalizeClient({firstName:quote.clientName}))}});loadedClients=Array.from(names.values());try{await window.storage.set('clients-v3',JSON.stringify(loadedClients))}catch(error){}}
+    loadedClients.sort((a,b)=>clientDisplayName(a).localeCompare(clientDisplayName(b),'it'));setClients(loadedClients);setLoading(false)})()},[]);
+  const persistClients=async next=>{const sorted=[...next].sort((a,b)=>clientDisplayName(a).localeCompare(clientDisplayName(b),'it'));setClients(sorted);await window.storage.set('clients-v3',JSON.stringify(sorted))};
+  const saveSettings=async next=>{setSettings(next);await window.storage.set('settings',JSON.stringify(next));setSaveMsg('Impostazioni salvate ✓');setTimeout(()=>setSaveMsg(''),1800)};
+  const saveQuoteStorage=async quote=>{await window.storage.set('quote:'+quote.id,JSON.stringify(quote));const ids=Array.from(new Set([quote.id,...quotes.map(item=>item.id)]));await window.storage.set('quotes-index',JSON.stringify(ids));setQuotes(previous=>[quote,...previous.filter(item=>item.id!==quote.id)].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)))};
+  const deleteQuote=async quote=>{if(!confirm('Vuoi eliminare questo preventivo?'))return;await window.storage.delete('quote:'+quote.id);const next=quotes.filter(item=>item.id!==quote.id);await window.storage.set('quotes-index',JSON.stringify(next.map(item=>item.id)));setQuotes(next);setViewingQuote(null);setScreen('quotes')};
+  const startNew=()=>{setDraft(emptyQuote());setDraftMode('new');setScreen('quoteForm')};
+  const startExisting=client=>{setDraft(emptyQuote(client));setDraftMode('existing');setScreen('quoteForm')};
+  const editQuote=quote=>{setDraft(normalizeDraftFromQuote(quote,settings));setDraftMode('edit');setScreen('quoteForm')};
+  const saveQuote=async calc=>{let working=clone(draft);let client=normalizeClient(working.client);if(draftMode==='new'){client.id=working.clientId||client.id;client.createdAt=client.createdAt||new Date().toISOString();client.updatedAt=new Date().toISOString();working.clientId=client.id;working.client=client;await persistClients([...clients.filter(item=>item.id!==client.id),client])}
+    const quote={...working,appVersion:3,pricingVersion:3,updatedAt:new Date().toISOString(),clientSnapshot:clone(client),clientName:clientDisplayName(client),lines:calc.lines,subtotal:calc.subtotal,discount:calc.discount,total:calc.total,businessSnapshot:clone(settings)};await saveQuoteStorage(quote);setViewingQuote(quote);setDraft(null);setScreen('quoteView')};
+  const saveClient=async()=>{const client={...editingClient,updatedAt:new Date().toISOString()};await persistClients([...clients.filter(item=>item.id!==client.id),client]);setSaveMsg('Cliente aggiornato ✓');setTimeout(()=>{setSaveMsg('');setScreen('clients')},900)};
+  const navigate=target=>{setScreen(target);setDraft(null);setViewingQuote(null);setEditingClient(null)};
+  const back=()=>{if(screen==='clientPicker'||screen==='quoteForm')navigate('home');else if(screen==='quoteView')navigate('quotes');else if(screen==='clientEdit')navigate('clients');else navigate('home')};
+  if(loading)return <div className="app-shell flex items-center justify-center"><div className="font-semibold" style={{color:C.navy}}>Caricamento…</div></div>;
+  return <div className="app-shell"><AppHeader screen={screen} businessName={settings.businessName} onBack={back}/><main className="page">
+    {screen==='home'&&<Home quotes={quotes} clients={clients} onNew={startNew} onExisting={()=>setScreen('clientPicker')} onNavigate={navigate}/>} 
+    {screen==='clientPicker'&&<ClientPicker clients={clients} onSelect={startExisting}/>} 
+    {screen==='quoteForm'&&draft&&<QuoteForm draft={draft} settings={settings} mode={draftMode} onDraft={setDraft} onSave={saveQuote} onCancel={back}/>} 
+    {screen==='quotes'&&<QuoteList quotes={quotes} onView={quote=>{setViewingQuote(quote);setScreen('quoteView')}} onNew={startNew}/>} 
+    {screen==='quoteView'&&viewingQuote&&<QuoteView quote={viewingQuote} onBack={()=>navigate('quotes')} onEdit={()=>editQuote(viewingQuote)} onDelete={()=>deleteQuote(viewingQuote)}/>} 
+    {screen==='clients'&&<ClientsList clients={clients} onEdit={client=>{setEditingClient(clone(client));setScreen('clientEdit')}}/>} 
+    {screen==='clientEdit'&&editingClient&&<ClientEdit client={editingClient} onChange={setEditingClient} onSave={saveClient} onCancel={()=>navigate('clients')} saveMsg={saveMsg}/>} 
+    {screen==='settings'&&<SettingsForm settings={settings} onSave={saveSettings} saveMsg={saveMsg}/>} 
+  </main>{mainScreens.includes(screen)&&<BottomNav screen={screen} onNavigate={navigate}/>}</div>
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
-
 <script>
-/* Blocco robusto del pull-to-refresh di Chrome/TWA.
-   Mantiene lo scorrimento normale dell'app, ma annulla il trascinamento verso il basso quando siamo già in cima. */
 (() => {
-  const initialized = new WeakSet();
-  let activeScroller = null;
-  let touchStartY = 0;
-
-  function syncTopState(scroller) {
-    scroller.classList.toggle("is-at-scroll-top", scroller.scrollTop <= 0.5);
-  }
-
-  function initScroller(scroller) {
-    if (!scroller || initialized.has(scroller)) return;
-    initialized.add(scroller);
-    syncTopState(scroller);
-    scroller.addEventListener("scroll", () => syncTopState(scroller), { passive: true });
-  }
-
-  function scanScrollers() {
-    document.querySelectorAll(".app-shell").forEach(initScroller);
-  }
-
-  scanScrollers();
-  new MutationObserver(scanScrollers).observe(document.body, { childList: true, subtree: true });
-
-  document.addEventListener("touchstart", (event) => {
-    if (event.touches.length !== 1) return;
-    touchStartY = event.touches[0].clientY;
-    activeScroller = event.target.closest?.(".app-shell") || document.querySelector(".app-shell");
-    initScroller(activeScroller);
-  }, { passive: true, capture: true });
-
-  document.addEventListener("touchmove", (event) => {
-    if (!activeScroller || event.touches.length !== 1) return;
-    const currentY = event.touches[0].clientY;
-    const pullingDownFromTop = currentY > touchStartY && activeScroller.scrollTop <= 0.5;
-    if (pullingDownFromTop && event.cancelable) event.preventDefault();
-  }, { passive: false, capture: true });
-
-  const clearGesture = () => { activeScroller = null; };
-  document.addEventListener("touchend", clearGesture, { passive: true, capture: true });
-  document.addEventListener("touchcancel", clearGesture, { passive: true, capture: true });
+  const initialized=new WeakSet();let activeScroller=null;let touchStartY=0;
+  function sync(scroller){scroller.classList.toggle('is-at-scroll-top',scroller.scrollTop<=.5)}
+  function init(scroller){if(!scroller||initialized.has(scroller))return;initialized.add(scroller);sync(scroller);scroller.addEventListener('scroll',()=>sync(scroller),{passive:true})}
+  function scan(){document.querySelectorAll('.app-shell').forEach(init)}
+  scan();new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
+  document.addEventListener('touchstart',event=>{if(event.touches.length!==1)return;touchStartY=event.touches[0].clientY;activeScroller=event.target.closest?.('.app-shell')||document.querySelector('.app-shell');init(activeScroller)},{passive:true,capture:true});
+  document.addEventListener('touchmove',event=>{if(!activeScroller||event.touches.length!==1)return;const currentY=event.touches[0].clientY;if(currentY>touchStartY&&activeScroller.scrollTop<=.5&&event.cancelable)event.preventDefault()},{passive:false,capture:true});
+  const clear=()=>{activeScroller=null};document.addEventListener('touchend',clear,{passive:true,capture:true});document.addEventListener('touchcancel',clear,{passive:true,capture:true});
 })();
-
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js?v=4", { updateViaCache: "none" })
-    .then((registration) => registration.update())
-    .catch(() => {});
-}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=5',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{})}
 </script>
 </body>
 </html>
