@@ -114,17 +114,9 @@ button:active,.menu-row:active,.list-card.interactive:active,.client-picker-row:
 @media (min-width:700px){.hero-card{padding:29px}.hero-title{font-size:31px}.page{padding-top:14px}.header-card{padding:19px 22px}}
 
 /* dashboard redesign v8 */
-.header-card.home-header{min-height:108px;padding:18px 18px 17px;border-radius:24px;background:linear-gradient(135deg,#214E75 0%, #0F3D69 100%);box-shadow:0 16px 36px rgba(32,59,76,.18);align-items:flex-start}
-.header-card.home-header:before{width:126px;height:126px;right:-42px;top:-58px;border-width:20px;opacity:.75}
-.header-card.home-header:after{width:72px;height:72px;right:90px;bottom:-34px;opacity:.75}
-.header-card.section-header{min-height:68px}
-.header-copy{position:relative;z-index:2;min-width:0;display:flex;flex-direction:column;justify-content:center}
-.header-card.home-header .header-title{font-size:18px;font-weight:800;letter-spacing:-.03em}
-.header-card.home-header .header-subtitle{font-size:12px;color:rgba(255,255,255,.84);margin-top:6px}
-.header-settings{margin-left:auto;position:relative;z-index:2;width:44px;height:44px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.12);box-shadow:0 12px 24px rgba(10,30,49,.18);display:grid;place-items:center;color:#fff;transition:transform .16s ease,background .16s ease}
-.header-settings:active{transform:scale(.96);background:rgba(255,255,255,.18)}
-.header-settings svg{width:20px;height:20px;stroke:currentColor}
+.header-card.home-header{min-height:auto;padding:0;border-radius:0;background:transparent;box-shadow:none;align-items:center;overflow:visible}.header-card.home-header:before,.header-card.home-header:after{display:none}.header-card.section-header{min-height:68px}.header-copy{position:relative;z-index:2;min-width:0;display:flex;flex-direction:column;justify-content:center}.header-card.home-header .header-title{font-size:24px;font-weight:800;letter-spacing:-.04em;color:var(--navy-dark)}.header-card.home-header .header-subtitle{font-size:12px;color:var(--muted);margin-top:6px}.header-settings{margin-left:auto;position:relative;z-index:2;width:44px;height:44px;border-radius:999px;border:1px solid rgba(55,109,136,.12);background:rgba(255,255,255,.92);box-shadow:0 10px 22px rgba(32,59,76,.09);display:grid;place-items:center;color:var(--navy-dark);transition:transform .16s ease,background .16s ease,box-shadow .16s ease}.header-settings:active{transform:scale(.96);background:#fff;box-shadow:0 8px 16px rgba(32,59,76,.10)}.header-settings svg{width:20px;height:20px;stroke:currentColor}
 .home-dashboard{padding-top:4px}
+.home-dashboard .dashboard-main-stack{margin-top:2px}
 .dashboard-main-stack{display:grid;gap:14px;margin-bottom:16px}
 .dashboard-main-card,.dashboard-mini-card,.dashboard-recent-card,.dashboard-empty-card,.recent-item{position:relative;border:0;overflow:hidden;transition:transform .16s ease,box-shadow .16s ease,filter .16s ease}
 .dashboard-main-card:active,.dashboard-mini-card:active,.recent-item:active{transform:scale(.984);filter:brightness(.985)}
@@ -133,7 +125,7 @@ button:active,.menu-row:active,.list-card.interactive:active,.client-picker-row:
 .dashboard-main-card--secondary{background:rgba(255,255,255,.94);border:1px solid rgba(55,109,136,.14);color:var(--navy-dark)}
 .dashboard-main-card--secondary::after{content:'';position:absolute;right:-10px;bottom:-8px;width:132px;height:132px;border-radius:50%;background:radial-gradient(circle, rgba(55,109,136,.08), transparent 62%)}
 .dashboard-main-card--primary::after{content:'';position:absolute;right:-18px;bottom:-22px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle, rgba(255,255,255,.11), transparent 56%)}
-.dashboard-icon-box{width:74px;height:74px;border-radius:22px;display:grid;place-items:center;flex:0 0 auto;position:relative;z-index:2;box-shadow:0 10px 22px rgba(32,59,76,.10)}
+.dashboard-icon-box{width:72px;height:72px;border-radius:22px;display:grid;place-items:center;flex:0 0 auto;position:relative;z-index:2;box-shadow:0 10px 22px rgba(32,59,76,.10)}
 .dashboard-main-card--primary .dashboard-icon-box{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.12);color:#fff}
 .dashboard-main-card--secondary .dashboard-icon-box{background:#F5FAFD;border:1px solid rgba(55,109,136,.14);color:var(--blue)}
 .dashboard-icon-box svg{width:30px;height:30px;stroke:currentColor}
@@ -176,6 +168,7 @@ button:active,.menu-row:active,.list-card.interactive:active,.client-picker-row:
 .recent-amount{margin-left:auto;font-size:12px;font-weight:800;color:var(--navy-dark);white-space:nowrap}
 .recent-card-footer{padding-top:12px;margin-top:12px;border-top:1px solid rgba(55,109,136,.10)}
 .dashboard-inline-link{border:0;background:transparent;color:var(--blue);font-size:11px;font-weight:700;padding:0}
+.quote-list-actions{display:flex;gap:12px;margin-top:14px}.quote-list-actions .secondary-btn{min-height:42px}.quote-list-actions .pdf-btn{padding-inline:18px;min-width:82px}
 @media (max-width:420px){.dashboard-main-card{padding:17px 16px;gap:14px}.dashboard-icon-box{width:68px;height:68px}.dashboard-main-card .dashboard-card-sub{max-width:210px}.dashboard-mini-grid{gap:10px}.dashboard-mini-card{padding:14px 14px 13px}}
 
 </style>
@@ -393,9 +386,9 @@ function Icon({name}){
   if(name==='quotes')return <svg {...common}><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v5h5M10 12h6M10 16h6"/></svg>;
   if(name==='clients')return <svg {...common}><circle cx="9" cy="8" r="3"/><path d="M3.5 20v-2.5A4.5 4.5 0 0 1 8 13h2a4.5 4.5 0 0 1 4.5 4.5V20M16 4.5a3 3 0 0 1 0 5.8M16 13a4.5 4.5 0 0 1 4.5 4.5V20"/></svg>;
   if(name==='settings')return <svg {...common}><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.12 2.12-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1 1.55V20h-3v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.88.34l-.06.06-2.12-2.12.06-.06A1.7 1.7 0 0 0 7.08 15a1.7 1.7 0 0 0-1.55-1H5.4v-3h.13a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.12-2.12.06.06A1.7 1.7 0 0 0 10.74 6a1.7 1.7 0 0 0 1-1.55V4.4h3v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.12 2.12-.06.06A1.7 1.7 0 0 0 19.4 10a1.7 1.7 0 0 0 1.55 1h.09v3h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>;
-  if(name==='newClient')return <svg {...common}><circle cx="9" cy="8" r="3"/><path d="M3.5 20v-2.5A4.5 4.5 0 0 1 8 13h2a4.5 4.5 0 0 1 4.5 4.5V20M18 8v6M15 11h6"/></svg>;
-  if(name==='selectClient')return <svg {...common}><circle cx="8" cy="8" r="3"/><path d="M2.5 20v-2.5A4.5 4.5 0 0 1 7 13h2a4.5 4.5 0 0 1 4.5 4.5V20M16 7h5M16 11h5M16 15h4"/></svg>;
-  if(name==='quoteNew')return <svg {...common}><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v5h5"/><path d="M12 11v6"/><path d="M9 14h6"/></svg>;
+  if(name==='newClient')return <svg {...common}><path d="M7 4.5h7l3 3V19.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 19.5V6a1.5 1.5 0 0 1 1.5-1.5Z"/><path d="M14 4.5V8h3.5"/><path d="M12 11v6"/><path d="M9 14h6"/></svg>;
+  if(name==='selectClient')return <svg {...common}><circle cx="9" cy="8" r="3"/><path d="M3.5 19.5v-1.5A4.5 4.5 0 0 1 8 13.5h2A4.5 4.5 0 0 1 14.5 18v1.5"/><path d="M16.5 8h4"/><path d="M16.5 12h4"/><path d="M16.5 16h3"/></svg>;
+  if(name==='quoteNew')return <svg {...common}><path d="M7.5 4.5h7l3 3V19a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6.5 19V6A1.5 1.5 0 0 1 8 4.5Z"/><path d="M14.5 4.5V8h3"/><path d="M12 10.75v5.5"/><path d="M9.25 13.5h5.5"/></svg>;
   if(name==='chevron')return <svg {...common}><path d="m9 5 7 7-7 7"/></svg>;
   if(name==='back')return <svg {...common}><path d="m15 18-6-6 6-6"/><path d="M9 12h10"/></svg>;
   if(name==='sliders')return <svg {...common}><path d="M4 6h8"/><path d="M16 6h4"/><circle cx="14" cy="6" r="2"/><path d="M4 12h4"/><path d="M12 12h8"/><circle cx="10" cy="12" r="2"/><path d="M4 18h10"/><path d="M18 18h2"/><circle cx="16" cy="18" r="2"/></svg>;
@@ -506,7 +499,7 @@ function QuoteForm({draft,settings,mode,onDraft,onSave,onCancel}){
   </div>
 }
 
-function QuoteList({quotes,onView,onNew,onLongPress}){return <div><div className="hero-card"><div className="hero-eyebrow">ARCHIVIO</div><div className="hero-title">Tutti i preventivi, sempre a portata di mano.</div><div className="hero-copy">Aprili, modificali oppure scarica di nuovo il PDF quando ti serve.</div></div>{quotes.length===0?<div className="empty-state"><div className="empty-icon">📄</div><div className="empty-title">Nessun preventivo ancora</div><div className="empty-copy">Il primo comparirà qui appena lo generi.</div><button className="primary-btn mt-4" onClick={onNew}>Crea il primo</button></div>:quotes.map(quote=><LongPressCard key={quote.id} className="list-card interactive" onLongPress={()=>onLongPress(quote)}><div className="flex justify-between gap-4 items-start"><div><div className="list-title">{clientDisplayName(quote.clientSnapshot||quote.client||{firstName:quote.clientName})}</div><div className="list-meta">{quote.projectTitle||'Senza titolo'} · {new Date(quote.createdAt).toLocaleDateString('it-IT')}</div></div><div className="list-amount">{eur(quote.total)}</div></div><div className="flex gap-2 mt-3"><button className="secondary-btn flex-1" onClick={()=>onView(quote)}>Apri preventivo</button><button className="secondary-btn" onClick={()=>downloadPDF(quote)}>PDF</button></div></LongPressCard>)}</div>}
+function QuoteList({quotes,onView,onNew,onLongPress}){return <div><div className="hero-card"><div className="hero-eyebrow">ARCHIVIO</div><div className="hero-title">Tutti i preventivi, sempre a portata di mano.</div><div className="hero-copy">Aprili, modificali oppure scarica di nuovo il PDF quando ti serve.</div></div>{quotes.length===0?<div className="empty-state"><div className="empty-icon">📄</div><div className="empty-title">Nessun preventivo ancora</div><div className="empty-copy">Il primo comparirà qui appena lo generi.</div><button className="primary-btn mt-4" onClick={onNew}>Crea il primo</button></div>:quotes.map(quote=><LongPressCard key={quote.id} className="list-card interactive" onLongPress={()=>onLongPress(quote)}><div className="flex justify-between gap-4 items-start"><div><div className="list-title">{clientDisplayName(quote.clientSnapshot||quote.client||{firstName:quote.clientName})}</div><div className="list-meta">{quote.projectTitle||'Senza titolo'} · {new Date(quote.createdAt).toLocaleDateString('it-IT')}</div></div><div className="list-amount">{eur(quote.total)}</div></div><div className="quote-list-actions"><button className="secondary-btn flex-1" onClick={()=>onView(quote)}>Apri preventivo</button><button className="secondary-btn pdf-btn" onClick={()=>downloadPDF(quote)}>PDF</button></div></LongPressCard>)}</div>}
 
 function QuoteView({quote,onBack,onEdit,onDelete}){
   const [viewMode,setViewMode]=useState('client');
