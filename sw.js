@@ -1,4 +1,4 @@
-const CACHE = "quotecut-v12-dashboard-refresh";
+const CACHE = "quotecut-v13-ios-swipe";
 const APP_SHELL = [
   "./",
   "./index.html",
