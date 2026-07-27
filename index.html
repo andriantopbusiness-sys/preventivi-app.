@@ -82,6 +82,31 @@ button{cursor:pointer}
 /* Quando il contenuto è già in cima, consenti solo il gesto che scorre verso il basso nella pagina.
    Il gesto opposto (dito verso il basso), usato da Chrome per il pull-to-refresh, viene bloccato. */
 .app-shell.is-at-scroll-top{touch-action:pan-x pan-down!important}
+
+.service-panel{border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px;background:linear-gradient(145deg,#fff,#fbfcfd);transition:.2s ease}
+.service-panel.enabled{border-color:rgba(240,100,73,.35);box-shadow:0 8px 20px rgba(32,59,76,.06)}
+.service-toggle-row{display:flex;align-items:center;gap:11px;cursor:pointer}
+.service-toggle-row input,.included-option input,.addon-toggle input{accent-color:var(--coral);width:17px;height:17px;flex:0 0 auto}
+.service-name{font-size:13px;font-weight:700;color:var(--navy-dark)}
+.service-description{font-size:10px;color:var(--muted);line-height:1.45;margin-top:2px}
+.service-body{padding-top:14px;margin-top:13px;border-top:1px solid var(--line)}
+.included-title{font-size:10px;font-weight:700;color:var(--navy-dark);margin-bottom:9px;text-transform:uppercase;letter-spacing:.05em}
+.included-grid{display:grid;grid-template-columns:1fr;gap:7px}
+.included-option{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;padding:9px 10px;background:#fff;font-size:11px;color:var(--text);cursor:pointer}
+.money-input{position:relative}
+.money-input:before{content:'€';position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:var(--navy);z-index:1}
+.money-input .modern-input{padding-left:30px}
+.addon-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.addon-row:last-child{border-bottom:0;padding-bottom:0}
+.addon-toggle{display:flex;align-items:center;gap:9px;min-width:0;flex:1;cursor:pointer}
+.addon-label{font-size:12px;font-weight:600;color:var(--navy-dark)}
+.addon-price{width:112px;flex:0 0 112px}
+.summary-item{padding:9px 0;border-bottom:1px solid var(--line)}
+.summary-item:last-of-type{border-bottom:0}
+.summary-subitems{font-size:10px;color:var(--muted);line-height:1.6;margin-top:4px;padding-left:12px}
+.quote-subitems{font-size:10px;line-height:1.55;color:#6B6558;margin-top:3px}
+@media (min-width:520px){.included-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 @media (min-width:700px){.app-topbar{padding-top:20px}.topbar-inner{padding:18px 22px}.page-content{padding-top:12px}.hero-card{padding:28px}.hero-title{font-size:30px}}
 </style>
 </head>
@@ -118,50 +143,119 @@ const C = {
 
 const defaultSettings = {
   businessName: "ISFA Unlimited", ownerName: "", piva: "", address: "", email: "", phone: "",
-  rateShoot: 35, rateEdit: 30, fuelConsumption: 8, fuelPrice: 1.75, taxiAvgCost: 15,
-  marginDefault: 10,
   vatNote: "Operazione effettuata da soggetto in regime forfettario, IVA non addebitata (art.1 c.54-89 L.190/2014).",
   paymentTerms: "Acconto 30% all'accettazione del preventivo, saldo alla consegna del lavoro.",
 };
 
+const SERVICE_GROUP_DEFINITIONS = [
+  {
+    id: "shooting",
+    title: "Riprese video",
+    description: "Il prezzo finale delle riprese, senza mostrare ore o tariffa oraria.",
+    items: [
+      { id: "standard-shooting", label: "Riprese in location / sul set", enabled: true },
+      { id: "drone-shooting", label: "Riprese con il drone", enabled: false },
+    ],
+  },
+  {
+    id: "video-editing",
+    title: "Montaggio video",
+    description: "Una voce principale con sotto tutte le lavorazioni comprese.",
+    items: [
+      { id: "editing", label: "Montaggio e assemblaggio", enabled: true },
+      { id: "color-correction", label: "Color correction", enabled: false },
+      { id: "color-grading", label: "Color grading", enabled: false },
+      { id: "sound-design", label: "Sound design", enabled: false },
+      { id: "audio-cleanup", label: "Pulizia audio", enabled: false },
+      { id: "motion-graphics", label: "Motion graphics", enabled: false },
+      { id: "voice-over", label: "Voice over", enabled: false },
+    ],
+  },
+  {
+    id: "photography",
+    title: "Fotografie",
+    description: "Servizio fotografico con le lavorazioni incluse indicate sotto.",
+    items: [
+      { id: "photo-shooting", label: "Shooting fotografico", enabled: true },
+      { id: "photo-selection", label: "Selezione e cernita degli scatti", enabled: false },
+      { id: "photo-color", label: "Color correction fotografica", enabled: false },
+      { id: "photo-retouch", label: "Ritocco fotografico", enabled: false },
+      { id: "photo-export", label: "Esportazione e consegna", enabled: false },
+    ],
+  },
+];
+
+const ADDITIONAL_SERVICE_DEFINITIONS = [
+  { id: "travel", label: "Trasferta" },
+  { id: "equipment-rental", label: "Noleggio attrezzature" },
+  { id: "music-license", label: "Licenza musica" },
+  { id: "sound-license", label: "Licenza suoni" },
+  { id: "express-delivery", label: "Consegna express" },
+];
+
 function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
 function eur(n){ return (isFinite(n)?n:0).toLocaleString('it-IT',{style:'currency',currency:'EUR'}); }
+
+function buildServiceGroups() {
+  return SERVICE_GROUP_DEFINITIONS.map((group) => ({
+    id: group.id,
+    title: group.title,
+    description: group.description,
+    enabled: false,
+    amount: 0,
+    items: group.items.map((item) => ({ ...item })),
+  }));
+}
+
+function buildAdditionalServices() {
+  return ADDITIONAL_SERVICE_DEFINITIONS.map((service) => ({ ...service, enabled: false, amount: 0 }));
+}
 
 const emptyQuote = () => ({
   id: uid(), createdAt: new Date().toISOString(),
   clientName: "", projectTitle: "", projectDesc: "",
-  shootHours: 0, editHours: 0, extras: [],
-  travelEnabled: false, travelMode: "car",
-  kmRoundTrip: 0, tolls: 0, transitCost: 0, taxiTrips: 0, overnightCost: 0,
-  marginPerc: 10, discount: 0, notes: "",
+  serviceGroups: buildServiceGroups(),
+  additionalServices: buildAdditionalServices(),
+  extras: [], discount: 0, notes: "",
 });
 
-function computeQuote(d, s) {
+function computeQuote(d) {
   const lines = [];
-  if (Number(d.shootHours) > 0) lines.push({ label: `Riprese sul set (${d.shootHours} h × ${eur(s.rateShoot)}/h)`, amount: d.shootHours*s.rateShoot });
-  if (Number(d.editHours) > 0) lines.push({ label: `Montaggio e post-produzione (${d.editHours} h × ${eur(s.rateEdit)}/h)`, amount: d.editHours*s.rateEdit });
-  if (d.travelEnabled) {
-    if (d.travelMode === "car") {
-      const fuelCost = (Number(d.kmRoundTrip)/100)*Number(s.fuelConsumption)*Number(s.fuelPrice);
-      if (fuelCost > 0) lines.push({ label: `Carburante trasferta (${d.kmRoundTrip} km, ${s.fuelConsumption} L/100km)`, amount: fuelCost });
-      if (Number(d.tolls) > 0) lines.push({ label: "Pedaggi autostradali", amount: Number(d.tolls) });
-    } else {
-      if (Number(d.transitCost) > 0) lines.push({ label: "Mezzi pubblici / treno", amount: Number(d.transitCost) });
-    }
-    if (Number(d.taxiTrips) > 0) lines.push({ label: `Taxi (${d.taxiTrips} corse × ${eur(s.taxiAvgCost)})`, amount: d.taxiTrips*s.taxiAvgCost });
-    if (Number(d.overnightCost) > 0) lines.push({ label: "Pernottamento", amount: Number(d.overnightCost) });
-  }
-  d.extras.forEach((e) => { if (Number(e.amount) > 0) lines.push({ label: e.label || "Voce extra", amount: Number(e.amount) }); });
-  const subtotal = lines.reduce((a,l)=>a+l.amount,0);
-  const marginAmount = subtotal * ((Number(d.marginPerc)||0)/100);
-  const total = Math.max(0, subtotal + marginAmount - (Number(d.discount)||0));
-  return { lines, subtotal, marginAmount, total };
+  (d.serviceGroups || []).forEach((group) => {
+    const amount = Number(group.amount) || 0;
+    if (!group.enabled || amount <= 0) return;
+    lines.push({
+      type: "group",
+      label: group.title,
+      amount,
+      items: (group.items || []).filter((item) => item.enabled).map((item) => item.label),
+    });
+  });
+  (d.additionalServices || []).forEach((service) => {
+    const amount = Number(service.amount) || 0;
+    if (service.enabled && amount > 0) lines.push({ type: "single", label: service.label, amount, items: [] });
+  });
+  (d.extras || []).forEach((extra) => {
+    const amount = Number(extra.amount) || 0;
+    if (amount > 0) lines.push({ type: "single", label: extra.label || "Voce personalizzata", amount, items: [] });
+  });
+  const subtotal = lines.reduce((sum, line) => sum + line.amount, 0);
+  const discount = Math.max(0, Number(d.discount) || 0);
+  const total = Math.max(0, subtotal - discount);
+  return { lines, subtotal, discount, total };
 }
 
 function downloadPDF(quote, s) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
+  const isNewPricing = quote.pricingVersion === 2;
   let y = 20;
+  const ensureSpace = (needed = 18) => {
+    if (y + needed <= 278) return;
+    doc.addPage();
+    y = 20;
+  };
+
   doc.setFont("helvetica","bold"); doc.setFontSize(18);
   doc.text(s.businessName || "Preventivo", 15, y); y+=7;
   doc.setFont("helvetica","normal"); doc.setFontSize(10);
@@ -175,25 +269,45 @@ function downloadPDF(quote, s) {
   doc.text("Cliente: " + quote.clientName, 15, y); y += 6;
   doc.text("Progetto: " + (quote.projectTitle || "-"), 15, y); y += 8;
   doc.setFont("helvetica","normal"); doc.setFontSize(10);
-  if (quote.projectDesc) { const d2 = doc.splitTextToSize(quote.projectDesc, 180); doc.text(d2,15,y); y += d2.length*5+3; }
+  if (quote.projectDesc) { const description = doc.splitTextToSize(quote.projectDesc, 180); doc.text(description,15,y); y += description.length*5+3; }
   y += 2;
-  quote.lines.forEach((l,i) => {
-    doc.setFontSize(9); doc.text(`TAKE ${String(i+1).padStart(2,"0")}`, 15, y);
-    doc.setFontSize(10);
-    const label = doc.splitTextToSize(l.label, 125);
+
+  (quote.lines || []).forEach((line, index) => {
+    const items = Array.isArray(line.items) ? line.items : [];
+    ensureSpace(12 + items.length * 5);
+    doc.setFont("helvetica","normal"); doc.setFontSize(8);
+    doc.setTextColor(110);
+    doc.text(`VOCE ${String(index+1).padStart(2,"0")}`, 15, y);
+    doc.setTextColor(0);
+    doc.setFont("helvetica","bold"); doc.setFontSize(10);
+    const label = doc.splitTextToSize(line.label, 118);
     doc.text(label, 45, y);
-    doc.text(eur(l.amount), 195, y, { align: "right" });
+    doc.text(eur(line.amount), 195, y, { align: "right" });
     y += Math.max(6, label.length*5);
+    if (items.length) {
+      doc.setFont("helvetica","normal"); doc.setFontSize(8.5); doc.setTextColor(90);
+      items.forEach((item) => {
+        const itemLines = doc.splitTextToSize("- " + item, 118);
+        doc.text(itemLines, 48, y);
+        y += Math.max(4.5, itemLines.length * 4.2);
+      });
+      doc.setTextColor(0);
+      y += 1;
+    }
   });
-  y += 4; doc.line(15,y,195,y); y += 6;
-  doc.setFontSize(10);
+
+  ensureSpace(38);
+  y += 4; doc.setDrawColor(200); doc.line(15,y,195,y); y += 6;
+  doc.setFont("helvetica","normal"); doc.setFontSize(10);
   doc.text("Subtotale",150,y); doc.text(eur(quote.subtotal),195,y,{align:"right"}); y+=6;
-  doc.text(`Margine (${quote.marginPerc}%)`,150,y); doc.text(eur(quote.marginAmount),195,y,{align:"right"}); y+=6;
+  if (!isNewPricing && Number(quote.marginAmount) > 0) {
+    doc.text(`Margine (${quote.marginPerc || 0}%)`,150,y); doc.text(eur(quote.marginAmount),195,y,{align:"right"}); y+=6;
+  }
   if (Number(quote.discount) > 0) { doc.text("Sconto",150,y); doc.text("-"+eur(quote.discount),195,y,{align:"right"}); y+=6; }
   doc.setFont("helvetica","bold"); doc.setFontSize(13);
   doc.text("TOTALE",150,y); doc.text(eur(quote.total),195,y,{align:"right"}); y += 10;
   doc.setFont("helvetica","normal"); doc.setFontSize(9);
-  if (quote.notes) { const n2 = doc.splitTextToSize("Note: " + quote.notes, 180); doc.text(n2,15,y); y += n2.length*5+3; }
+  if (quote.notes) { const notes = doc.splitTextToSize("Note: " + quote.notes, 180); doc.text(notes,15,y); y += notes.length*5+3; }
   const terms = doc.splitTextToSize(s.paymentTerms || "", 180); doc.text(terms,15,y); y += terms.length*5+3;
   doc.setFontSize(8); doc.setTextColor(120);
   const vat = doc.splitTextToSize(s.vatNote || "", 180); doc.text(vat,15,y);
@@ -259,13 +373,13 @@ function Header({ tab, setTab, businessName }) {
 function SettingsForm({ settings, onSave, saveMsg }) {
   const [s, setS] = useState(settings);
   useEffect(() => setS(settings), [settings]);
-  const set = (k) => (e) => setS((p) => ({ ...p, [k]: e.target.value }));
+  const set = (k) => (e) => setS((previous) => ({ ...previous, [k]: e.target.value }));
   return (
     <div>
       <div className="hero-card">
         <div className="hero-eyebrow">CONFIGURAZIONE</div>
         <div className="hero-title">Imposta una volta, riutilizza sempre.</div>
-        <div className="hero-copy">Dati aziendali, tariffe e condizioni vengono inseriti automaticamente nei prossimi preventivi.</div>
+        <div className="hero-copy">I dati aziendali e le condizioni vengono inseriti automaticamente nei prossimi preventivi.</div>
       </div>
       <Card title="Dati azienda (compaiono sul preventivo)">
         <Field label="Ragione / nome"><TxtInput value={s.businessName} onChange={set("businessName")} /></Field>
@@ -277,124 +391,125 @@ function SettingsForm({ settings, onSave, saveMsg }) {
           <Field label="Telefono"><TxtInput value={s.phone} onChange={set("phone")} /></Field>
         </div>
       </Card>
-      <Card title="Tariffe base">
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="€/h riprese"><NumInput value={s.rateShoot} onChange={set("rateShoot")} /></Field>
-          <Field label="€/h montaggio"><NumInput value={s.rateEdit} onChange={set("rateEdit")} /></Field>
-        </div>
-      </Card>
-      <Card title="Trasferta — auto">
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="Consumo (L/100km)"><NumInput value={s.fuelConsumption} onChange={set("fuelConsumption")} /></Field>
-          <Field label="Prezzo carburante €/L"><NumInput step="0.01" value={s.fuelPrice} onChange={set("fuelPrice")} /></Field>
-        </div>
-        <Field label="Costo medio a corsa taxi (€)"><NumInput value={s.taxiAvgCost} onChange={set("taxiAvgCost")} /></Field>
-      </Card>
-      <Card title="Default preventivo">
-        <Field label="Margine / imprevisti di default (%)"><NumInput value={s.marginDefault} onChange={set("marginDefault")} /></Field>
-        <Field label="Nota IVA (regime forfettario)"><TxtArea value={s.vatNote} onChange={set("vatNote")} /></Field>
+      <Card title="Condizioni del preventivo">
         <Field label="Termini di pagamento"><TxtArea value={s.paymentTerms} onChange={set("paymentTerms")} /></Field>
+        <Field label="Nota IVA"><TxtArea value={s.vatNote} onChange={set("vatNote")} /></Field>
       </Card>
-      <button onClick={() => onSave(s)} className="w-full primary-btn">
-        Salva impostazioni
-      </button>
+      <button onClick={() => onSave(s)} className="w-full primary-btn">Salva impostazioni</button>
       {saveMsg && <div style={{ color: C.navy }} className="text-center text-xs mt-3 font-semibold">{saveMsg}</div>}
     </div>
   );
 }
 
-function NewQuoteForm({ draft, update, addExtra, updateExtra, removeExtra, calc, onGenerate, onReset }) {
+function NewQuoteForm({
+  draft, update, updateServiceGroup, toggleIncludedItem, updateAdditionalService,
+  addExtra, updateExtra, removeExtra, calc, onGenerate, onReset,
+}) {
   const canGenerate = draft.clientName.trim() && calc.lines.length > 0;
   return (
     <div>
       <div className="hero-card">
         <div className="hero-eyebrow">PREVENTIVO SMART</div>
-        <div className="hero-title">Trasforma il lavoro in un prezzo chiaro.</div>
-        <div className="hero-copy">Inserisci cliente, ore, spese e servizi extra. Il totale si aggiorna automaticamente mentre lavori.</div>
-        <div className="hero-chip"><span style={{width:7,height:7,borderRadius:99,background:C.red,display:"inline-block"}}></span> Salvataggio rapido e PDF pronto</div>
+        <div className="hero-title">Mostra il valore, non la tua tariffa oraria.</div>
+        <div className="hero-copy">Attiva i servizi, indica il prezzo finale e scegli cosa è compreso. Nel preventivo il cliente vedrà solo lavorazioni e importi finali.</div>
+        <div className="hero-chip"><span style={{width:7,height:7,borderRadius:99,background:C.red,display:"inline-block"}}></span> Nessuna ora o tariffa visibile</div>
       </div>
+
       <Card title="Cliente e progetto">
         <Field label="Nome cliente"><TxtInput value={draft.clientName} onChange={(e) => update({ clientName: e.target.value })} /></Field>
         <Field label="Titolo progetto"><TxtInput value={draft.projectTitle} onChange={(e) => update({ projectTitle: e.target.value })} /></Field>
         <Field label="Descrizione breve"><TxtArea value={draft.projectDesc} onChange={(e) => update({ projectDesc: e.target.value })} /></Field>
       </Card>
-      <Card title="Lavorazione">
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="Ore di riprese"><NumInput value={draft.shootHours} onChange={(e) => update({ shootHours: e.target.value })} /></Field>
-          <Field label="Ore di montaggio"><NumInput value={draft.editHours} onChange={(e) => update({ editHours: e.target.value })} /></Field>
-        </div>
-      </Card>
-      <Card title="Trasferta">
-        <label className="flex items-center gap-2 mb-3">
-          <input type="checkbox" checked={draft.travelEnabled} onChange={(e) => update({ travelEnabled: e.target.checked })} />
-          <span style={{ color: C.textLight }} className="text-sm">C'è una trasferta per questo lavoro</span>
-        </label>
-        {draft.travelEnabled && (
-          <>
-            <div className="segmented mb-3">
-              {["car","transit"].map((m) => (
-                <button key={m} onClick={() => update({ travelMode: m })} className="flex-1"
-                  style={draft.travelMode===m ? {background:C.red,color:"#fff",boxShadow:"0 5px 14px rgba(240,100,73,.18)"} : {background:"transparent",color:C.muted}}>
-                  {m === "car" ? "Auto" : "Mezzi"}
-                </button>
-              ))}
-            </div>
-            {draft.travelMode === "car" ? (
-              <div className="grid grid-cols-2 gap-3">
-                <Field label="Km totali (A/R)"><NumInput value={draft.kmRoundTrip} onChange={(e) => update({ kmRoundTrip: e.target.value })} /></Field>
-                <Field label="Pedaggi (€)"><NumInput value={draft.tolls} onChange={(e) => update({ tolls: e.target.value })} /></Field>
+
+      <Card title="Servizi principali">
+        {(draft.serviceGroups || []).map((group) => (
+          <div key={group.id} className={`service-panel ${group.enabled ? "enabled" : ""}`}>
+            <label className="service-toggle-row">
+              <input type="checkbox" checked={group.enabled} onChange={(e) => updateServiceGroup(group.id, { enabled: e.target.checked })} />
+              <div className="min-w-0">
+                <div className="service-name">{group.title}</div>
+                <div className="service-description">{group.description}</div>
               </div>
-            ) : (
-              <Field label="Costo biglietto/treno (€)"><NumInput value={draft.transitCost} onChange={(e) => update({ transitCost: e.target.value })} /></Field>
+            </label>
+            {group.enabled && (
+              <div className="service-body">
+                <Field label="Prezzo finale del servizio">
+                  <div className="money-input"><NumInput min="0" step="0.01" value={group.amount} onChange={(e) => updateServiceGroup(group.id, { amount: e.target.value })} /></div>
+                </Field>
+                <div className="included-title">Cosa è incluso</div>
+                <div className="included-grid">
+                  {(group.items || []).map((item) => (
+                    <label key={item.id} className="included-option">
+                      <input type="checkbox" checked={item.enabled} onChange={() => toggleIncludedItem(group.id, item.id)} />
+                      <span>{item.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
             )}
-            <div className="grid grid-cols-2 gap-3 mt-3">
-              <Field label="N. corse taxi"><NumInput value={draft.taxiTrips} onChange={(e) => update({ taxiTrips: e.target.value })} /></Field>
-              <Field label="Pernottamento (€)"><NumInput value={draft.overnightCost} onChange={(e) => update({ overnightCost: e.target.value })} /></Field>
-            </div>
-          </>
-        )}
+          </div>
+        ))}
       </Card>
-      <Card title="Voci extra">
-        {draft.extras.map((ex) => (
-          <div key={ex.id} className="flex gap-2 mb-2 items-center">
-            <TxtInput placeholder="Es. drone, musica..." value={ex.label} onChange={(e) => updateExtra(ex.id, { label: e.target.value })} />
-            <div className="w-24"><NumInput value={ex.amount} onChange={(e) => updateExtra(ex.id, { amount: e.target.value })} /></div>
-            <button onClick={() => removeExtra(ex.id)} style={{ color: C.red }} className="font-mono text-xs px-2">✕</button>
+
+      <Card title="Costi e servizi aggiuntivi">
+        {(draft.additionalServices || []).map((service) => (
+          <div key={service.id} className="addon-row">
+            <label className="addon-toggle">
+              <input type="checkbox" checked={service.enabled} onChange={(e) => updateAdditionalService(service.id, { enabled: e.target.checked })} />
+              <span className="addon-label">{service.label}</span>
+            </label>
+            {service.enabled && (
+              <div className="money-input addon-price">
+                <NumInput min="0" step="0.01" aria-label={`Prezzo ${service.label}`} value={service.amount} onChange={(e) => updateAdditionalService(service.id, { amount: e.target.value })} />
+              </div>
+            )}
+          </div>
+        ))}
+      </Card>
+
+      <Card title="Altre voci personalizzate">
+        {draft.extras.map((extra) => (
+          <div key={extra.id} className="flex gap-2 mb-2 items-center">
+            <TxtInput placeholder="Nome della voce" value={extra.label} onChange={(e) => updateExtra(extra.id, { label: e.target.value })} />
+            <div className="money-input w-28"><NumInput min="0" step="0.01" value={extra.amount} onChange={(e) => updateExtra(extra.id, { amount: e.target.value })} /></div>
+            <button onClick={() => removeExtra(extra.id)} style={{ color: C.red }} className="font-mono text-xs px-2">✕</button>
           </div>
         ))}
         <button onClick={addExtra} style={{ color: C.amber }} className="font-mono text-xs mt-1">+ aggiungi voce</button>
       </Card>
-      <Card title="Margine e note">
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="Margine / imprevisti (%)"><NumInput value={draft.marginPerc} onChange={(e) => update({ marginPerc: e.target.value })} /></Field>
-          <Field label="Sconto (€)"><NumInput value={draft.discount} onChange={(e) => update({ discount: e.target.value })} /></Field>
-        </div>
+
+      <Card title="Sconto e note">
+        <Field label="Sconto (€)"><div className="money-input"><NumInput min="0" step="0.01" value={draft.discount} onChange={(e) => update({ discount: e.target.value })} /></div></Field>
         <Field label="Note per il cliente"><TxtArea value={draft.notes} onChange={(e) => update({ notes: e.target.value })} /></Field>
       </Card>
-      <div className="summary-card"><div className="ui-card-title">Riepilogo</div>
-        {calc.lines.length === 0 && <div style={{ color: C.muted }} className="text-sm">Compila ore o trasferta per vedere il totale.</div>}
-        {calc.lines.map((l, i) => (
-          <div key={i} className="flex justify-between text-sm mb-1">
-            <span style={{ color: C.textLight }}>{l.label}</span>
-            <span style={{ color: C.textLight }} className="font-mono">{eur(l.amount)}</span>
+
+      <div className="summary-card">
+        <div className="ui-card-title">Riepilogo</div>
+        {calc.lines.length === 0 && <div style={{ color: C.muted }} className="text-sm">Attiva almeno un servizio e inserisci il relativo prezzo finale.</div>}
+        {calc.lines.map((line, index) => (
+          <div key={index} className="summary-item">
+            <div className="flex justify-between gap-4 text-sm">
+              <span style={{ color: C.textLight }} className="font-semibold">{line.label}</span>
+              <span style={{ color: C.textLight }} className="font-mono font-semibold whitespace-nowrap">{eur(line.amount)}</span>
+            </div>
+            {line.items?.length > 0 && <div className="summary-subitems">{line.items.map((item) => <div key={item}>• {item}</div>)}</div>}
           </div>
         ))}
         <div style={{ borderTop: `1px solid ${C.cardBorder}` }} className="mt-2 pt-2 flex justify-between text-sm">
           <span style={{ color: C.muted }}>Subtotale</span><span style={{ color: C.muted }} className="font-mono">{eur(calc.subtotal)}</span>
         </div>
-        <div className="flex justify-between text-sm">
-          <span style={{ color: C.muted }}>Margine ({draft.marginPerc || 0}%)</span><span style={{ color: C.muted }} className="font-mono">{eur(calc.marginAmount)}</span>
-        </div>
+        {Number(draft.discount) > 0 && (
+          <div className="flex justify-between text-sm">
+            <span style={{ color: C.muted }}>Sconto</span><span style={{ color: C.red }} className="font-mono">-{eur(Number(draft.discount))}</span>
+          </div>
+        )}
         <div className="total-row flex justify-between items-center">
           <span className="text-xs font-semibold opacity-75">TOTALE PREVENTIVO</span><span className="text-xl font-extrabold">{eur(calc.total)}</span>
         </div>
       </div>
       <div className="flex gap-2">
         <button onClick={onReset} className="flex-1 secondary-btn">Svuota</button>
-        <button disabled={!canGenerate} onClick={onGenerate} style={{ opacity: canGenerate ? 1 : .48 }}
-          className="flex-[2] primary-btn">
-          Genera preventivo
-        </button>
+        <button disabled={!canGenerate} onClick={onGenerate} style={{ opacity: canGenerate ? 1 : .48 }} className="flex-[2] primary-btn">Genera preventivo</button>
       </div>
     </div>
   );
@@ -431,6 +546,7 @@ function QuoteList({ quotes, onView, onDelete }) {
 
 function QuoteView({ quote, onBack, onDelete }) {
   const s = quote.businessSnapshot || defaultSettings;
+  const isNewPricing = quote.pricingVersion === 2;
   return (
     <div className="app-shell min-h-screen pb-8">
       <div className="max-w-2xl mx-auto px-4 pt-4 flex gap-2">
@@ -462,18 +578,21 @@ function QuoteView({ quote, onBack, onDelete }) {
           {quote.projectDesc && <div className="text-sm mb-4" style={{ color: "#3A362E" }}>{quote.projectDesc}</div>}
           <table className="w-full text-sm mb-4">
             <tbody>
-              {quote.lines.map((l, i) => (
-                <tr key={i} style={{ borderBottom: `1px solid ${C.paperLine}` }}>
-                  <td className="py-2 font-mono text-xs" style={{ color: "#6B6558", width: 70 }}>TAKE {String(i+1).padStart(2,"0")}</td>
-                  <td className="py-2">{l.label}</td>
-                  <td className="py-2 text-right font-mono">{eur(l.amount)}</td>
+              {(quote.lines || []).map((line, index) => (
+                <tr key={index} style={{ borderBottom: `1px solid ${C.paperLine}` }}>
+                  <td className="py-3 font-mono text-[10px] align-top" style={{ color: "#6B6558", width: 64 }}>VOCE {String(index+1).padStart(2,"0")}</td>
+                  <td className="py-3 align-top">
+                    <div className="font-semibold">{line.label}</div>
+                    {line.items?.length > 0 && <div className="quote-subitems">{line.items.map((item) => <div key={item}>• {item}</div>)}</div>}
+                  </td>
+                  <td className="py-3 text-right font-mono font-semibold align-top whitespace-nowrap">{eur(line.amount)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
           <div className="flex flex-col items-end gap-1 mb-4">
             <div className="flex justify-between w-48 text-xs" style={{ color: "#6B6558" }}><span>Subtotale</span><span className="font-mono">{eur(quote.subtotal)}</span></div>
-            <div className="flex justify-between w-48 text-xs" style={{ color: "#6B6558" }}><span>Margine ({quote.marginPerc}%)</span><span className="font-mono">{eur(quote.marginAmount)}</span></div>
+            {!isNewPricing && Number(quote.marginAmount) > 0 && <div className="flex justify-between w-48 text-xs" style={{ color: "#6B6558" }}><span>Margine ({quote.marginPerc || 0}%)</span><span className="font-mono">{eur(quote.marginAmount)}</span></div>}
             {Number(quote.discount) > 0 && <div className="flex justify-between w-48 text-xs" style={{ color: "#6B6558" }}><span>Sconto</span><span className="font-mono">-{eur(quote.discount)}</span></div>}
             <div className="flex justify-between w-48 text-lg font-black pt-1" style={{ borderTop: "1px solid #1C1B1A" }}><span>TOTALE</span><span className="font-mono">{eur(quote.total)}</span></div>
           </div>
@@ -533,14 +652,35 @@ function App() {
     } catch (e) {}
   }
 
-  const calc = useMemo(() => computeQuote(draft, settings), [draft, settings]);
-  function updateDraft(patch) { setDraft((prev) => ({ ...prev, ...patch })); }
-  function addExtra() { setDraft((prev) => ({ ...prev, extras: [...prev.extras, { id: uid(), label: "", amount: 0 }] })); }
-  function updateExtra(id, patch) { setDraft((prev) => ({ ...prev, extras: prev.extras.map((e) => (e.id === id ? { ...e, ...patch } : e)) })); }
-  function removeExtra(id) { setDraft((prev) => ({ ...prev, extras: prev.extras.filter((e) => e.id !== id) })); }
+  const calc = useMemo(() => computeQuote(draft), [draft]);
+  function updateDraft(patch) { setDraft((previous) => ({ ...previous, ...patch })); }
+  function updateServiceGroup(id, patch) {
+    setDraft((previous) => ({
+      ...previous,
+      serviceGroups: previous.serviceGroups.map((group) => group.id === id ? { ...group, ...patch } : group),
+    }));
+  }
+  function toggleIncludedItem(groupId, itemId) {
+    setDraft((previous) => ({
+      ...previous,
+      serviceGroups: previous.serviceGroups.map((group) => group.id !== groupId ? group : {
+        ...group,
+        items: group.items.map((item) => item.id === itemId ? { ...item, enabled: !item.enabled } : item),
+      }),
+    }));
+  }
+  function updateAdditionalService(id, patch) {
+    setDraft((previous) => ({
+      ...previous,
+      additionalServices: previous.additionalServices.map((service) => service.id === id ? { ...service, ...patch } : service),
+    }));
+  }
+  function addExtra() { setDraft((previous) => ({ ...previous, extras: [...previous.extras, { id: uid(), label: "", amount: 0 }] })); }
+  function updateExtra(id, patch) { setDraft((previous) => ({ ...previous, extras: previous.extras.map((extra) => extra.id === id ? { ...extra, ...patch } : extra) })); }
+  function removeExtra(id) { setDraft((previous) => ({ ...previous, extras: previous.extras.filter((extra) => extra.id !== id) })); }
 
   async function generate() {
-    const snapshot = { ...draft, lines: calc.lines, total: calc.total, subtotal: calc.subtotal, marginAmount: calc.marginAmount, businessSnapshot: settings };
+    const snapshot = { ...draft, pricingVersion: 2, lines: calc.lines, total: calc.total, subtotal: calc.subtotal, discount: calc.discount, businessSnapshot: settings };
     await saveQuote(snapshot);
     setViewingQuote(snapshot);
     setDraft(emptyQuote());
@@ -555,7 +695,7 @@ function App() {
       <Header tab={tab} setTab={setTab} businessName={settings.businessName} />
       <div className="max-w-2xl mx-auto px-4 page-content">
         {tab === "settings" && <SettingsForm settings={settings} onSave={saveSettings} saveMsg={saveMsg} />}
-        {tab === "new" && <NewQuoteForm draft={draft} update={updateDraft} addExtra={addExtra} updateExtra={updateExtra} removeExtra={removeExtra} calc={calc} onGenerate={generate} onReset={() => setDraft(emptyQuote())} />}
+        {tab === "new" && <NewQuoteForm draft={draft} update={updateDraft} updateServiceGroup={updateServiceGroup} toggleIncludedItem={toggleIncludedItem} updateAdditionalService={updateAdditionalService} addExtra={addExtra} updateExtra={updateExtra} removeExtra={removeExtra} calc={calc} onGenerate={generate} onReset={() => setDraft(emptyQuote())} />}
         {tab === "list" && <QuoteList quotes={quotes} onView={(q) => { setViewingQuote(q); setTab("view"); }} onDelete={deleteQuote} />}
       </div>
     </div>
@@ -611,7 +751,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 })();
 
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js?v=3", { updateViaCache: "none" })
+  navigator.serviceWorker.register("sw.js?v=4", { updateViaCache: "none" })
     .then((registration) => registration.update())
     .catch(() => {});
 }
