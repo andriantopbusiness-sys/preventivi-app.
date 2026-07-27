@@ -1,4 +1,4 @@
-const CACHE = "quotecut-v16-fullscreen-swipe-layer";
+const CACHE = "quotecut-v17-tax-uppercase-settings";
 const APP_SHELL = [
   "./",
   "./index.html",
