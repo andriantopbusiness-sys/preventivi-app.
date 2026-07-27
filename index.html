@@ -75,6 +75,31 @@ button:disabled{cursor:not-allowed}
 .logo-box{border:1px dashed #C9D5DB;border-radius:17px;padding:14px;text-align:center;background:#FBFCFD}.logo-preview{max-width:170px;max-height:80px;display:block;margin:0 auto 12px;object-fit:contain}.upload-label{display:inline-flex;align-items:center;justify-content:center;background:var(--navy);color:#fff;border-radius:13px;padding:10px 13px;font-size:10.5px;font-weight:700;cursor:pointer}.upload-label input{display:none}
 .quote-paper{background:#fff;color:#211F1D;border:1px solid #E2E6E8;border-radius:23px;overflow:hidden;box-shadow:0 18px 45px rgba(32,59,76,.12)}.quote-paper-top{height:13px;background:var(--navy)}.quote-paper.internal .quote-paper-top{background:var(--coral)}.quote-paper-body{padding:22px}.quote-logo{max-width:125px;max-height:55px;object-fit:contain;margin-bottom:8px}.quote-subitems{font-size:9.5px;line-height:1.6;color:#6B6558;margin-top:4px}.view-switch{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#EAF0F3;border-radius:15px;padding:4px;margin-bottom:12px}.view-switch button{border:0;border-radius:12px;padding:10px 8px;background:transparent;color:var(--blue);font-size:10.5px;font-weight:700}.view-switch button.active{background:var(--blue);color:#fff;box-shadow:0 5px 14px rgba(55,109,136,.20)}.internal-banner{background:var(--coral-soft);color:#A33C29;border:1px solid #F7C8BE;border-radius:13px;padding:9px 11px;margin-bottom:15px;font-size:9.5px;font-weight:700;text-align:center;letter-spacing:.025em}.quote-line{display:grid;grid-template-columns:55px minmax(0,1fr) auto;column-gap:12px;align-items:start;padding:12px 0;border-bottom:1px solid #E2E6E8}.quote-line-price{font-size:12px;font-weight:600;white-space:nowrap;text-align:right;margin-left:8px}
 .two-col{display:grid;grid-template-columns:1fr;gap:0 12px}.three-col{display:grid;grid-template-columns:1fr;gap:0 12px}.action-footer{display:flex;gap:9px;position:static;margin-top:16px;padding:0 0 calc(8px + env(safe-area-inset-bottom));background:transparent;z-index:auto}.save-toast{text-align:center;color:var(--success);font-size:10.5px;font-weight:700;margin-top:10px}
+
+/* Motion system */
+button,.menu-row,.list-card,.ui-card,.service-panel,.client-picker-row{will-change:transform}
+button,.menu-row,.list-card.interactive,.client-picker-row{transition:transform .16s cubic-bezier(.22,.8,.32,1),box-shadow .18s ease,filter .18s ease}
+button:active,.menu-row:active,.list-card.interactive:active,.client-picker-row:active{transform:scale(.972);filter:brightness(.975)}
+.screen-stage{min-height:100%;transform:translate3d(0,0,0);animation:screenEnter .22s cubic-bezier(.22,.8,.32,1) both;transform-origin:center top}
+.screen-stage.is-swiping{animation:none!important;transition:none!important;transform:translate3d(var(--swipe-x,0px),0,0);box-shadow:-18px 0 38px rgba(32,59,76,.14)}
+.screen-stage.swipe-complete{animation:none!important;transition:transform .14s cubic-bezier(.3,.8,.35,1)!important;transform:translate3d(104%,0,0)!important}
+@keyframes screenEnter{from{opacity:.15;transform:translate3d(14px,0,0) scale(.996)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
+.service-panel.enabled{animation:serviceActivate .24s cubic-bezier(.22,.8,.32,1)}
+.service-body,.addon-controls,.travel-block,.subservice-hours{transform-origin:top;animation:revealDown .24s cubic-bezier(.22,.8,.32,1) both}
+@keyframes serviceActivate{0%{transform:scale(.992)}65%{transform:scale(1.004)}100%{transform:scale(1)}}
+@keyframes revealDown{from{opacity:0;transform:translate3d(0,-7px,0) scaleY(.985)}to{opacity:1;transform:translate3d(0,0,0) scaleY(1)}}
+.completion-overlay{position:fixed;inset:0;z-index:1000;background:linear-gradient(145deg,var(--navy),#3E718B);display:flex;align-items:center;justify-content:center;padding:24px;color:#fff;animation:overlayIn .18s ease both}
+.completion-content{text-align:center;animation:completionPop .34s cubic-bezier(.2,.9,.25,1.2) both}
+.completion-check{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;margin:0 auto 18px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);box-shadow:0 20px 50px rgba(19,43,56,.28)}
+.completion-check svg{width:46px;height:46px;overflow:visible}.completion-check circle{stroke:rgba(255,255,255,.52);stroke-width:2;fill:none;stroke-dasharray:180;stroke-dashoffset:180;animation:drawCircle .42s .05s ease forwards}.completion-check path{stroke:#fff;stroke-width:3.4;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:48;stroke-dashoffset:48;animation:drawCheck .3s .29s ease forwards}
+.completion-title{font-size:18px;font-weight:800;letter-spacing:-.02em}
+@keyframes overlayIn{from{opacity:0}to{opacity:1}}@keyframes completionPop{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:scale(1)}}@keyframes drawCircle{to{stroke-dashoffset:0}}@keyframes drawCheck{to{stroke-dashoffset:0}}
+.action-sheet-backdrop{position:fixed;inset:0;z-index:900;background:rgba(20,36,45,.38);backdrop-filter:blur(5px);display:flex;align-items:flex-end;padding:14px 14px calc(14px + env(safe-area-inset-bottom));animation:overlayIn .16s ease both}
+.action-sheet{width:min(100%,760px);margin:0 auto;background:#fff;border-radius:24px;padding:16px;box-shadow:0 24px 70px rgba(20,36,45,.28);animation:sheetUp .22s cubic-bezier(.22,.8,.32,1) both}
+.action-sheet-handle{width:42px;height:4px;border-radius:999px;background:#D7E1E6;margin:0 auto 13px}.action-sheet-title{font-size:14px;font-weight:800;color:var(--navy-dark);margin-bottom:3px}.action-sheet-copy{font-size:10px;color:var(--muted);margin-bottom:14px}.action-sheet-actions{display:grid;gap:9px}.action-sheet-actions button{width:100%}.action-sheet-cancel{background:#EEF4F7!important;color:var(--navy)!important;box-shadow:none!important}
+@keyframes sheetUp{from{opacity:.3;transform:translate3d(0,28px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+.long-press-card{touch-action:pan-y;-webkit-user-select:none;user-select:none}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 @media (min-width:520px){.dashboard-actions{grid-template-columns:repeat(2,1fr)}.included-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:repeat(2,1fr)}.three-col{grid-template-columns:repeat(3,1fr)}.rates-grid{grid-template-columns:repeat(2,1fr)}.meal-grid{grid-template-columns:repeat(2,1fr)}.segmented{grid-template-columns:repeat(4,1fr)}}
 @media (min-width:700px){.hero-card{padding:29px}.hero-title{font-size:31px}.page{padding-top:14px}.header-card{padding:19px 22px}}
 </style>
@@ -89,7 +114,7 @@ window.storage = {
 };
 </script>
 <script type="text/babel" data-presets="react">
-const { useEffect, useMemo, useState } = React;
+const { useEffect, useMemo, useRef, useState } = React;
 const C={navy:'#2F5870',navyDark:'#203B4C',coral:'#F06449',muted:'#7E8E98',line:'#E3EAEE',text:'#1D2F3A'};
 
 const defaultSettings={
@@ -267,6 +292,25 @@ const NumInput=props=><input type="number" inputMode="decimal" className="modern
 const TxtArea=props=><textarea rows="3" className="modern-input" {...props}/>;
 function Card({title,children,className=''}){return <section className={`ui-card ${className}`}>{title&&<div className="ui-card-title">{title}</div>}{children}</section>}
 
+function sleep(ms){return new Promise(resolve=>setTimeout(resolve,ms))}
+function nextPaint(){return new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))}
+
+function LongPressCard({children,onLongPress,className=''}){
+  const timer=useRef(null);const start=useRef(null);const fired=useRef(false);
+  const clear=()=>{if(timer.current){clearTimeout(timer.current);timer.current=null}start.current=null};
+  const onPointerDown=event=>{if(event.pointerType==='mouse'&&event.button!==0)return;if(event.target.closest('button,input,textarea,select,label,a'))return;fired.current=false;start.current={x:event.clientX,y:event.clientY};timer.current=setTimeout(()=>{fired.current=true;onLongPress?.()},560)};
+  const onPointerMove=event=>{if(!start.current)return;if(Math.hypot(event.clientX-start.current.x,event.clientY-start.current.y)>11)clear()};
+  const onPointerUp=()=>clear();
+  return <div className={`long-press-card ${className}`} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={clear} onContextMenu={event=>event.preventDefault()}>{children}</div>
+}
+
+function SuccessOverlay({message}){return <div className="completion-overlay" role="status" aria-live="assertive"><div className="completion-content"><div className="completion-check"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27"/><path d="m19 33 8 8 18-20"/></svg></div><div className="completion-title">✓ {message}</div></div></div>}
+
+function ActionSheet({action,onClose,onEdit,onDelete}){
+  if(!action)return null;const item=action.item;const title=action.type==='quote'?(item.projectTitle||clientDisplayName(item.clientSnapshot||item.client||{firstName:item.clientName})):clientDisplayName(item);
+  return <div className="action-sheet-backdrop" onClick={onClose}><div className="action-sheet" onClick={event=>event.stopPropagation()}><div className="action-sheet-handle"/><div className="action-sheet-title">{title}</div><div className="action-sheet-copy">Scegli cosa vuoi fare.</div><div className="action-sheet-actions"><button className="primary-btn" onClick={onEdit}>Modifica</button><button className="secondary-btn" onClick={onDelete}>Elimina</button><button className="secondary-btn action-sheet-cancel" onClick={onClose}>Annulla</button></div></div></div>
+}
+
 function Icon({name}){
   const common={fill:'none',strokeWidth:1.8,strokeLinecap:'round',strokeLinejoin:'round',viewBox:'0 0 24 24'};
   if(name==='home')return <svg {...common}><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg>;
@@ -372,7 +416,7 @@ function QuoteForm({draft,settings,mode,onDraft,onSave,onCancel}){
   </div>
 }
 
-function QuoteList({quotes,onView,onNew}){return <div><div className="hero-card"><div className="hero-eyebrow">ARCHIVIO</div><div className="hero-title">Tutti i preventivi, sempre a portata di mano.</div><div className="hero-copy">Aprili, modificali oppure scarica di nuovo il PDF quando ti serve.</div></div>{quotes.length===0?<div className="empty-state"><div className="empty-icon">📄</div><div className="empty-title">Nessun preventivo ancora</div><div className="empty-copy">Il primo comparirà qui appena lo generi.</div><button className="primary-btn mt-4" onClick={onNew}>Crea il primo</button></div>:quotes.map(quote=><div key={quote.id} className="list-card"><div className="flex justify-between gap-4 items-start"><div><div className="list-title">{clientDisplayName(quote.clientSnapshot||quote.client||{firstName:quote.clientName})}</div><div className="list-meta">{quote.projectTitle||'Senza titolo'} · {new Date(quote.createdAt).toLocaleDateString('it-IT')}</div></div><div className="list-amount">{eur(quote.total)}</div></div><div className="flex gap-2 mt-3"><button className="secondary-btn flex-1" onClick={()=>onView(quote)}>Apri preventivo</button><button className="secondary-btn" onClick={()=>downloadPDF(quote)}>PDF</button></div></div>)}</div>}
+function QuoteList({quotes,onView,onNew,onLongPress}){return <div><div className="hero-card"><div className="hero-eyebrow">ARCHIVIO</div><div className="hero-title">Tutti i preventivi, sempre a portata di mano.</div><div className="hero-copy">Aprili, modificali oppure scarica di nuovo il PDF quando ti serve.</div></div>{quotes.length===0?<div className="empty-state"><div className="empty-icon">📄</div><div className="empty-title">Nessun preventivo ancora</div><div className="empty-copy">Il primo comparirà qui appena lo generi.</div><button className="primary-btn mt-4" onClick={onNew}>Crea il primo</button></div>:quotes.map(quote=><LongPressCard key={quote.id} className="list-card interactive" onLongPress={()=>onLongPress(quote)}><div className="flex justify-between gap-4 items-start"><div><div className="list-title">{clientDisplayName(quote.clientSnapshot||quote.client||{firstName:quote.clientName})}</div><div className="list-meta">{quote.projectTitle||'Senza titolo'} · {new Date(quote.createdAt).toLocaleDateString('it-IT')}</div></div><div className="list-amount">{eur(quote.total)}</div></div><div className="flex gap-2 mt-3"><button className="secondary-btn flex-1" onClick={()=>onView(quote)}>Apri preventivo</button><button className="secondary-btn" onClick={()=>downloadPDF(quote)}>PDF</button></div></LongPressCard>)}</div>}
 
 function QuoteView({quote,onBack,onEdit,onDelete}){
   const [viewMode,setViewMode]=useState('client');
@@ -393,7 +437,7 @@ function QuoteView({quote,onBack,onEdit,onDelete}){
   </div>
 }
 
-function ClientsList({clients,onEdit}){return <div><div className="hero-card"><div className="hero-eyebrow">RUBRICA CLIENTI</div><div className="hero-title">I dati utili, senza inserirli ogni volta.</div><div className="hero-copy">Le modifiche alla scheda cliente valgono per i prossimi preventivi. Quelli già creati restano invariati.</div></div>{clients.length===0?<div className="empty-state"><div className="empty-icon">👥</div><div className="empty-title">Nessun cliente salvato</div><div className="empty-copy">La scheda viene creata quando generi il primo preventivo per un nuovo cliente.</div></div>:clients.map(client=><div key={client.id} className="list-card"><div className="client-card-head"><div className="avatar">{initials(client)}</div><div className="client-card-copy"><div className="list-title">{clientDisplayName(client)}</div><div className="list-meta">{client.businessName&&clientDisplayName(client)!==client.businessName?client.businessName:(client.email||client.phone||'Scheda cliente salvata')}</div></div></div><button className="secondary-btn w-full mt-3" onClick={()=>onEdit(client)}>Apri cliente</button></div>)}</div>}
+function ClientsList({clients,onEdit,onLongPress}){return <div><div className="hero-card"><div className="hero-eyebrow">RUBRICA CLIENTI</div><div className="hero-title">I dati utili, senza inserirli ogni volta.</div><div className="hero-copy">Le modifiche alla scheda cliente valgono per i prossimi preventivi. Quelli già creati restano invariati.</div></div>{clients.length===0?<div className="empty-state"><div className="empty-icon">👥</div><div className="empty-title">Nessun cliente salvato</div><div className="empty-copy">La scheda viene creata quando generi il primo preventivo per un nuovo cliente.</div></div>:clients.map(client=><LongPressCard key={client.id} className="list-card interactive" onLongPress={()=>onLongPress(client)}><div className="client-card-head"><div className="avatar">{initials(client)}</div><div className="client-card-copy"><div className="list-title">{clientDisplayName(client)}</div><div className="list-meta">{client.businessName&&clientDisplayName(client)!==client.businessName?client.businessName:(client.email||client.phone||'Scheda cliente salvata')}</div></div></div><button className="secondary-btn w-full mt-3" onClick={()=>onEdit(client)}>Apri cliente</button></LongPressCard>)}</div>}
 
 function ClientEdit({client,onChange,onSave,onCancel,saveMsg}){return <div><div className="simple-page-title">Modifica cliente</div><div className="notice">Le modifiche verranno usate nei nuovi preventivi. I preventivi già salvati non cambieranno.</div><Card title="Dati personali e fiscali"><ClientFields client={client} onChange={onChange}/><Field label="Note private"><TxtArea value={client.notes} onChange={event=>onChange({...client,notes:event.target.value})} placeholder="Informazioni utili solo per te"/></Field></Card><div className="action-footer"><button className="secondary-btn flex-1" onClick={onCancel}>Annulla</button><button className="primary-btn flex-[2]" onClick={onSave}>Salva cliente</button></div>{saveMsg&&<div className="save-toast">{saveMsg}</div>}</div>}
 
@@ -411,35 +455,47 @@ function SettingsForm({settings,onSave,saveMsg}){
 }
 
 function App(){
-  const [settings,setSettings]=useState(defaultSettings);const [quotes,setQuotes]=useState([]);const [clients,setClients]=useState([]);const [screen,setScreen]=useState('home');const [draft,setDraft]=useState(null);const [draftMode,setDraftMode]=useState('new');const [viewingQuote,setViewingQuote]=useState(null);const [editingClient,setEditingClient]=useState(null);const [loading,setLoading]=useState(true);const [saveMsg,setSaveMsg]=useState('');
+  const [settings,setSettings]=useState(defaultSettings);const [quotes,setQuotes]=useState([]);const [clients,setClients]=useState([]);const [screen,setScreen]=useState('home');const [draft,setDraft]=useState(null);const [draftMode,setDraftMode]=useState('new');const [viewingQuote,setViewingQuote]=useState(null);const [editingClient,setEditingClient]=useState(null);const [loading,setLoading]=useState(true);const [saveMsg,setSaveMsg]=useState('');const [completion,setCompletion]=useState(null);const [actionSheet,setActionSheet]=useState(null);
   useEffect(()=>{(async()=>{let loadedSettings=defaultSettings;try{const saved=await window.storage.get('settings');loadedSettings=normalizeSettings(JSON.parse(saved.value));setSettings(loadedSettings)}catch(error){}
     let loadedQuotes=[];try{const index=await window.storage.get('quotes-index');const ids=JSON.parse(index.value);for(const id of ids){try{const item=await window.storage.get('quote:'+id);loadedQuotes.push(JSON.parse(item.value))}catch(error){}}}catch(error){}loadedQuotes.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));setQuotes(loadedQuotes);
     let loadedClients=[];try{const stored=await window.storage.get('clients-v3');loadedClients=JSON.parse(stored.value).map(normalizeClient)}catch(error){}
     if(loadedClients.length===0&&loadedQuotes.length){const names=new Map();loadedQuotes.forEach(quote=>{const snapshot=quote.clientSnapshot||quote.client;if(snapshot){const client=normalizeClient(snapshot);const key=client.id||clientDisplayName(client).toLowerCase();if(!names.has(key))names.set(key,client)}else if(quote.clientName){const key=quote.clientName.trim().toLowerCase();if(!names.has(key))names.set(key,normalizeClient({firstName:quote.clientName}))}});loadedClients=Array.from(names.values());try{await window.storage.set('clients-v3',JSON.stringify(loadedClients))}catch(error){}}
     loadedClients.sort((a,b)=>clientDisplayName(a).localeCompare(clientDisplayName(b),'it'));setClients(loadedClients);setLoading(false)})()},[]);
+  useEffect(()=>{const shell=document.querySelector('.app-shell');if(shell)shell.scrollTo({top:0,left:0,behavior:'auto'})},[screen]);
   const persistClients=async next=>{const sorted=[...next].sort((a,b)=>clientDisplayName(a).localeCompare(clientDisplayName(b),'it'));setClients(sorted);await window.storage.set('clients-v3',JSON.stringify(sorted))};
   const saveSettings=async next=>{setSettings(next);await window.storage.set('settings',JSON.stringify(next));setSaveMsg('Impostazioni salvate ✓');setTimeout(()=>setSaveMsg(''),1800)};
   const saveQuoteStorage=async quote=>{await window.storage.set('quote:'+quote.id,JSON.stringify(quote));const ids=Array.from(new Set([quote.id,...quotes.map(item=>item.id)]));await window.storage.set('quotes-index',JSON.stringify(ids));setQuotes(previous=>[quote,...previous.filter(item=>item.id!==quote.id)].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)))};
-  const deleteQuote=async quote=>{if(!confirm('Vuoi eliminare questo preventivo?'))return;await window.storage.delete('quote:'+quote.id);const next=quotes.filter(item=>item.id!==quote.id);await window.storage.set('quotes-index',JSON.stringify(next.map(item=>item.id)));setQuotes(next);setViewingQuote(null);setScreen('quotes')};
+  const deleteQuote=async quote=>{if(!confirm('Vuoi eliminare questo preventivo?'))return;await window.storage.delete('quote:'+quote.id);const next=quotes.filter(item=>item.id!==quote.id);await window.storage.set('quotes-index',JSON.stringify(next.map(item=>item.id)));setQuotes(next);setViewingQuote(null);setActionSheet(null);setScreen('quotes')};
+  const deleteClient=async client=>{if(!confirm(`Vuoi eliminare ${clientDisplayName(client)}? I preventivi già creati resteranno nell'archivio.`))return;await persistClients(clients.filter(item=>item.id!==client.id));setActionSheet(null);if(screen==='clientEdit')setScreen('clients')};
   const startNew=()=>{setDraft(emptyQuote());setDraftMode('new');setScreen('quoteForm')};
   const startExisting=client=>{setDraft(emptyQuote(client));setDraftMode('existing');setScreen('quoteForm')};
-  const editQuote=quote=>{setDraft(normalizeDraftFromQuote(quote,settings));setDraftMode('edit');setScreen('quoteForm')};
-  const saveQuote=async calc=>{let working=clone(draft);let client=normalizeClient(working.client);if(draftMode==='new'){client.id=working.clientId||client.id;client.createdAt=client.createdAt||new Date().toISOString();client.updatedAt=new Date().toISOString();working.clientId=client.id;working.client=client;await persistClients([...clients.filter(item=>item.id!==client.id),client])}
-    const quote={...working,appVersion:5,pricingVersion:5,updatedAt:new Date().toISOString(),clientSnapshot:clone(client),clientName:clientDisplayName(client),lines:calc.lines,subtotal:calc.subtotal,discount:calc.discount,total:calc.total,businessSnapshot:clone(settings)};await saveQuoteStorage(quote);setViewingQuote(quote);setDraft(null);setScreen('quoteView')};
-  const saveClient=async()=>{const client={...editingClient,updatedAt:new Date().toISOString()};await persistClients([...clients.filter(item=>item.id!==client.id),client]);setSaveMsg('Cliente aggiornato ✓');setTimeout(()=>{setSaveMsg('');setScreen('clients')},900)};
-  const navigate=target=>{setScreen(target);setDraft(null);setViewingQuote(null);setEditingClient(null)};
+  const editQuote=quote=>{setDraft(normalizeDraftFromQuote(quote,settings));setDraftMode('edit');setActionSheet(null);setScreen('quoteForm')};
+  const editClient=client=>{setEditingClient(clone(client));setActionSheet(null);setScreen('clientEdit')};
+  const saveQuote=async calc=>{setCompletion({message:draftMode==='edit'?'Preventivo aggiornato':'Preventivo generato'});await nextPaint();const minimum=sleep(720);try{let working=clone(draft);let client=normalizeClient(working.client);if(draftMode==='new'){client.id=working.clientId||client.id;client.createdAt=client.createdAt||new Date().toISOString();client.updatedAt=new Date().toISOString();working.clientId=client.id;working.client=client;await persistClients([...clients.filter(item=>item.id!==client.id),client])}
+    const quote={...working,appVersion:6,pricingVersion:5,updatedAt:new Date().toISOString(),clientSnapshot:clone(client),clientName:clientDisplayName(client),lines:calc.lines,subtotal:calc.subtotal,discount:calc.discount,total:calc.total,businessSnapshot:clone(settings)};await saveQuoteStorage(quote);await minimum;setViewingQuote(quote);setDraft(null);setScreen('quoteView')}finally{setTimeout(()=>setCompletion(null),80)}};
+  const saveClient=async()=>{setCompletion({message:'Cliente salvato'});await nextPaint();const minimum=sleep(650);try{const client={...editingClient,updatedAt:new Date().toISOString()};await persistClients([...clients.filter(item=>item.id!==client.id),client]);await minimum;setScreen('clients')}finally{setTimeout(()=>setCompletion(null),80)}};
+  const navigate=target=>{setScreen(target);setDraft(null);setViewingQuote(null);setEditingClient(null);setActionSheet(null)};
   const back=()=>{if(screen==='clientPicker'||screen==='quoteForm')navigate('home');else if(screen==='quoteView')navigate('quotes');else if(screen==='clientEdit')navigate('clients');else navigate('home')};
+  useEffect(()=>{if(screen==='home'||completion||actionSheet)return;const shell=document.querySelector('.app-shell');if(!shell)return;let tracking=false,startX=0,startY=0,lastX=0,lastTime=0;
+    const reset=()=>{tracking=false;const stage=shell.querySelector('.screen-stage');if(stage){stage.classList.remove('is-swiping','swipe-complete');stage.style.removeProperty('--swipe-x')}};
+    const onStart=event=>{if(event.touches.length!==1)return;const touch=event.touches[0];if(touch.clientX>34)return;if(event.target.closest('input,textarea,select,[data-no-swipe]'))return;tracking=true;startX=lastX=touch.clientX;startY=touch.clientY;lastTime=performance.now()};
+    const onMove=event=>{if(!tracking||event.touches.length!==1)return;const touch=event.touches[0];const dx=Math.max(0,touch.clientX-startX);const dy=Math.abs(touch.clientY-startY);if(dy>dx*.82&&dy>14){reset();return}if(dx>5){if(event.cancelable)event.preventDefault();const stage=shell.querySelector('.screen-stage');if(stage){stage.classList.add('is-swiping');stage.style.setProperty('--swipe-x',`${Math.min(dx,innerWidth*.92)}px`)}}lastX=touch.clientX;lastTime=performance.now()};
+    const onEnd=()=>{if(!tracking)return;const dx=lastX-startX;const stage=shell.querySelector('.screen-stage');if(dx>=82){if(stage){stage.classList.remove('is-swiping');stage.classList.add('swipe-complete')}tracking=false;setTimeout(back,125)}else reset()};
+    shell.addEventListener('touchstart',onStart,{passive:true});shell.addEventListener('touchmove',onMove,{passive:false});shell.addEventListener('touchend',onEnd,{passive:true});shell.addEventListener('touchcancel',reset,{passive:true});return()=>{shell.removeEventListener('touchstart',onStart);shell.removeEventListener('touchmove',onMove);shell.removeEventListener('touchend',onEnd);shell.removeEventListener('touchcancel',reset)}
+  },[screen,completion,actionSheet]);
   if(loading)return <div className="app-shell flex items-center justify-center"><div className="font-semibold" style={{color:C.navy}}>Caricamento…</div></div>;
-  return <div className="app-shell"><AppHeader screen={screen} onBack={back} settings={settings}/><main className="page">
+  const actionEdit=()=>{if(!actionSheet)return;if(actionSheet.type==='quote')editQuote(actionSheet.item);else editClient(actionSheet.item)};
+  const actionDelete=()=>{if(!actionSheet)return;if(actionSheet.type==='quote')deleteQuote(actionSheet.item);else deleteClient(actionSheet.item)};
+  return <><div className="app-shell"><div className="screen-stage" key={screen}><AppHeader screen={screen} onBack={back} settings={settings}/><main className="page">
     {screen==='home'&&<Home quotes={quotes} clients={clients} onNew={startNew} onExisting={()=>setScreen('clientPicker')} onNavigate={navigate}/>} 
     {screen==='clientPicker'&&<ClientPicker clients={clients} onSelect={startExisting}/>} 
     {screen==='quoteForm'&&draft&&<QuoteForm draft={draft} settings={settings} mode={draftMode} onDraft={setDraft} onSave={saveQuote} onCancel={back}/>} 
-    {screen==='quotes'&&<QuoteList quotes={quotes} onView={quote=>{setViewingQuote(quote);setScreen('quoteView')}} onNew={startNew}/>} 
+    {screen==='quotes'&&<QuoteList quotes={quotes} onView={quote=>{setViewingQuote(quote);setScreen('quoteView')}} onNew={startNew} onLongPress={quote=>setActionSheet({type:'quote',item:quote})}/>} 
     {screen==='quoteView'&&viewingQuote&&<QuoteView quote={viewingQuote} onBack={()=>navigate('quotes')} onEdit={()=>editQuote(viewingQuote)} onDelete={()=>deleteQuote(viewingQuote)}/>} 
-    {screen==='clients'&&<ClientsList clients={clients} onEdit={client=>{setEditingClient(clone(client));setScreen('clientEdit')}}/>} 
+    {screen==='clients'&&<ClientsList clients={clients} onEdit={editClient} onLongPress={client=>setActionSheet({type:'client',item:client})}/>} 
     {screen==='clientEdit'&&editingClient&&<ClientEdit client={editingClient} onChange={setEditingClient} onSave={saveClient} onCancel={()=>navigate('clients')} saveMsg={saveMsg}/>} 
     {screen==='settings'&&<SettingsForm settings={settings} onSave={saveSettings} saveMsg={saveMsg}/>} 
-  </main></div>
+  </main></div></div>{completion&&<SuccessOverlay message={completion.message}/>}<ActionSheet action={actionSheet} onClose={()=>setActionSheet(null)} onEdit={actionEdit} onDelete={actionDelete}/></>
 }
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
@@ -454,7 +510,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
   document.addEventListener('touchmove',event=>{if(!activeScroller||event.touches.length!==1)return;const currentY=event.touches[0].clientY;if(currentY>touchStartY&&activeScroller.scrollTop<=.5&&event.cancelable)event.preventDefault()},{passive:false,capture:true});
   const clear=()=>{activeScroller=null};document.addEventListener('touchend',clear,{passive:true,capture:true});document.addEventListener('touchcancel',clear,{passive:true,capture:true});
 })();
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=9',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{})}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=10',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{})}
 </script>
 </body>
 </html>
