@@ -111,6 +111,72 @@ button:active,.menu-row:active,.list-card.interactive:active,.client-picker-row:
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 @media (min-width:520px){.dashboard-actions{grid-template-columns:repeat(2,1fr)}.included-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:repeat(2,1fr)}.three-col{grid-template-columns:repeat(3,1fr)}.rates-grid{grid-template-columns:repeat(2,1fr)}.meal-grid{grid-template-columns:repeat(2,1fr)}.segmented{grid-template-columns:repeat(4,1fr)}}
 @media (min-width:700px){.hero-card{padding:29px}.hero-title{font-size:31px}.page{padding-top:14px}.header-card{padding:19px 22px}}
+
+/* dashboard redesign v8 */
+.header-card.home-header{min-height:108px;padding:18px 18px 17px;border-radius:24px;background:linear-gradient(135deg,#214E75 0%, #0F3D69 100%);box-shadow:0 16px 36px rgba(32,59,76,.18);align-items:flex-start}
+.header-card.home-header:before{width:126px;height:126px;right:-42px;top:-58px;border-width:20px;opacity:.75}
+.header-card.home-header:after{width:72px;height:72px;right:90px;bottom:-34px;opacity:.75}
+.header-card.section-header{min-height:68px}
+.header-copy{position:relative;z-index:2;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.header-card.home-header .header-title{font-size:18px;font-weight:800;letter-spacing:-.03em}
+.header-card.home-header .header-subtitle{font-size:12px;color:rgba(255,255,255,.84);margin-top:6px}
+.header-settings{margin-left:auto;position:relative;z-index:2;width:44px;height:44px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.12);box-shadow:0 12px 24px rgba(10,30,49,.18);display:grid;place-items:center;color:#fff;transition:transform .16s ease,background .16s ease}
+.header-settings:active{transform:scale(.96);background:rgba(255,255,255,.18)}
+.header-settings svg{width:20px;height:20px;stroke:currentColor}
+.home-dashboard{padding-top:4px}
+.dashboard-main-stack{display:grid;gap:14px;margin-bottom:16px}
+.dashboard-main-card,.dashboard-mini-card,.dashboard-recent-card,.dashboard-empty-card,.recent-item{position:relative;border:0;overflow:hidden;transition:transform .16s ease,box-shadow .16s ease,filter .16s ease}
+.dashboard-main-card:active,.dashboard-mini-card:active,.recent-item:active{transform:scale(.984);filter:brightness(.985)}
+.dashboard-main-card{width:100%;border-radius:24px;padding:18px 18px;min-height:126px;display:flex;align-items:center;gap:16px;text-align:left;box-shadow:0 14px 32px rgba(32,59,76,.10)}
+.dashboard-main-card--primary{background:linear-gradient(135deg,#FD8657 0%, #F06449 100%);color:#fff;box-shadow:0 16px 34px rgba(240,100,73,.22)}
+.dashboard-main-card--secondary{background:rgba(255,255,255,.94);border:1px solid rgba(55,109,136,.14);color:var(--navy-dark)}
+.dashboard-main-card--secondary::after{content:'';position:absolute;right:-10px;bottom:-8px;width:132px;height:132px;border-radius:50%;background:radial-gradient(circle, rgba(55,109,136,.08), transparent 62%)}
+.dashboard-main-card--primary::after{content:'';position:absolute;right:-18px;bottom:-22px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle, rgba(255,255,255,.11), transparent 56%)}
+.dashboard-icon-box{width:74px;height:74px;border-radius:22px;display:grid;place-items:center;flex:0 0 auto;position:relative;z-index:2;box-shadow:0 10px 22px rgba(32,59,76,.10)}
+.dashboard-main-card--primary .dashboard-icon-box{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.12);color:#fff}
+.dashboard-main-card--secondary .dashboard-icon-box{background:#F5FAFD;border:1px solid rgba(55,109,136,.14);color:var(--blue)}
+.dashboard-icon-box svg{width:30px;height:30px;stroke:currentColor}
+.dashboard-card-copy{position:relative;z-index:2;min-width:0}
+.dashboard-card-title{font-size:15px;font-weight:800;line-height:1.2;letter-spacing:-.02em}
+.dashboard-main-card--primary .dashboard-card-title{color:#fff}
+.dashboard-main-card--secondary .dashboard-card-title{color:var(--navy-dark)}
+.dashboard-card-sub{font-size:11px;line-height:1.5;margin-top:6px;max-width:240px}
+.dashboard-main-card--primary .dashboard-card-sub{color:rgba(255,255,255,.84)}
+.dashboard-main-card--secondary .dashboard-card-sub{color:var(--muted)}
+.dashboard-arrow-chip{margin-left:auto;flex:0 0 auto;width:42px;height:42px;border-radius:999px;display:grid;place-items:center;position:relative;z-index:2}
+.dashboard-main-card--primary .dashboard-arrow-chip{background:rgba(255,255,255,.95);color:var(--coral);box-shadow:0 12px 22px rgba(255,255,255,.16)}
+.dashboard-main-card--secondary .dashboard-arrow-chip{background:#F2F7FA;color:var(--blue);border:1px solid rgba(55,109,136,.12)}
+.dashboard-arrow-chip svg{width:19px;height:19px;stroke:currentColor}
+.dashboard-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.dashboard-mini-card{background:rgba(255,255,255,.94);border:1px solid rgba(55,109,136,.12);border-radius:22px;padding:16px 16px 14px;box-shadow:0 12px 24px rgba(32,59,76,.06);text-align:left;display:flex;flex-direction:column;min-height:126px}
+.dashboard-mini-icon{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;margin-bottom:14px;box-shadow:0 8px 18px rgba(32,59,76,.06)}
+.dashboard-mini-card--quotes .dashboard-mini-icon{background:#EEF6FB;color:#2E74B6}
+.dashboard-mini-card--clients .dashboard-mini-icon{background:#FFF1EA;color:var(--coral)}
+.dashboard-mini-icon svg{width:24px;height:24px;stroke:currentColor}
+.dashboard-mini-title{font-size:14px;font-weight:800;color:var(--navy-dark);line-height:1.2}
+.dashboard-mini-sub{font-size:11px;color:var(--muted);margin-top:6px}
+.dashboard-mini-footer{margin-top:auto;display:flex;justify-content:flex-end;padding-top:16px}
+.dashboard-mini-arrow{width:32px;height:32px;border-radius:999px;display:grid;place-items:center}
+.dashboard-mini-card--quotes .dashboard-mini-arrow{background:#EEF6FB;color:#4B84A0}
+.dashboard-mini-card--clients .dashboard-mini-arrow{background:#FFF1EA;color:var(--coral)}
+.dashboard-mini-arrow svg{width:17px;height:17px;stroke:currentColor}
+.dashboard-section-label{font-size:20px;font-weight:800;letter-spacing:-.03em;color:var(--navy-dark);margin:6px 2px 12px}
+.dashboard-recent-card,.dashboard-empty-card{background:rgba(255,255,255,.95);border:1px solid rgba(55,109,136,.12);border-radius:24px;padding:16px;box-shadow:0 12px 24px rgba(32,59,76,.065)}
+.dashboard-empty-card{display:flex;align-items:center;gap:14px;min-height:124px}
+.dashboard-empty-icon{width:60px;height:60px;border-radius:20px;background:#F3F6FA;color:#9CA9B5;display:grid;place-items:center;flex:0 0 auto}
+.dashboard-empty-icon svg{width:28px;height:28px;stroke:currentColor}
+.dashboard-empty-title{font-size:15px;font-weight:800;color:var(--navy-dark);line-height:1.25}
+.dashboard-empty-sub{font-size:11px;color:var(--muted);line-height:1.55;margin-top:6px;max-width:250px}
+.recent-list{display:grid;gap:10px}
+.recent-item{width:100%;border-radius:18px;background:#F8FBFC;border:1px solid rgba(55,109,136,.10);padding:13px 14px;display:flex;align-items:center;gap:12px;text-align:left;box-shadow:0 8px 16px rgba(32,59,76,.04)}
+.recent-dot{width:10px;height:10px;border-radius:999px;background:var(--coral);box-shadow:0 0 0 5px rgba(240,100,73,.12);flex:0 0 auto}
+.recent-title{font-size:12px;font-weight:700;color:var(--navy-dark);line-height:1.35}
+.recent-meta{font-size:10px;color:var(--muted);margin-top:4px}
+.recent-amount{margin-left:auto;font-size:12px;font-weight:800;color:var(--navy-dark);white-space:nowrap}
+.recent-card-footer{padding-top:12px;margin-top:12px;border-top:1px solid rgba(55,109,136,.10)}
+.dashboard-inline-link{border:0;background:transparent;color:var(--blue);font-size:11px;font-weight:700;padding:0}
+@media (max-width:420px){.dashboard-main-card{padding:17px 16px;gap:14px}.dashboard-icon-box{width:68px;height:68px}.dashboard-main-card .dashboard-card-sub{max-width:210px}.dashboard-mini-grid{gap:10px}.dashboard-mini-card{padding:14px 14px 13px}}
+
 </style>
 </head>
 <body>
@@ -328,25 +394,39 @@ function Icon({name}){
   if(name==='settings')return <svg {...common}><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.12 2.12-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1 1.55V20h-3v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.88.34l-.06.06-2.12-2.12.06-.06A1.7 1.7 0 0 0 7.08 15a1.7 1.7 0 0 0-1.55-1H5.4v-3h.13a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.12-2.12.06.06A1.7 1.7 0 0 0 10.74 6a1.7 1.7 0 0 0 1-1.55V4.4h3v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.12 2.12-.06.06A1.7 1.7 0 0 0 19.4 10a1.7 1.7 0 0 0 1.55 1h.09v3h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>;
   if(name==='newClient')return <svg {...common}><circle cx="9" cy="8" r="3"/><path d="M3.5 20v-2.5A4.5 4.5 0 0 1 8 13h2a4.5 4.5 0 0 1 4.5 4.5V20M18 8v6M15 11h6"/></svg>;
   if(name==='selectClient')return <svg {...common}><circle cx="8" cy="8" r="3"/><path d="M2.5 20v-2.5A4.5 4.5 0 0 1 7 13h2a4.5 4.5 0 0 1 4.5 4.5V20M16 7h5M16 11h5M16 15h4"/></svg>;
+  if(name==='quoteNew')return <svg {...common}><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v5h5"/><path d="M12 11v6"/><path d="M9 14h6"/></svg>;
   if(name==='chevron')return <svg {...common}><path d="m9 5 7 7-7 7"/></svg>;
   if(name==='back')return <svg {...common}><path d="m15 18-6-6 6-6"/><path d="M9 12h10"/></svg>;
+  if(name==='sliders')return <svg {...common}><path d="M4 6h8"/><path d="M16 6h4"/><circle cx="14" cy="6" r="2"/><path d="M4 12h4"/><path d="M12 12h8"/><circle cx="10" cy="12" r="2"/><path d="M4 18h10"/><path d="M18 18h2"/><circle cx="16" cy="18" r="2"/></svg>;
   return null;
 }
 
-function AppHeader({screen,onBack,settings}){
-  const titles={home:'La tua dashboard',quotes:'Preventivi',clients:'Clienti',settings:'Impostazioni',clientPicker:'Seleziona cliente',clientEdit:'Modifica cliente',quoteForm:'Crea un preventivo Smart',quoteView:'Dettaglio preventivo'};
+function AppHeader({screen,onBack,onSettings}){
+  const titles={quotes:'Preventivi',clients:'Clienti',settings:'Impostazioni',clientPicker:'Cliente salvato',clientEdit:'Modifica cliente',quoteForm:'Crea un preventivo Smart',quoteView:'Dettaglio preventivo'};
   const showBack=screen!=='home';
-  const welcomeName=((settings?.ownerName||'Adri').trim().split(/\s+/)[0]||'Adri');
-  return <header className="app-header"><div className="header-card">{showBack&&<button className="header-back" onClick={onBack} aria-label="Torna indietro"><Icon name="back"/></button>}<div className="min-w-0 relative z-[2]"><div className="header-title">{titles[screen]||'Preventivi'}</div>{screen==='home'&&<div className="header-subtitle">Bentornato, {welcomeName}</div>}</div></div></header>
+  if(screen==='home'){
+    return <header className="app-header"><div className="header-card home-header"><div className="header-copy"><div className="header-title">Bentornato/a</div><div className="header-subtitle">Da dove vuoi iniziare?</div></div><button className="header-settings" onClick={onSettings} aria-label="Apri impostazioni"><Icon name="sliders"/></button></div></header>;
+  }
+  return <header className="app-header"><div className="header-card section-header">{showBack&&<button className="header-back" onClick={onBack} aria-label="Torna indietro"><Icon name="back"/></button>}<div className="header-copy"><div className="header-title">{titles[screen]||'Preventivi'}</div></div></div></header>;
 }
 
-function Home({quotes,clients,onNew,onExisting,onNavigate}){return <div className="pt-2"><div className="menu-list">
-  <button className="menu-row featured" onClick={onNew}><div className="menu-icon"><Icon name="newClient"/></div><div><div className="menu-title">Nuovo cliente</div><div className="menu-sub">Crea un preventivo da zero</div></div><div className="menu-arrow"><Icon name="chevron"/></div></button>
-  <button className="menu-row" onClick={onExisting}><div className="menu-icon"><Icon name="selectClient"/></div><div><div className="menu-title">Seleziona cliente</div><div className="menu-sub">Usa una scheda cliente già salvata</div></div><div className="menu-arrow"><Icon name="chevron"/></div></button>
-  <button className="menu-row" onClick={()=>onNavigate('quotes')}><div className="menu-icon"><Icon name="quotes"/></div><div><div className="menu-title">Preventivi</div><div className="menu-sub">{quotes.length} salvati</div></div><div className="menu-arrow"><Icon name="chevron"/></div></button>
-  <button className="menu-row" onClick={()=>onNavigate('clients')}><div className="menu-icon"><Icon name="clients"/></div><div><div className="menu-title">Clienti</div><div className="menu-sub">{clients.length} schede cliente</div></div><div className="menu-arrow"><Icon name="chevron"/></div></button>
-  <button className="menu-row" onClick={()=>onNavigate('settings')}><div className="menu-icon"><Icon name="settings"/></div><div><div className="menu-title">Impostazioni</div><div className="menu-sub">Dati aziendali, tariffe e auto</div></div><div className="menu-arrow"><Icon name="chevron"/></div></button>
-</div></div>}
+function Home({quotes,clients,onNew,onExisting,onNavigate,onOpenQuote}){
+  const recentQuotes=quotes.slice(0,2);
+  return <div className="home-dashboard"><div className="dashboard-main-stack"> 
+    <button className="dashboard-main-card dashboard-main-card--primary" onClick={onNew}><div className="dashboard-icon-box"><Icon name="quoteNew"/></div><div className="dashboard-card-copy"><div className="dashboard-card-title">Nuovo preventivo</div><div className="dashboard-card-sub">Per un nuovo cliente</div></div><div className="dashboard-arrow-chip"><Icon name="chevron"/></div></button>
+    <button className="dashboard-main-card dashboard-main-card--secondary" onClick={onExisting}><div className="dashboard-icon-box"><Icon name="selectClient"/></div><div className="dashboard-card-copy"><div className="dashboard-card-title">Cliente salvato</div><div className="dashboard-card-sub">Crea un preventivo da una scheda esistente</div></div><div className="dashboard-arrow-chip"><Icon name="chevron"/></div></button>
+  </div>
+  <div className="dashboard-mini-grid">
+    <button className="dashboard-mini-card dashboard-mini-card--quotes" onClick={()=>onNavigate('quotes')}><div className="dashboard-mini-icon"><Icon name="quotes"/></div><div className="dashboard-mini-title">Preventivi</div><div className="dashboard-mini-sub">{quotes.length} {quotes.length===1?'salvato':'salvati'}</div><div className="dashboard-mini-footer"><div className="dashboard-mini-arrow"><Icon name="chevron"/></div></div></button>
+    <button className="dashboard-mini-card dashboard-mini-card--clients" onClick={()=>onNavigate('clients')}><div className="dashboard-mini-icon"><Icon name="clients"/></div><div className="dashboard-mini-title">Clienti</div><div className="dashboard-mini-sub">{clients.length} {clients.length===1?'scheda':'schede'}</div><div className="dashboard-mini-footer"><div className="dashboard-mini-arrow"><Icon name="chevron"/></div></div></button>
+  </div>
+  <div className="dashboard-section-label">Ultimi preventivi</div>
+  {recentQuotes.length===0?(
+    <div className="dashboard-empty-card"><div className="dashboard-empty-icon"><Icon name="quotes"/></div><div><div className="dashboard-empty-title">Nessun preventivo recente</div><div className="dashboard-empty-sub">Qui compariranno gli ultimi preventivi creati</div></div></div>
+  ):(
+    <div className="dashboard-recent-card"><div className="recent-list">{recentQuotes.map(quote=><button key={quote.id} className="recent-item" onClick={()=>onOpenQuote(quote)}><div className="recent-dot"/><div className="min-w-0"><div className="recent-title truncate">{quote.projectTitle||clientDisplayName(quote.clientSnapshot||quote.client)||'Preventivo'}</div><div className="recent-meta truncate">{clientDisplayName(quote.clientSnapshot||quote.client)} · {new Date(quote.createdAt).toLocaleDateString('it-IT')}</div></div><div className="recent-amount">{eur(quote.total)}</div></button>)}</div><div className="recent-card-footer"><button className="dashboard-inline-link" onClick={()=>onNavigate('quotes')}>Vedi tutti i preventivi</button></div></div>
+  )}
+</div>}
 
 function ClientPicker({clients,onSelect}){return <div><div className="simple-page-title">Chi è il cliente?</div>{clients.length===0?<div className="empty-state"><div className="empty-icon">👤</div><div className="empty-title">Non hai ancora clienti salvati</div><div className="empty-copy">I clienti compariranno qui dopo aver creato il loro primo preventivo.</div></div>:<div className="ui-card py-1">{clients.map(client=><button key={client.id} className="client-picker-row" onClick={()=>onSelect(client)}><div className="avatar">{initials(client)}</div><div className="client-name">{clientDisplayName(client)}</div><div className="menu-arrow"><Icon name="chevron"/></div></button>)}</div>}</div>}
 
@@ -505,7 +585,7 @@ function App(){
   const actionDelete=()=>{if(!actionSheet)return;if(actionSheet.type==='quote')deleteQuote(actionSheet.item);else deleteClient(actionSheet.item)};
   const renderScreenContent=(target,preview=false)=>{
     const noop=()=>{};
-    if(target==='home')return <Home quotes={quotes} clients={clients} onNew={preview?noop:startNew} onExisting={preview?noop:()=>setScreen('clientPicker')} onNavigate={preview?noop:navigate}/>;
+    if(target==='home')return <Home quotes={quotes} clients={clients} onNew={preview?noop:startNew} onExisting={preview?noop:()=>setScreen('clientPicker')} onNavigate={preview?noop:navigate} onOpenQuote={preview?noop:quote=>{setViewingQuote(quote);setScreen('quoteView')}}/>;
     if(target==='clientPicker')return <ClientPicker clients={clients} onSelect={preview?noop:startExisting}/>;
     if(target==='quoteForm')return draft?<QuoteForm draft={draft} settings={settings} mode={draftMode} onDraft={preview?noop:setDraft} onSave={preview?noop:saveQuote} onCancel={preview?noop:back}/>:null;
     if(target==='quotes')return <QuoteList quotes={quotes} onView={preview?noop:quote=>{setViewingQuote(quote);setScreen('quoteView')}} onNew={preview?noop:startNew} onLongPress={preview?noop:quote=>setActionSheet({type:'quote',item:quote})}/>;
@@ -516,7 +596,7 @@ function App(){
     return null
   };
   const previewScreen=getBackScreen(screen);
-  return <><div className="app-shell"><div className="gesture-stack">{screen!=='home'&&<div className="swipe-preview" aria-hidden="true"><div className="swipe-preview-shell"><AppHeader screen={previewScreen} onBack={()=>{}} settings={settings}/><main className="page">{renderScreenContent(previewScreen,true)}</main></div><div className="swipe-preview-shade"/></div>}<div className={`screen-stage ${skipEntry?'no-enter':''}`} key={screen}><AppHeader screen={screen} onBack={back} settings={settings}/><main className="page">{renderScreenContent(screen,false)}</main></div></div></div>{completion&&<SuccessOverlay message={completion.message}/>}<ActionSheet action={actionSheet} onClose={()=>setActionSheet(null)} onEdit={actionEdit} onDelete={actionDelete}/></>
+  return <><div className="app-shell"><div className="gesture-stack">{screen!=='home'&&<div className="swipe-preview" aria-hidden="true"><div className="swipe-preview-shell"><AppHeader screen={previewScreen} onBack={()=>{}} onSettings={()=>{}}/><main className="page">{renderScreenContent(previewScreen,true)}</main></div><div className="swipe-preview-shade"/></div>}<div className={`screen-stage ${skipEntry?'no-enter':''}`} key={screen}><AppHeader screen={screen} onBack={back} onSettings={()=>navigate('settings')}/><main className="page">{renderScreenContent(screen,false)}</main></div></div></div>{completion&&<SuccessOverlay message={completion.message}/>}<ActionSheet action={actionSheet} onClose={()=>setActionSheet(null)} onEdit={actionEdit} onDelete={actionDelete}/></>
 }
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
@@ -531,7 +611,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
   document.addEventListener('touchmove',event=>{if(!activeScroller||event.touches.length!==1)return;const currentY=event.touches[0].clientY;if(currentY>touchStartY&&activeScroller.scrollTop<=.5&&event.cancelable)event.preventDefault()},{passive:false,capture:true});
   const clear=()=>{activeScroller=null};document.addEventListener('touchend',clear,{passive:true,capture:true});document.addEventListener('touchcancel',clear,{passive:true,capture:true});
 })();
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=11',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{})}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=12',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{})}
 </script>
 </body>
 </html>
