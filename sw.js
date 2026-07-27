@@ -1,4 +1,4 @@
-const CACHE = "preventivi-v8-quotecut-fix";
+const CACHE = "preventivi-v9-ui-photo-post";
 const APP_SHELL = ["./", "./index.html", "./manifest.json", "./icon-192.png", "./icon-512.png"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(APP_SHELL)).catch(() => undefined).then(() => self.skipWaiting()));
