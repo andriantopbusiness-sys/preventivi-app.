@@ -1,4 +1,4 @@
-const CACHE = "quotecut-v17-tax-uppercase-settings";
+const CACHE = "quotecut-v18-safety-margin";
 const APP_SHELL = [
   "./",
   "./index.html",
