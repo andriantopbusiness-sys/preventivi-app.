@@ -80,9 +80,18 @@ button:disabled{cursor:not-allowed}
 button,.menu-row,.list-card,.ui-card,.service-panel,.client-picker-row{will-change:transform}
 button,.menu-row,.list-card.interactive,.client-picker-row{transition:transform .16s cubic-bezier(.22,.8,.32,1),box-shadow .18s ease,filter .18s ease}
 button:active,.menu-row:active,.list-card.interactive:active,.client-picker-row:active{transform:scale(.972);filter:brightness(.975)}
-.screen-stage{min-height:100%;transform:translate3d(0,0,0);animation:screenEnter .22s cubic-bezier(.22,.8,.32,1) both;transform-origin:center top}
-.screen-stage.is-swiping{animation:none!important;transition:none!important;transform:translate3d(var(--swipe-x,0px),0,0);box-shadow:-18px 0 38px rgba(32,59,76,.14)}
-.screen-stage.swipe-complete{animation:none!important;transition:transform .14s cubic-bezier(.3,.8,.35,1)!important;transform:translate3d(104%,0,0)!important}
+.gesture-stack{position:relative;min-height:100%;isolation:isolate}
+.screen-stage{position:relative;z-index:2;min-height:100%;transform:translate3d(0,0,0);animation:screenEnter .22s cubic-bezier(.22,.8,.32,1) both;transform-origin:center top;background:radial-gradient(circle at 100% 0%,rgba(47,88,112,.08),transparent 28%),radial-gradient(circle at 0% 42%,rgba(240,100,73,.06),transparent 24%),var(--paper);backface-visibility:hidden}
+.screen-stage.no-enter{animation:none!important}
+.screen-stage.is-swiping{animation:none!important;transition:none!important;transform:translate3d(var(--swipe-x,0px),0,0);box-shadow:-22px 0 44px rgba(22,44,57,.20);will-change:transform}
+.screen-stage.is-settling{animation:none!important;transition:transform var(--settle-ms,210ms) cubic-bezier(.22,.74,.20,1),box-shadow var(--settle-ms,210ms) ease!important;transform:translate3d(var(--swipe-x,0px),0,0);will-change:transform}
+.swipe-preview{position:fixed;inset:0;z-index:1;overflow:hidden;visibility:hidden;pointer-events:none;background:var(--paper);transform:translate3d(-18vw,0,0);opacity:.99;backface-visibility:hidden}
+.swipe-preview.is-visible{visibility:visible}
+.swipe-preview.is-swiping{transition:none!important;transform:translate3d(var(--preview-x,-18vw),0,0);will-change:transform}
+.swipe-preview.is-settling{transition:transform var(--settle-ms,210ms) cubic-bezier(.22,.74,.20,1)!important;transform:translate3d(var(--preview-x,-18vw),0,0);will-change:transform}
+.swipe-preview-shell{height:100%;overflow:hidden;background:radial-gradient(circle at 100% 0%,rgba(47,88,112,.08),transparent 28%),radial-gradient(circle at 0% 42%,rgba(240,100,73,.06),transparent 24%),var(--paper)}
+.swipe-preview-shade{position:absolute;inset:0;z-index:40;background:rgba(18,38,49,.14);opacity:var(--preview-shade,.14);transition:none;pointer-events:none}
+.swipe-preview.is-settling .swipe-preview-shade{transition:opacity var(--settle-ms,210ms) ease}
 @keyframes screenEnter{from{opacity:.15;transform:translate3d(14px,0,0) scale(.996)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
 .service-panel.enabled{animation:serviceActivate .24s cubic-bezier(.22,.8,.32,1)}
 .service-body,.addon-controls,.travel-block,.subservice-hours{transform-origin:top;animation:revealDown .24s cubic-bezier(.22,.8,.32,1) both}
@@ -455,7 +464,7 @@ function SettingsForm({settings,onSave,saveMsg}){
 }
 
 function App(){
-  const [settings,setSettings]=useState(defaultSettings);const [quotes,setQuotes]=useState([]);const [clients,setClients]=useState([]);const [screen,setScreen]=useState('home');const [draft,setDraft]=useState(null);const [draftMode,setDraftMode]=useState('new');const [viewingQuote,setViewingQuote]=useState(null);const [editingClient,setEditingClient]=useState(null);const [loading,setLoading]=useState(true);const [saveMsg,setSaveMsg]=useState('');const [completion,setCompletion]=useState(null);const [actionSheet,setActionSheet]=useState(null);
+  const [settings,setSettings]=useState(defaultSettings);const [quotes,setQuotes]=useState([]);const [clients,setClients]=useState([]);const [screen,setScreen]=useState('home');const [draft,setDraft]=useState(null);const [draftMode,setDraftMode]=useState('new');const [viewingQuote,setViewingQuote]=useState(null);const [editingClient,setEditingClient]=useState(null);const [loading,setLoading]=useState(true);const [saveMsg,setSaveMsg]=useState('');const [completion,setCompletion]=useState(null);const [actionSheet,setActionSheet]=useState(null);const [skipEntry,setSkipEntry]=useState(false);
   useEffect(()=>{(async()=>{let loadedSettings=defaultSettings;try{const saved=await window.storage.get('settings');loadedSettings=normalizeSettings(JSON.parse(saved.value));setSettings(loadedSettings)}catch(error){}
     let loadedQuotes=[];try{const index=await window.storage.get('quotes-index');const ids=JSON.parse(index.value);for(const id of ids){try{const item=await window.storage.get('quote:'+id);loadedQuotes.push(JSON.parse(item.value))}catch(error){}}}catch(error){}loadedQuotes.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));setQuotes(loadedQuotes);
     let loadedClients=[];try{const stored=await window.storage.get('clients-v3');loadedClients=JSON.parse(stored.value).map(normalizeClient)}catch(error){}
@@ -475,27 +484,39 @@ function App(){
     const quote={...working,appVersion:6,pricingVersion:5,updatedAt:new Date().toISOString(),clientSnapshot:clone(client),clientName:clientDisplayName(client),lines:calc.lines,subtotal:calc.subtotal,discount:calc.discount,total:calc.total,businessSnapshot:clone(settings)};await saveQuoteStorage(quote);await minimum;setViewingQuote(quote);setDraft(null);setScreen('quoteView')}finally{setTimeout(()=>setCompletion(null),80)}};
   const saveClient=async()=>{setCompletion({message:'Cliente salvato'});await nextPaint();const minimum=sleep(650);try{const client={...editingClient,updatedAt:new Date().toISOString()};await persistClients([...clients.filter(item=>item.id!==client.id),client]);await minimum;setScreen('clients')}finally{setTimeout(()=>setCompletion(null),80)}};
   const navigate=target=>{setScreen(target);setDraft(null);setViewingQuote(null);setEditingClient(null);setActionSheet(null)};
-  const back=()=>{if(screen==='clientPicker'||screen==='quoteForm')navigate('home');else if(screen==='quoteView')navigate('quotes');else if(screen==='clientEdit')navigate('clients');else navigate('home')};
-  useEffect(()=>{if(screen==='home'||completion||actionSheet)return;const shell=document.querySelector('.app-shell');if(!shell)return;let tracking=false,startX=0,startY=0,lastX=0,lastTime=0;
-    const reset=()=>{tracking=false;const stage=shell.querySelector('.screen-stage');if(stage){stage.classList.remove('is-swiping','swipe-complete');stage.style.removeProperty('--swipe-x')}};
-    const onStart=event=>{if(event.touches.length!==1)return;const touch=event.touches[0];if(touch.clientX>34)return;if(event.target.closest('input,textarea,select,[data-no-swipe]'))return;tracking=true;startX=lastX=touch.clientX;startY=touch.clientY;lastTime=performance.now()};
-    const onMove=event=>{if(!tracking||event.touches.length!==1)return;const touch=event.touches[0];const dx=Math.max(0,touch.clientX-startX);const dy=Math.abs(touch.clientY-startY);if(dy>dx*.82&&dy>14){reset();return}if(dx>5){if(event.cancelable)event.preventDefault();const stage=shell.querySelector('.screen-stage');if(stage){stage.classList.add('is-swiping');stage.style.setProperty('--swipe-x',`${Math.min(dx,innerWidth*.92)}px`)}}lastX=touch.clientX;lastTime=performance.now()};
-    const onEnd=()=>{if(!tracking)return;const dx=lastX-startX;const stage=shell.querySelector('.screen-stage');if(dx>=82){if(stage){stage.classList.remove('is-swiping');stage.classList.add('swipe-complete')}tracking=false;setTimeout(back,125)}else reset()};
-    shell.addEventListener('touchstart',onStart,{passive:true});shell.addEventListener('touchmove',onMove,{passive:false});shell.addEventListener('touchend',onEnd,{passive:true});shell.addEventListener('touchcancel',reset,{passive:true});return()=>{shell.removeEventListener('touchstart',onStart);shell.removeEventListener('touchmove',onMove);shell.removeEventListener('touchend',onEnd);shell.removeEventListener('touchcancel',reset)}
+  const getBackScreen=current=>current==='quoteView'?'quotes':current==='clientEdit'?'clients':'home';
+  const back=()=>navigate(getBackScreen(screen));
+  useEffect(()=>{if(!skipEntry)return;const id=requestAnimationFrame(()=>requestAnimationFrame(()=>setSkipEntry(false)));return()=>cancelAnimationFrame(id)},[screen,skipEntry]);
+  useEffect(()=>{if(screen==='home'||completion||actionSheet)return;const shell=document.querySelector('.app-shell');if(!shell)return;let tracking=false,axis=null,startX=0,startY=0,currentX=0,lastSampleX=0,lastSampleTime=0,velocityX=0,frame=0,settleTimer=0;
+    const getParts=()=>({stage:shell.querySelector('.screen-stage'),preview:shell.querySelector('.swipe-preview')});
+    const clearInline=(stage,preview)=>{if(stage){stage.classList.remove('is-swiping','is-settling');stage.style.removeProperty('--swipe-x');stage.style.removeProperty('--settle-ms')}if(preview){preview.classList.remove('is-visible','is-swiping','is-settling');preview.style.removeProperty('--preview-x');preview.style.removeProperty('--preview-shade');preview.style.removeProperty('--settle-ms')}};
+    const paint=()=>{frame=0;const {stage,preview}=getParts();if(!tracking||axis!=='x'||!stage||!preview)return;const width=Math.max(innerWidth,1);const x=Math.min(Math.max(currentX,0),width);const progress=Math.min(x/width,1);const previewX=-(width*.18)*(1-progress);stage.classList.add('is-swiping');preview.classList.add('is-visible','is-swiping');stage.style.setProperty('--swipe-x',`${x}px`);preview.style.setProperty('--preview-x',`${previewX}px`);preview.style.setProperty('--preview-shade',`${.14*(1-progress)}`)};
+    const schedulePaint=()=>{if(!frame)frame=requestAnimationFrame(paint)};
+    const cancelGesture=(animated=true)=>{if(frame){cancelAnimationFrame(frame);frame=0}const {stage,preview}=getParts();tracking=false;axis=null;if(!stage||!preview)return;if(!animated){clearInline(stage,preview);return}const duration=190;stage.classList.remove('is-swiping');preview.classList.remove('is-swiping');stage.classList.add('is-settling');preview.classList.add('is-settling');stage.style.setProperty('--settle-ms',`${duration}ms`);preview.style.setProperty('--settle-ms',`${duration}ms`);stage.style.setProperty('--swipe-x','0px');preview.style.setProperty('--preview-x',`${-(innerWidth*.18)}px`);preview.style.setProperty('--preview-shade','.14');clearTimeout(settleTimer);settleTimer=setTimeout(()=>clearInline(stage,preview),duration+24)};
+    const finishGesture=()=>{if(frame){cancelAnimationFrame(frame);frame=0}const {stage,preview}=getParts();tracking=false;axis=null;if(!stage||!preview){setSkipEntry(true);back();return}const width=Math.max(innerWidth,1);const remaining=Math.max(0,width-currentX);const duration=Math.max(150,Math.min(250,150+(remaining/width)*100));stage.classList.remove('is-swiping');preview.classList.remove('is-swiping');stage.classList.add('is-settling');preview.classList.add('is-settling','is-visible');stage.style.setProperty('--settle-ms',`${duration}ms`);preview.style.setProperty('--settle-ms',`${duration}ms`);stage.style.setProperty('--swipe-x',`${width+12}px`);preview.style.setProperty('--preview-x','0px');preview.style.setProperty('--preview-shade','0');clearTimeout(settleTimer);settleTimer=setTimeout(()=>{setSkipEntry(true);back()},duration-8)};
+    const onStart=event=>{if(event.touches.length!==1)return;const touch=event.touches[0];if(touch.clientX>38)return;if(event.target.closest('input,textarea,select,[data-no-swipe]'))return;clearTimeout(settleTimer);const {stage,preview}=getParts();clearInline(stage,preview);tracking=true;axis=null;startX=lastSampleX=touch.clientX;startY=touch.clientY;currentX=0;velocityX=0;lastSampleTime=performance.now()};
+    const onMove=event=>{if(!tracking||event.touches.length!==1)return;const touch=event.touches[0];const rawDx=touch.clientX-startX;const rawDy=touch.clientY-startY;const absX=Math.abs(rawDx),absY=Math.abs(rawDy);if(!axis){if(Math.max(absX,absY)<7)return;if(rawDx<=0||absY>absX*.82){cancelGesture(false);return}axis='x'}if(axis!=='x')return;if(event.cancelable)event.preventDefault();const now=performance.now();const dt=Math.max(now-lastSampleTime,1);const instant=(touch.clientX-lastSampleX)/dt;velocityX=velocityX*.72+instant*.28;lastSampleX=touch.clientX;lastSampleTime=now;currentX=Math.min(Math.max(rawDx,0),innerWidth);schedulePaint()};
+    const onEnd=()=>{if(!tracking)return;if(axis!=='x'){cancelGesture(false);return}const width=Math.max(innerWidth,1);const shouldFinish=currentX>width*.30||(currentX>48&&velocityX>.48);if(shouldFinish)finishGesture();else cancelGesture(true)};
+    const onCancel=()=>cancelGesture(true);
+    shell.addEventListener('touchstart',onStart,{passive:true});shell.addEventListener('touchmove',onMove,{passive:false});shell.addEventListener('touchend',onEnd,{passive:true});shell.addEventListener('touchcancel',onCancel,{passive:true});return()=>{if(frame)cancelAnimationFrame(frame);clearTimeout(settleTimer);shell.removeEventListener('touchstart',onStart);shell.removeEventListener('touchmove',onMove);shell.removeEventListener('touchend',onEnd);shell.removeEventListener('touchcancel',onCancel)}
   },[screen,completion,actionSheet]);
   if(loading)return <div className="app-shell flex items-center justify-center"><div className="font-semibold" style={{color:C.navy}}>Caricamento…</div></div>;
   const actionEdit=()=>{if(!actionSheet)return;if(actionSheet.type==='quote')editQuote(actionSheet.item);else editClient(actionSheet.item)};
   const actionDelete=()=>{if(!actionSheet)return;if(actionSheet.type==='quote')deleteQuote(actionSheet.item);else deleteClient(actionSheet.item)};
-  return <><div className="app-shell"><div className="screen-stage" key={screen}><AppHeader screen={screen} onBack={back} settings={settings}/><main className="page">
-    {screen==='home'&&<Home quotes={quotes} clients={clients} onNew={startNew} onExisting={()=>setScreen('clientPicker')} onNavigate={navigate}/>} 
-    {screen==='clientPicker'&&<ClientPicker clients={clients} onSelect={startExisting}/>} 
-    {screen==='quoteForm'&&draft&&<QuoteForm draft={draft} settings={settings} mode={draftMode} onDraft={setDraft} onSave={saveQuote} onCancel={back}/>} 
-    {screen==='quotes'&&<QuoteList quotes={quotes} onView={quote=>{setViewingQuote(quote);setScreen('quoteView')}} onNew={startNew} onLongPress={quote=>setActionSheet({type:'quote',item:quote})}/>} 
-    {screen==='quoteView'&&viewingQuote&&<QuoteView quote={viewingQuote} onBack={()=>navigate('quotes')} onEdit={()=>editQuote(viewingQuote)} onDelete={()=>deleteQuote(viewingQuote)}/>} 
-    {screen==='clients'&&<ClientsList clients={clients} onEdit={editClient} onLongPress={client=>setActionSheet({type:'client',item:client})}/>} 
-    {screen==='clientEdit'&&editingClient&&<ClientEdit client={editingClient} onChange={setEditingClient} onSave={saveClient} onCancel={()=>navigate('clients')} saveMsg={saveMsg}/>} 
-    {screen==='settings'&&<SettingsForm settings={settings} onSave={saveSettings} saveMsg={saveMsg}/>} 
-  </main></div></div>{completion&&<SuccessOverlay message={completion.message}/>}<ActionSheet action={actionSheet} onClose={()=>setActionSheet(null)} onEdit={actionEdit} onDelete={actionDelete}/></>
+  const renderScreenContent=(target,preview=false)=>{
+    const noop=()=>{};
+    if(target==='home')return <Home quotes={quotes} clients={clients} onNew={preview?noop:startNew} onExisting={preview?noop:()=>setScreen('clientPicker')} onNavigate={preview?noop:navigate}/>;
+    if(target==='clientPicker')return <ClientPicker clients={clients} onSelect={preview?noop:startExisting}/>;
+    if(target==='quoteForm')return draft?<QuoteForm draft={draft} settings={settings} mode={draftMode} onDraft={preview?noop:setDraft} onSave={preview?noop:saveQuote} onCancel={preview?noop:back}/>:null;
+    if(target==='quotes')return <QuoteList quotes={quotes} onView={preview?noop:quote=>{setViewingQuote(quote);setScreen('quoteView')}} onNew={preview?noop:startNew} onLongPress={preview?noop:quote=>setActionSheet({type:'quote',item:quote})}/>;
+    if(target==='quoteView')return viewingQuote?<QuoteView quote={viewingQuote} onBack={preview?noop:()=>navigate('quotes')} onEdit={preview?noop:()=>editQuote(viewingQuote)} onDelete={preview?noop:()=>deleteQuote(viewingQuote)}/>:null;
+    if(target==='clients')return <ClientsList clients={clients} onEdit={preview?noop:editClient} onLongPress={preview?noop:client=>setActionSheet({type:'client',item:client})}/>;
+    if(target==='clientEdit')return editingClient?<ClientEdit client={editingClient} onChange={preview?noop:setEditingClient} onSave={preview?noop:saveClient} onCancel={preview?noop:()=>navigate('clients')} saveMsg={saveMsg}/>:null;
+    if(target==='settings')return <SettingsForm settings={settings} onSave={preview?noop:saveSettings} saveMsg={saveMsg}/>;
+    return null
+  };
+  const previewScreen=getBackScreen(screen);
+  return <><div className="app-shell"><div className="gesture-stack">{screen!=='home'&&<div className="swipe-preview" aria-hidden="true"><div className="swipe-preview-shell"><AppHeader screen={previewScreen} onBack={()=>{}} settings={settings}/><main className="page">{renderScreenContent(previewScreen,true)}</main></div><div className="swipe-preview-shade"/></div>}<div className={`screen-stage ${skipEntry?'no-enter':''}`} key={screen}><AppHeader screen={screen} onBack={back} settings={settings}/><main className="page">{renderScreenContent(screen,false)}</main></div></div></div>{completion&&<SuccessOverlay message={completion.message}/>}<ActionSheet action={actionSheet} onClose={()=>setActionSheet(null)} onEdit={actionEdit} onDelete={actionDelete}/></>
 }
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
@@ -510,7 +531,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
   document.addEventListener('touchmove',event=>{if(!activeScroller||event.touches.length!==1)return;const currentY=event.touches[0].clientY;if(currentY>touchStartY&&activeScroller.scrollTop<=.5&&event.cancelable)event.preventDefault()},{passive:false,capture:true});
   const clear=()=>{activeScroller=null};document.addEventListener('touchend',clear,{passive:true,capture:true});document.addEventListener('touchcancel',clear,{passive:true,capture:true});
 })();
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=10',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{})}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=11',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{})}
 </script>
 </body>
 </html>
