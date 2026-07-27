@@ -80,8 +80,8 @@ button:disabled{cursor:not-allowed}
 button,.menu-row,.list-card,.ui-card,.service-panel,.client-picker-row{will-change:transform}
 button,.menu-row,.list-card.interactive,.client-picker-row{transition:transform .16s cubic-bezier(.22,.8,.32,1),box-shadow .18s ease,filter .18s ease}
 button:active,.menu-row:active,.list-card.interactive:active,.client-picker-row:active{transform:scale(.972);filter:brightness(.975)}
-.gesture-stack{position:relative;min-height:100%;isolation:isolate;contain:paint}
-.screen-stage{position:relative;z-index:2;min-height:100%;transform:translate3d(0,0,0);animation:screenEnter .22s cubic-bezier(.22,.8,.32,1) both;transform-origin:center top;background:radial-gradient(circle at 100% 0%,rgba(47,88,112,.08),transparent 28%),radial-gradient(circle at 0% 42%,rgba(240,100,73,.06),transparent 24%),var(--paper);backface-visibility:hidden;-webkit-backface-visibility:hidden;transform-style:preserve-3d;contain:paint}
+.gesture-stack{position:relative;width:100%;min-height:100vh;min-height:100svh;min-height:100dvh;isolation:isolate;contain:paint}
+.screen-stage{position:relative;z-index:2;width:100%;min-height:100vh;min-height:100svh;min-height:100dvh;transform:translate3d(0,0,0);animation:screenEnter .22s cubic-bezier(.22,.8,.32,1) both;transform-origin:center top;background:radial-gradient(circle at 100% 0%,rgba(47,88,112,.08),transparent 28%),radial-gradient(circle at 0% 42%,rgba(240,100,73,.06),transparent 24%),var(--paper);backface-visibility:hidden;-webkit-backface-visibility:hidden;transform-style:preserve-3d;contain:paint}
 .screen-stage.no-enter{animation:none!important}
 .screen-stage.is-swiping{animation:none!important;transition:none!important;transform:translate3d(var(--swipe-x,0px),0,0);box-shadow:-14px 0 34px rgba(22,44,57,.16);will-change:transform}
 .screen-stage.is-settling{animation:none!important;transition:transform var(--settle-ms,300ms) cubic-bezier(.32,.72,0,1),box-shadow var(--settle-ms,300ms) cubic-bezier(.32,.72,0,1)!important;transform:translate3d(var(--swipe-x,0px),0,0);will-change:transform}
@@ -89,7 +89,7 @@ button:active,.menu-row:active,.list-card.interactive:active,.client-picker-row:
 .swipe-preview.is-visible{visibility:visible}
 .swipe-preview.is-swiping{transition:none!important;transform:translate3d(var(--preview-x,-24vw),0,0);will-change:transform}
 .swipe-preview.is-settling{transition:transform var(--settle-ms,300ms) cubic-bezier(.32,.72,0,1)!important;transform:translate3d(var(--preview-x,-24vw),0,0);will-change:transform}
-.swipe-preview-shell{height:100%;overflow:hidden;background:radial-gradient(circle at 100% 0%,rgba(47,88,112,.08),transparent 28%),radial-gradient(circle at 0% 42%,rgba(240,100,73,.06),transparent 24%),var(--paper);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.swipe-preview-shell{width:100%;height:100%;min-height:100vh;min-height:100svh;min-height:100dvh;overflow:hidden;background:radial-gradient(circle at 100% 0%,rgba(47,88,112,.08),transparent 28%),radial-gradient(circle at 0% 42%,rgba(240,100,73,.06),transparent 24%),var(--paper);backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .swipe-preview-shade{position:absolute;inset:0;z-index:40;background:rgba(18,38,49,.12);opacity:var(--preview-shade,.12);transition:none;pointer-events:none;will-change:opacity}
 .swipe-preview.is-settling .swipe-preview-shade{transition:opacity var(--settle-ms,300ms) cubic-bezier(.32,.72,0,1)}
 .gesture-handoff-clone{z-index:999!important;visibility:visible!important;transform:translate3d(0,0,0)!important;opacity:1;pointer-events:none!important;transition:none!important;will-change:auto;contain:paint}
@@ -619,7 +619,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
   document.addEventListener('touchmove',event=>{if(!activeScroller||event.touches.length!==1)return;const currentY=event.touches[0].clientY;if(currentY>touchStartY&&activeScroller.scrollTop<=.5&&event.cancelable)event.preventDefault()},{passive:false,capture:true});
   const clear=()=>{activeScroller=null};document.addEventListener('touchend',clear,{passive:true,capture:true});document.addEventListener('touchcancel',clear,{passive:true,capture:true});
 })();
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=13',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{})}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js?v=16',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{})}
 </script>
 </body>
 </html>
